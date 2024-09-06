@@ -2,7 +2,7 @@
 name: Bug report
 about: 버그 발생 시 사용하는 템플릿입니다.
 title: bug report
-labels: bug
+labels: "\U0001F41E BugFix"
 assignees: ''
 
 ---
