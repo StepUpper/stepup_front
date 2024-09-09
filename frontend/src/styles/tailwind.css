@@ -9,3 +9,12 @@
     font-family: "Pretendard Variable", system-ui, sans-serif;    
   }
 }
+
+/* Custom CSS */
+@layer components {
+  .item-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
