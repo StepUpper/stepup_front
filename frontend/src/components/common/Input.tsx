@@ -1,23 +1,20 @@
+import { ComponentPropsWithoutRef, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface InputProps 
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
-  type: "email" | "password" | "text" | "button" ;
-};
+type InputProps = ComponentPropsWithoutRef<"input">;
 
-const Input = (props : InputProps) => {
-  const { type, placeholder, className, ...rest } = props;
-
+const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  const {className} = props;
   return (
     <>
-      <input 
-        {type}
-        className={twMerge(
-          "h-[48px] rounded px-[16px] py-[14px] gap-2 border border-[#E4E4E7] placeholder:-[#A1A1AA]",className
-          )}
-          {...rest}
-      />
+      <input
+        className={twMerge("border", className)}
+        ref={ref}
+      ></input>
     </>
-  );
-};
+  )
+});
+
+Input.displayName = "Input";
+
 export default Input;
