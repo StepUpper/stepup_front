@@ -1,17 +1,18 @@
 import { backIcon, menuIcon, dotIcon } from "@/assets/assets";
 import Button from "@components/common/html/Button";
+import { ReactNode } from "react";
 
 interface HeaderProps {
   // 왼쪽 버튼 타입 설정
   type: "menu" | "back";
-  // 페이지 제목
-  title?: string;
+  // 페이지 제목 & 내용..
+  children?: ReactNode;
   // 추가 옵션 버튼 활성화 여부
   optionButton?: boolean;
 }
 
 const Header = (props: HeaderProps) => {
-  const { type, title, optionButton = false } = props;
+  const { type, children, optionButton = false } = props;
 
   return (
     <header className="flex w-full items-center justify-between p-1.5 text-body1 font-label">
@@ -23,7 +24,7 @@ const Header = (props: HeaderProps) => {
         )}
       </Button>
       <h1 className="absolute left-1/2 -translate-x-1/2 transform text-center">
-        {title}
+        {children}
       </h1>
       <Button className="border-none">
         {optionButton && <img src={dotIcon} alt="추가 옵션 버튼" />}
