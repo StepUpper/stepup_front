@@ -3,8 +3,7 @@ interface InputFieldProps {
   error?: string;
   children: React.ReactNode;
 }
-const InputField = ({ title, children }: InputFieldProps) => {
-  const error = '아이디 형식을 확인해주세요.';
+const InputField = ({ title, error, children }: InputFieldProps) => {
   return (
     <div className="flex flex-col p-2">
       <div className="flex justify-between items-end">
