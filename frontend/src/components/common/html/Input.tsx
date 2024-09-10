@@ -4,10 +4,15 @@ import { twMerge } from "tailwind-merge";
 type InputProps = ComponentPropsWithoutRef<"input">;
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { className } = props;
+
+  const { className, ...rest } = props;
   return (
     <>
-      <input className={twMerge("border", className)} ref={ref}></input>
+      <input
+        className={twMerge("border", className)}
+        ref={ref}
+        {...rest}
+      ></input>
     </>
   );
 });
