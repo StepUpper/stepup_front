@@ -59,12 +59,15 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
     <>
       <div className="relative" ref={dropdownRef}>
         <div
-          className={twMerge("flex items-center border", className)}
+          className={twMerge(
+            "flex items-center border text-body2 font-semibold",
+            className
+          )}
           onClick={() => setIsOpen(!isOpen)}
         >
           <input
             className={twMerge(
-              "flex-grow",
+              "flex-grow cursor-pointer",
               selectedOption ? "text-black" : "text-[#A1A1AA]"
             )}
             readOnly
@@ -79,7 +82,7 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
           </div>
         </div>
         {isOpen && (
-          <ul className="absolute top-full z-10 mt-1 rounded-s-md border border-gray-300 bg-white">
+          <ul className="absolute top-full z-10 mt-1 max-h-40 cursor-pointer overflow-y-auto rounded-s-md border border-gray-300 bg-white">
             {options.map((option) => (
               <li
                 key={option.value}
