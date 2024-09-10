@@ -1,4 +1,4 @@
-import { backIcon, menuIcon, dotIcon } from "@/assets/assets";
+import { backIcon, menuIcon, dotIcon } from "@assets/assets";
 import Button from "@components/common/html/Button";
 import { ReactNode } from "react";
 
@@ -15,7 +15,7 @@ const Header = (props: HeaderProps) => {
   const { type, children, optionButton = false } = props;
 
   return (
-    <header className="flex w-full items-center justify-between p-1.5 text-body1 font-label">
+    <header className="relative flex w-full items-center justify-between p-1.5 text-body1 font-label">
       <Button className="border-none">
         {type === "menu" ? (
           <img src={menuIcon} alt="메뉴 버튼" />

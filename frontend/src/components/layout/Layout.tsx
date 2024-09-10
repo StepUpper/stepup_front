@@ -1,8 +1,12 @@
+import { Outlet } from "react-router-dom";
+
 const Layout = () => {
   return (
-    <>
-      <h1>Layout Component</h1>
-    </>
+    <div className="flex h-screen flex-col items-center overflow-hidden">
+      <div className="w-full max-w-5xl overflow-y-auto">
+        <Outlet />
+      </div>
+    </div>
   );
 };
 export default Layout;
