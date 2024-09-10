@@ -1,4 +1,4 @@
-import { backIcon, menuIcon, dotIcon } from "@/assets/assets";
+import { backIcon, menuIcon, dotIcon } from "@assets/assets";
 import Button from "@components/common/html/Button";
 import { ReactNode } from "react";
 
