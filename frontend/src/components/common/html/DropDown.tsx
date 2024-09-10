@@ -5,7 +5,7 @@ import {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import dropdownIcon from "src/assets/dropdownIcon.svg";
+import { dropDownIcon } from "@/assets/assets";
 import { twMerge } from "tailwind-merge";
 
 type DropDownProps = {
@@ -72,7 +72,7 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
           />
           <div>
             <img
-              src={dropdownIcon}
+              src={dropDownIcon}
               alt="drop down icon"
               className="ml-2 h-5 w-5"
             />
