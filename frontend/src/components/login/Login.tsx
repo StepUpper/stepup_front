@@ -1,7 +1,7 @@
-import BottomButton from "@/components/common/BottomButton";
-import InputField from "@/components/common/InputField";
-import Input from "@/components/common/html/Input";
-import { useState } from "react";
+import BottomButton from "../common/BottomButton";
+import InputField from "../common/InputField";
+import Input from "../common/html/Input"
+import React, { useState } from "react";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
