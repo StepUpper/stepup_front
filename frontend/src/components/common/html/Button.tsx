@@ -5,13 +5,7 @@ const Button = (props: ButtonProps) => {
   const { children, className, ...rest } = props;
   return (
     <>
-      <button
-        className={twMerge(
-          `border`,
-          className
-        )}
-        {...rest}
-      >
+      <button className={twMerge(`border`, className)} {...rest}>
         {children}
       </button>
     </>
