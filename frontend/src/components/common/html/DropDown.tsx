@@ -57,7 +57,7 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
 
   return (
     <>
-      <div className="relative" ref={dropdownRef}>
+      <div className="relative min-w-0 grow" ref={dropdownRef}>
         <div
           className={twMerge(
             "flex items-center border text-body2 font-semibold",
@@ -73,16 +73,12 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
             readOnly
             value={selectedOption || placeholder}
           />
-          <div>
-            <img
-              src={dropDownIcon}
-              alt="drop down icon"
-              className="ml-2 h-5 w-5"
-            />
+          <div className="ml-2 flex size-5">
+            <img src={dropDownIcon} alt="drop down icon" className="w-full" />
           </div>
         </div>
         {isOpen && (
-          <ul className="absolute top-full z-10 mt-1 max-h-40 cursor-pointer overflow-y-auto rounded-s-md border border-gray-300 bg-white">
+          <ul className="absolute top-full z-10 mt-1 max-h-40 w-full cursor-pointer overflow-y-auto rounded-s-md border border-gray-300 bg-white">
             {options.map((option) => (
               <li
                 key={option.value}

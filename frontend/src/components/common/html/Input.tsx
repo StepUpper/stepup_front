@@ -8,7 +8,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   return (
     <>
       <input
-        className={twMerge("border", className)}
+        className={twMerge("border text-body2 font-semibold", className)}
         ref={ref}
         {...rest}
       ></input>
