@@ -31,3 +31,6 @@ dist-ssr
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Local environment variables
+.env
