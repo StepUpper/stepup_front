@@ -23,7 +23,7 @@ const Header = (props: HeaderProps) => {
           <img src={backIcon} alt="뒤로가기" />
         )}
       </Button>
-      <h1 className="absolute left-1/2 -translate-x-1/2 transform text-center">
+      <h1 className="absolute left-1/2 -translate-x-1/2 text-center">
         {children}
       </h1>
       <Button className="border-none">
