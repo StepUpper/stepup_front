@@ -8,7 +8,7 @@ const EmptyShoeComponent = () => {
     <div className="item-center relative h-full">
       <EmptyShoeCard />
       <div className="absolute bottom-0 w-full">
-        <BottomButton
+      <BottomButton
           title="신발 등록하기"
           onClick={() => {
             navigate("/archive/review");
