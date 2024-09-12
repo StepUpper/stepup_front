@@ -1,9 +1,9 @@
-import BottomButton from "../common/BottomButton";
-import DropDown, { DropDownRef } from "../common/html/DropDown";
-import InputField from "../common/InputField";
-import OptionSelectorButton from "../common/OptionSelectorButton";
 import React, { useRef, useState } from "react";
-import { infoIcon } from "@/assets/assets";
+import BottomButton from "@common/BottomButton";
+import DropDown, { DropDownRef } from "@common/html/DropDown";
+import InputField from "@common/InputField";
+import OptionSelectorButton from "@common/OptionSelectorButton";
+import { infoIcon } from "@assets/assets";
 
 const SignUpAdditional = () => {
   const [sizeType, setSizeType] = useState<string>("");

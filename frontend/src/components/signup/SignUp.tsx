@@ -1,6 +1,5 @@
-import React from "react";
-import SignUpRequired from "./SignUpRequired";
-import SignUpAdditional from "./SignUpAdditional";
+import SignUpRequired from "@components/signup/SignUpRequired";
+import SignUpAdditional from "@components/signup/SignUpAdditional";
 
 const SignUp = () => {
   return (

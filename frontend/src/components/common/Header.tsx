@@ -1,6 +1,6 @@
-import { backIcon, menuIcon, dotIcon } from "@assets/assets";
-import Button from "@components/common/html/Button";
 import { ReactNode } from "react";
+import { backIcon, menuIcon, dotIcon } from "@assets/assets";
+import Button from "@common/html/Button";
 
 interface HeaderProps {
   // 왼쪽 버튼 타입 설정

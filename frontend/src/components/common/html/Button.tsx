@@ -1,5 +1,7 @@
 import { ComponentPropsWithoutRef } from "react";
+
 type ButtonProps = ComponentPropsWithoutRef<"button">;
+
 const Button = (props: ButtonProps) => {
   const { children, className, ...rest } = props;
   return (

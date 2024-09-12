@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
-import InputField from "../common/InputField";
-import Input from "../common/html/Input";
-import BottomButton from "../common/BottomButton";
-import DropDown, { DropDownRef } from "../common/html/DropDown";
+import InputField from "@common/InputField";
+import Input from "@common/html/Input";
+import BottomButton from "@common/BottomButton";
+import DropDown, { DropDownRef } from "@common/html/DropDown";
 
 const SignUpRequired = () => {
   {
