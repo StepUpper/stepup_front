@@ -21,6 +21,7 @@ export default {
         'body2': '16px',
         'body3': '14px',
         'caption1': '12px',
+        'caption2': '10px',
       },
       fontWeight: {
         'paragraph': '400',
