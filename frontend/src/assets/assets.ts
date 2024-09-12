@@ -8,7 +8,11 @@ import perfittLogo from "@assets/images/perfitt-logo.svg";
 import showBrandProductIcon from "@assets/images/show-brand-product-icon.svg";
 import thumbsDownIcon from "@assets/images/thumbs-down-icon.svg";
 import shareIcon from "@assets/images/share-icon.svg";
-import touchBoxIcon from "@assets/images/touch-box-icon.svg";
+import infoIcon from "@assets/images/info-icon.svg";
+import smileIcon from "@assets/images/smile-icon.svg";
+import chevRightIcon from "@assets/images/chevron-right-icon.svg";
+import defaultProfileImg from "@assets/images/default-profile-img.svg";
+import cameraIcon from "@assets/images/camera-icon.svg";
 
 export {
   menuIcon,
@@ -17,9 +21,13 @@ export {
   arrowUpIcon,
   dropDownIcon,
   imageSelectIcon,
-  touchBoxIcon,
   perfittLogo,
   showBrandProductIcon,
   thumbsDownIcon,
   shareIcon,
+  infoIcon,
+  smileIcon,
+  chevRightIcon,
+  defaultProfileImg,
+  cameraIcon,
 };
