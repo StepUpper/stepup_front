@@ -13,6 +13,7 @@ import smileIcon from "@assets/images/smile-icon.svg";
 import chevRightIcon from "@assets/images/chevron-right-icon.svg";
 import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import cameraIcon from "@assets/images/camera-icon.svg";
+import likeStrokeIcon from "@assets/images/like-stroke-icon.svg";
 
 export {
   menuIcon,
@@ -30,4 +31,5 @@ export {
   chevRightIcon,
   defaultProfileImg,
   cameraIcon,
+  likeStrokeIcon,
 };
