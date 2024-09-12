@@ -1,4 +1,4 @@
-import { showBrandProductIcon } from "@/assets/assets";
+import { showBrandProductIcon } from "@assets/assets";
 import Button from "../common/html/Button";
 
 const ChatBrandCard = () => {
@@ -9,7 +9,7 @@ const ChatBrandCard = () => {
       </div>
 
       <div className="border-t px-4 py-2 text-center">
-        <Button className="flex items-center justify-center border-none text-caption2 text-gray-600">
+        <Button className="text-caption2 flex items-center justify-center border-none text-gray-600">
           전체 상품보기
           <img
             src={showBrandProductIcon}

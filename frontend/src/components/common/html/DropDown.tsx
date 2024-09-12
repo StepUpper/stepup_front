@@ -5,7 +5,7 @@ import {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import { dropDownIcon } from "@/assets/assets";
+import { dropDownIcon } from "@assets/assets";
 import { twMerge } from "tailwind-merge";
 
 type DropDownProps = {

@@ -23,8 +23,8 @@ const SignUpRequired = () => {
     const dropdownRef = useRef<DropDownRef>(null);
 
     const genderOptions: { value: string; label: string }[] = [
-      { value: "남성", label: "남성" },
-      { value: "여성", label: "여성" },
+      { value: "남", label: "남" },
+      { value: "여", label: "여" },
     ];
 
     const handleGenderChange = (value: string) => {

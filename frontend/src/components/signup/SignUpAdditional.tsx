@@ -2,11 +2,13 @@ import BottomButton from "../common/BottomButton";
 import DropDown, { DropDownRef } from "../common/html/DropDown";
 import InputField from "../common/InputField";
 import OptionSelectorButton from "../common/OptionSelectorButton";
-import React, { useRef, useState } from "react";
-import { infoIcon } from "@/assets/assets";
+import React, { useEffect, useRef, useState } from "react";
+import { infoIcon } from "@assets/assets";
 
 const SignUpAdditional = () => {
   const [sizeType, setSizeType] = useState<string>("");
+  const [sizeOption, setSizeOption] = useState<string>("");
+
   const handleSelect = (option: string) => {
     setSizeType(option);
   };
@@ -42,10 +44,21 @@ const SignUpAdditional = () => {
   const submitHandle = (e: React.FormEvent) => {
     e.preventDefault();
 
+    const selectedOption = dropdownRef.current?.getSelectedOption();
+    if (selectedOption) {
+      setSizeOption(selectedOption);
+    }
+
     //값 확인용
     console.log("size type: ", sizeType);
-    console.log("size option: ", dropdownRef.current?.getSelectedOption());
+    console.log("size selected: ", selectedOption);
   };
+
+  useEffect(() => {
+    if (sizeOption) {
+      console.log("size updated: ", sizeOption);
+    }
+  });
 
   return (
     <>
@@ -81,7 +94,7 @@ const SignUpAdditional = () => {
         </div>
         <div className="w-full gap-10 rounded-lg bg-blue-50 p-4 text-body2 leading-6 text-blue-700">
           <div className="flex gap-2">
-            <img src={infoIcon} className="h-6 w-6" />
+            <img src={infoIcon} className="size-5" />
             <p>
               {" "}
               나에게 편한 신발 사이즈를 고려해서 추천사이즈를 알려드리기 위해
