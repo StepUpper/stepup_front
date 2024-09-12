@@ -49,5 +49,18 @@
       "unplugged": true
     }
   },
-  "homepage": "https://StepUpper.github.io/stepup_front"
+  "homepage": "https://StepUpper.github.io/stepup_front",
+  "installConfig": {
+    "packageExtensions": {
+      "@esbuild/linux-x64@npm:0.21.5": {
+        "supportedArchitectures": ["x64"]
+      },
+      "@rollup/rollup-linux-x64-gnu@npm:4.21.2": {
+        "supportedArchitectures": ["x64"]
+      },
+      "@swc/core-linux-x64-gnu@npm:1.7.24": {
+        "supportedArchitectures": ["x64"]
+      }
+    }
+  }
 }
