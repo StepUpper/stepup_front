@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const AddShoeButton = () => {
   const navigate = useNavigate();
   return (
-    <Button className="item-center size-full rounded-md bg-[#e4e4e7]" onClick={()=>{navigate('/archive/add')}}>
+    <Button className="item-center size-full rounded-md bg-[#e4e4e7]" onClick={()=>{navigate('/archive/review')}}>
       <img src={plusIcon} />
     </Button>
   );
