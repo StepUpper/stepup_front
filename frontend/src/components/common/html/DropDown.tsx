@@ -60,21 +60,21 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
       <div className="relative min-w-0 grow" ref={dropdownRef}>
         <div
           className={twMerge(
-            "flex items-center border text-body2 font-semibold",
+            "flex items-center justify-between border text-body2 font-semibold",
             className
           )}
           onClick={() => setIsOpen(!isOpen)}
         >
           <input
             className={twMerge(
-              "flex-grow cursor-pointer",
+              "w-full cursor-pointer",
               selectedOption ? "text-black" : "text-[#A1A1AA]"
             )}
             readOnly
             value={selectedOption || placeholder}
           />
           <div className="ml-2 flex size-5">
-            <img src={dropDownIcon} alt="drop down icon" className="w-full" />
+            <img src={dropDownIcon} alt="drop down icon" className="size-5" />
           </div>
         </div>
         {isOpen && (
