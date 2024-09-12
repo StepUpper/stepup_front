@@ -1,7 +1,7 @@
-import Header from '@common/Header'
-import ShoeListComponent from '@/components/ShoeCloset/ShoeListComponent'
-import ProfileCard from '@/components/ShoeCloset/ProfileCard'
-import EmptyShoeComponent from '@/components/ShoeCloset/EmptyShoeComponent'
+import Header from "@common/Header";
+import ShoeListComponent from "@/components/ShoeCloset/ShoeListComponent";
+import ProfileCard from "@/components/ShoeCloset/ProfileCard";
+import EmptyShoeComponent from "@/components/ShoeCloset/EmptyShoeComponent";
 
 export interface IProduct {
   image: string;
