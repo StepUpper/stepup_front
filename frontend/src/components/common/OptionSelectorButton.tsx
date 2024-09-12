@@ -14,7 +14,7 @@ const OptionSelectorButton = (props: OptionSelectorButtonProps) => {
     <>
       <Button
         className={twMerge(
-          "w-full rounded border-gray-200 px-3.5 py-4",
+          "flex w-full items-center justify-center rounded border-gray-200 px-3.5 py-4",
           isSelected
             ? "border-gray-200 bg-white text-black"
             : "bg-gray-200 text-gray-400"

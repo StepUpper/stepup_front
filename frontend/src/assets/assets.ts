@@ -8,6 +8,7 @@ import perfittLogo from "@assets/images/perfitt-logo.svg";
 import showBrandProductIcon from "@assets/images/show-brand-product-icon.svg";
 import thumbsDownIcon from "@assets/images/thumbs-down-icon.svg";
 import shareIcon from "@assets/images/share-icon.svg";
+import touchBoxIcon from "@assets/images/touch-box-icon.svg";
 
 export {
   menuIcon,
@@ -16,6 +17,7 @@ export {
   arrowUpIcon,
   dropDownIcon,
   imageSelectIcon,
+  touchBoxIcon,
   perfittLogo,
   showBrandProductIcon,
   thumbsDownIcon,
