@@ -5,6 +5,7 @@ import { useState } from "react";
 
 const ChatInput = () => {
   const [chatMsg, setChatMsg] = useState("");
+  console.log(chatMsg);
 
   return (
     <div className="flex h-28 w-full items-center bg-gray-100 pb-10 pl-4 pr-4 pt-4">
