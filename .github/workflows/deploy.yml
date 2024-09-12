@@ -1,10 +1,8 @@
-name: Deploy static content to Pages
-
+name: CD
+# main 브랜치로 push될 때만 동작
 on:
   push:
     branches: ["main"]
-
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,36 +15,20 @@ concurrency:
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "yarn"
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      - name: Install and Build 🔧
+        run: |
+          yarn install --immutable --immutable-cache
+          yarn run build
         working-directory: ./frontend
 
-      - name: Build
-        run: yarn build
-        working-directory: ./frontend
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          path: "./frontend/dist"
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          branch: gh-pages
+          folder: dist  
+          clean: true 
