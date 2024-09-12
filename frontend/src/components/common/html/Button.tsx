@@ -1,11 +1,10 @@
 import { ComponentPropsWithoutRef } from "react";
-import { twMerge } from "tailwind-merge";
 type ButtonProps = ComponentPropsWithoutRef<"button">;
 const Button = (props: ButtonProps) => {
   const { children, className, ...rest } = props;
   return (
     <>
-      <button className={twMerge(`border`, className)} {...rest}>
+      <button className={className} {...rest}>
         {children}
       </button>
     </>
