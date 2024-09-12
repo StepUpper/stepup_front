@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "@components/layout/Layout";
 import NotFound from "@pages/NotFound/NotFound";
+import ShoeCloset from "@pages/ShoeCloset/page";
 import Chat from "@pages/Chat/Chat";
 
 const router = createBrowserRouter([
@@ -11,6 +12,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Chat />,
+      },
+      {
+        path: "/archive",
+        element: <ShoeCloset />,
       },
     ],
   },

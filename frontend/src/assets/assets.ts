@@ -10,6 +10,12 @@ import thumbsDownIcon from "@assets/images/thumbs-down-icon.svg";
 import shareIcon from "@assets/images/share-icon.svg";
 import infoIcon from "@assets/images/info-icon.svg";
 
+import plusIcon from "@assets/images/plus-icon.svg";
+import sortIcon from "@assets/images/sort-icon.svg";
+
+import shoeSearch from "@assets/images/shoe-search.svg"
+import defaultProfile from "@assets/images/archive/default-profile-image.svg"
+
 export {
   menuIcon,
   backIcon,
@@ -22,4 +28,8 @@ export {
   showBrandProductIcon,
   thumbsDownIcon,
   shareIcon,
+  plusIcon,
+sortIcon,
+shoeSearch,
+defaultProfile,
 };
