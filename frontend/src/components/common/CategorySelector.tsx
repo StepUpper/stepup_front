@@ -1,6 +1,6 @@
-import Button from "@components/common/html/Button";
 import { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
+import Button from "@common/html/Button";
 
 /**
  * 카테고리별 필터링 버튼

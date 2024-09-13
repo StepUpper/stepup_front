@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
-import InputField from "../common/InputField";
-import Input from "../common/html/Input";
-import BottomButton from "../common/BottomButton";
-import DropDown, { DropDownRef } from "../common/html/DropDown";
+import InputField from "@common/InputField";
+import Input from "@common/html/Input";
+import BottomButton from "@common/BottomButton";
+import DropDown, { DropDownRef } from "@common/html/DropDown";
 
 const SignUpRequired = () => {
   {
@@ -23,8 +23,8 @@ const SignUpRequired = () => {
     const dropdownRef = useRef<DropDownRef>(null);
 
     const genderOptions: { value: string; label: string }[] = [
-      { value: "남", label: "남" },
-      { value: "여", label: "여" },
+      { value: "남성", label: "남성" },
+      { value: "여성", label: "여성" },
     ];
 
     const handleGenderChange = (value: string) => {

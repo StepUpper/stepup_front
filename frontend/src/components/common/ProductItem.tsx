@@ -1,4 +1,4 @@
-import LikeButton, { LikeButtonProps } from "./LikeButton";
+import LikeButton, { LikeButtonProps } from "@common/LikeButton";
 
 interface ProductItemProps extends LikeButtonProps {
   recSize: string;

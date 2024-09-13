@@ -1,6 +1,6 @@
 import { chevRightIcon, likeStrokeIcon, smileIcon } from "@assets/assets";
-import Header from "../../components/common/Header";
-import Button from "../../components/common/html/Button";
+import Header from "@components/common/Header"
+import Button from "@components/common/html/Button";
 import ProfileImage from "@components/common/ProfileImage";
 
 const MyPage = () => {

@@ -1,4 +1,4 @@
-import Button from "./html/Button";
+import Button from "@common/html/Button";
 
 interface BottomButtonProps {
   title: string;

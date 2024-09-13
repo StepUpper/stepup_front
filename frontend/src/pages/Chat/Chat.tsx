@@ -1,7 +1,7 @@
 import ChatInput from "@components/Chat/ChatInput";
 import ChatMessage from "@components/Chat/ChatMessage";
 import ChatUserMessage from "@components/Chat/ChatUserMessage";
-import Header from "@components/common/Header";
+import Header from "@common/Header";
 
 const Chat = () => {
   // UI 테스트용
