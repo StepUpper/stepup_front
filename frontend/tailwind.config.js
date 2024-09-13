@@ -27,8 +27,12 @@ export default {
         'paragraph': '400',
         'label': '600',
         'bold':'800'
-      }
+      },
+      boxShadow: {
+        'custom': '0 -1px 4px rgba(0, 0, 0, 0.15)',
+      },
     },
+    
   },
   plugins: [],
   future: {
