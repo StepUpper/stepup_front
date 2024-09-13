@@ -15,6 +15,7 @@ import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import cameraIcon from "@assets/images/camera-icon.svg";
 import likeStrokeIcon from "@assets/images/like-stroke-icon.svg"
 
+
 export {
   menuIcon,
   backIcon,

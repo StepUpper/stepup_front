@@ -11,7 +11,7 @@ const ChatMessage = (props: ChatMessageProps) => {
       <div className="shrink-0">
         <img src={perfittLogo} alt="perfittLogo" className="size-7" />
       </div>
-      <div className="ml-2.5 max-w-md break-words px-1 py-2 text-body3">
+    <div className="ml-2.5 max-w-md break-words px-1 py-2 text-body3">
         {title}
       </div>
     </div>
