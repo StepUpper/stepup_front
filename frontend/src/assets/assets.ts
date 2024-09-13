@@ -15,7 +15,7 @@ import sortIcon from "@assets/images/icons/sort-icon.svg";
 import starIcon from "@assets/images/icons/star-icon.svg";
 import starFilledIcon from "@assets/images/icons/star-filled-icon.svg";
 
-import shoeSearch from "@assets/images/shoe-search.svg";
+import shoeSearch from "@assets/images/icons/shoe-search.svg";
 import defaultProfile from "@assets/images/archive/default-profile-image.svg";
 
 export {
