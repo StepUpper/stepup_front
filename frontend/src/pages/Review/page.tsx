@@ -16,7 +16,7 @@ const page = () => {
         {/* input form */}
         <ShoeRegisterInputForm />
         {/* 등록하기 버튼 */}
-        <SubmitBottomButton/>
+        <SubmitBottomButton />
       </main>
     </div>
   );
