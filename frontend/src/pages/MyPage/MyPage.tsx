@@ -1,5 +1,5 @@
 import { chevRightIcon, likeStrokeIcon, smileIcon } from "@assets/assets";
-import Header from "@components/common/Header"
+import Header from "@components/common/Header";
 import Button from "@components/common/html/Button";
 import ProfileImage from "@components/common/ProfileImage";
 
@@ -10,9 +10,7 @@ const MyPage = () => {
       <div className="w-full bg-grey-50">
         {/* 프로필 영역 */}
         <div className="flex w-full grow flex-col items-center space-y-0 bg-white">
-          <div>
-            <ProfileImage showCameraIcon={true} />
-          </div>
+          <ProfileImage showCameraIcon={true} className="size-[80px]" />
           <div className="py-[17px] text-center">
             <p className="text-[15px]"> 안녕하세요! </p>
             <p className="text-heading tracking-widest"> 김이름 님 </p>

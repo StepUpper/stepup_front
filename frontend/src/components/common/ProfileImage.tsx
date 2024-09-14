@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { cameraIcon, defaultProfileImg } from "@assets/assets";
+import { twMerge } from "tailwind-merge";
 
 type ProfileImageProps = {
+  className: string; //사이즈 지정
   uploadedImg?: string;
   showCameraIcon?: boolean;
 };
 
 const ProfileImage = (props: ProfileImageProps) => {
-  const { uploadedImg, showCameraIcon = true } = props;
+  const { className, uploadedImg, showCameraIcon = true } = props;
+
   const [profileImg, setProfileImg] = useState<string>(
     uploadedImg || defaultProfileImg
   );
@@ -25,21 +28,21 @@ const ProfileImage = (props: ProfileImageProps) => {
 
   return (
     <>
-      <div className="relative size-24 rounded-full border">
+      <div className={twMerge("relative rounded-full border", className)}>
         <img
           src={profileImg}
           alt="프로필 이미지"
           className="size-full rounded-full object-cover"
         />
         {showCameraIcon && (
-          <label className="absolute bottom-0 right-0 cursor-pointer rounded-full border bg-white p-1">
+          <label className="absolute bottom-0 right-0 size-1/3 cursor-pointer items-center rounded-full border bg-white p-1">
             <input
               type="file"
               accept="image/*"
               className="hidden"
               onChange={ImageChangeHandler}
             />
-            <img src={cameraIcon} alt="camera icon" className="size-6" />
+            <img src={cameraIcon} alt="camera icon" className="size-full" />
           </label>
         )}
       </div>
