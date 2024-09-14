@@ -1,53 +1,69 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
-import { motion, useDragControls } from "framer-motion";
+import { ReactNode, useRef, useState } from "react";
+import { motion, PanInfo, useDragControls } from "framer-motion";
 import { grabber } from "@assets/assets";
+import { twMerge } from "tailwind-merge";
 
 interface BottomSheetProps {
-  isDragBar: boolean;
+  isDragBar?: boolean;
   isOpen: boolean;
-  onClose: () => void;
+  isMinimized?: boolean;
+  yPosition: number;
+  onClose?: () => void;
+  onMinimize?: () => void;
+  onMaximize?: () => void;
   children: ReactNode;
 }
 
 const BottomSheet = (props: BottomSheetProps) => {
-  const { isDragBar = true, isOpen, onClose, children } = props;
+  const {
+    isDragBar = true,
+    isOpen,
+    isMinimized,
+    yPosition,
+    onClose,
+    onMinimize,
+    onMaximize,
+    children,
+  } = props;
+
   const bottomSheetRef = useRef<HTMLDivElement | null>(null);
+  const dragControls = useDragControls();
 
   // TODO: 바텀 시트가 다 올라왔을 때 위로 올라오지 않도록 제한
   // 드래그 제한 설정을 위한 상태
   const [dragConstraints, setDragConstraints] = useState({ top: 0, bottom: 0 });
 
-  const dragControls = useDragControls();
+  // 스냅 애니메이션 추가
+  const handleDragEnd = (
+    _: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
+    const threshold = 150; // 스냅 기준값 (얼마나 드래그 됐을 때 스냅할지)
+    const velocityThreshold = 20; // 드래그 속도에 따른 스냅 기준
 
-  // 오버레이 스크롤 방지 효과 적용
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden"; // 스크롤 방지
+    // 드래그된 위치와 속도를 기반으로 스냅 결정
+    if (info.offset.y > threshold || info.velocity.y > velocityThreshold) {
+      if (onMinimize) onMinimize(); // 최소화
     } else {
-      document.body.style.overflow = ""; // 스크롤 허용
+      if (onMaximize) onMaximize(); // 최대화
     }
-
-    return () => {
-      document.body.style.overflow = ""; // 컴포넌트 언마운트 시 스크롤 허용
-    };
-  }, [isOpen]);
-
-  // TODO: 스냅 애니메이션 추가
+  };
 
   return (
     <div>
       {/* 오버레이 */}
-      {isOpen && <Overlay />}
+      {isOpen && !isMinimized && <Overlay />}
       {/* 바텀시트 본체 */}
       <motion.div
         ref={bottomSheetRef}
         initial={{ y: "100%" }} // 초기값
-        animate={{ y: isOpen ? "0%" : "100%" }}
+        animate={{ y: isOpen ? yPosition : "100%" }}
         transition={{ duration: 0.5, ease: "easeInOut" }} // 부드럽게
         drag="y"
         dragControls={dragControls}
         dragConstraints={dragConstraints} // 드래그 범위
         dragListener={false}
+        onDragEnd={handleDragEnd} // 드래그 끝난 후 스냅 애니메이션 적용
         className="fixed bottom-0 left-0 flex max-h-[98vh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-custom"
       >
         {/* 드래그 바 */}
@@ -69,10 +85,30 @@ const BottomSheet = (props: BottomSheetProps) => {
 };
 export default BottomSheet;
 
-const BottomSheetHeader = ({ children }: { children: ReactNode }) => {
-  return <div className="flex w-full p-4">{children}</div>;
+// BottomSheetHeader 👇
+const BottomSheetHeader = ({
+  isTitleOnly = true,
+  className,
+  children,
+}: {
+  isTitleOnly: boolean;
+  className?: string;
+  children: ReactNode;
+}) => {
+  return (
+    <div className={twMerge("flex w-full justify-center p-4", className)}>
+      {isTitleOnly ? (
+        <h2 className="text-body1 font-label leading-[24px] tracking-[-0.27px]">
+          {children}
+        </h2>
+      ) : (
+        children
+      )}
+    </div>
+  );
 };
 
+// BottomSheetContent 👇
 const BottomSheetContent = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex w-full flex-col overflow-y-auto px-4">{children}</div>
@@ -82,6 +118,7 @@ const BottomSheetContent = ({ children }: { children: ReactNode }) => {
 BottomSheet.Header = BottomSheetHeader;
 BottomSheet.Content = BottomSheetContent;
 
+// Overlay 👇
 const Overlay = () => {
   return (
     <motion.div
