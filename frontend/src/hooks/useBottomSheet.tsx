@@ -2,25 +2,19 @@ import { useState } from "react";
 
 type UseBottomSheetReturn = {
   isOpen: boolean;
-  handleToggle: () => void;
-  handleClose: () => void;
+  openSheet: () => void;
+  closeSheet: () => void;
 };
 const useBottomSheet = (): UseBottomSheetReturn => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleToggle = () => {
-    setIsOpen((prev) => !prev);
-    console.log(isOpen);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
+  const openSheet = () => setIsOpen(true);
+  const closeSheet = () => setIsOpen(false);
 
   return {
     isOpen,
-    handleToggle,
-    handleClose,
+    openSheet,
+    closeSheet,
   };
 };
 export default useBottomSheet;

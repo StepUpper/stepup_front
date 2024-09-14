@@ -1,40 +1,64 @@
-import { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import { motion, useDragControls } from "framer-motion";
 import { grabber } from "@assets/assets";
 
 interface BottomSheetProps {
   isDragBar: boolean;
   isOpen: boolean;
-  handleToggle?: () => void;
-  handleClose?: () => void;
+  onClose: () => void;
   children: ReactNode;
 }
 
 const BottomSheet = (props: BottomSheetProps) => {
-  const { isDragBar = true, isOpen, handleClose, children } = props;
+  const { isDragBar = true, isOpen, onClose, children } = props;
+  const bottomSheetRef = useRef<HTMLDivElement | null>(null);
 
-  // TODO:
-  // 1. 버튼 클릭 시 바텀 시트가 올라옴 / 오버레이 클릭시 닫음
-  // 2. 드래그 중 바텀 시트가 움직임
-  // 3. 드래그 종료 후 스냅 애니메이션
-  // 4. 내릴 때 헤더 바까지만 보임
+  // TODO: 바텀 시트가 다 올라왔을 때 위로 올라오지 않도록 제한
+  // 드래그 제한 설정을 위한 상태
+  const [dragConstraints, setDragConstraints] = useState({ top: 0, bottom: 0 });
+
+  const dragControls = useDragControls();
+
+  // 오버레이 스크롤 방지 효과 적용
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden"; // 스크롤 방지
+    } else {
+      document.body.style.overflow = ""; // 스크롤 허용
+    }
+
+    return () => {
+      document.body.style.overflow = ""; // 컴포넌트 언마운트 시 스크롤 허용
+    };
+  }, [isOpen]);
+
+  // TODO: 스냅 애니메이션 추가
 
   return (
     <div>
       {/* 오버레이 */}
-      {isOpen && <Overlay onClick={handleClose} />}
+      {isOpen && <Overlay />}
       {/* 바텀시트 본체 */}
       <motion.div
+        ref={bottomSheetRef}
         initial={{ y: "100%" }} // 초기값
         animate={{ y: isOpen ? "0%" : "100%" }}
         transition={{ duration: 0.5, ease: "easeInOut" }} // 부드럽게
+        drag="y"
+        dragControls={dragControls}
+        dragConstraints={dragConstraints} // 드래그 범위
+        dragListener={false}
         className="fixed bottom-0 left-0 flex max-h-[98vh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-custom"
       >
         {/* 드래그 바 */}
         {isDragBar && (
-          <div className="item-center w-full cursor-pointer flex-col pt-2">
+          <motion.div
+            className="item-center w-full cursor-pointer flex-col pt-2"
+            onPointerDown={(e) => dragControls.start(e)}
+            onTap={onClose}
+          >
             <img src={grabber} alt="드래그 바" />
-          </div>
+          </motion.div>
         )}
 
         {/* 헤더 / 콘텐츠 영역 */}
@@ -55,17 +79,16 @@ const BottomSheetContent = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const Overlay = ({ onClick }: { onClick?: () => void }) => {
+BottomSheet.Header = BottomSheetHeader;
+BottomSheet.Content = BottomSheetContent;
+
+const Overlay = () => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 0.5 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black bg-opacity-10"
-      onClick={onClick}
+      className="fixed inset-0 bg-black"
     ></motion.div>
   );
 };
-
-BottomSheet.Header = BottomSheetHeader;
-BottomSheet.Content = BottomSheetContent;
