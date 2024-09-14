@@ -52,13 +52,28 @@ const BottomSheet = (props: BottomSheetProps) => {
   return (
     <div>
       {/* 오버레이 */}
-      {isOpen && !isMinimized && <Overlay />}
+      {isOpen && !isMinimized && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black"
+          onClick={onClose}
+        ></motion.div>
+      )}
+
       {/* 바텀시트 본체 */}
       <motion.div
         ref={bottomSheetRef}
         initial={{ y: "100%" }} // 초기값
         animate={{ y: isOpen ? yPosition : "100%" }}
-        transition={{ duration: 0.5, ease: "easeInOut" }} // 부드럽게
+        transition={{
+          type: "spring",
+          stiffness: 90,
+          damping: 20,
+          duration: 0.6,
+        }}
+        // transition={{ duration: 0.6, ease: "easeInOut" }}
         drag="y"
         dragControls={dragControls}
         dragConstraints={dragConstraints} // 드래그 범위
@@ -70,8 +85,12 @@ const BottomSheet = (props: BottomSheetProps) => {
         {isDragBar && (
           <motion.div
             className="item-center w-full cursor-pointer flex-col pt-2"
-            onPointerDown={(e) => dragControls.start(e)}
-            onTap={onClose}
+            style={{ touchAction: "none" }}
+            onPointerDown={(e) => {
+              e.preventDefault();
+              dragControls.start(e);
+            }}
+            // onTap={onClose}
           >
             <img src={grabber} alt="드래그 바" />
           </motion.div>
