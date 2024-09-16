@@ -6,7 +6,7 @@
   @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
   html {
-    font-family: "Pretendard Variable", system-ui, sans-serif;    
+    font-family: "Pretendard Variable", system-ui, sans-serif;
   }
 }
 
@@ -16,5 +16,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
