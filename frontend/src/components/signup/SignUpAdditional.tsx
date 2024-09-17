@@ -81,7 +81,7 @@ const SignUpAdditional = () => {
         </div>
         <div className="w-full gap-10 rounded-lg bg-blue-50 p-4 text-body2 leading-6 text-blue-700">
           <div className="flex gap-2">
-            <img src={infoIcon} className="h-6 w-6" />
+            <img src={infoIcon} className="size-6" />
             <p>
               {" "}
               나에게 편한 신발 사이즈를 고려해서 추천사이즈를 알려드리기 위해
