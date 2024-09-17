@@ -4,6 +4,8 @@ import NotFound from "@pages/NotFound/NotFound";
 import ShoeCloset from "@pages/ShoeCloset/page";
 import Chat from "@pages/Chat/Chat";
 import Review from "@/pages/Review/page";
+import MyPage from "@/pages/MyPage/MyPage";
+import MyShopping from "@/pages/MyShopping/MyShopping";
 
 const router = createBrowserRouter(
   [
@@ -28,6 +30,14 @@ const router = createBrowserRouter(
     {
       path: "*",
       element: <NotFound />,
+    },
+    {
+      path: "mypage",
+      element: <MyPage />,
+    },
+    {
+      path: "myshopping",
+      element: <MyShopping />,
     },
   ],
   {
