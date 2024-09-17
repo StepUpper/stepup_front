@@ -3,39 +3,38 @@ import Button from "@common/html/Button";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SideChatListItem = () => {
+type sideChatListItemProps = {
+  title: string;
+};
+
+const SideChatListItem = (props: sideChatListItemProps) => {
+  const { title, ...rest } = props;
+
   const [isSwiped, setIsSwiped] = useState(false);
-  const [isSwiping, setIsSwiping] = useState(false);
   const itemRef = useRef<HTMLLIElement>(null);
 
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
-  const minSwipeDist = 50;
+  const minSwipeDist = 30;
 
   const handleReset = () => {
-    setIsSwiping(false);
     setIsSwiped(false);
   };
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
-    setIsSwiping(false);
   };
   const handleTouchMove = (e: React.TouchEvent) => {
     touchEndX.current = e.touches[0].clientX;
-    if (touchStartX.current - touchEndX.current > minSwipeDist) {
-      setIsSwiped(true);
-      setIsSwiping(true);
-    }
   };
   const handleTouchEnd = () => {
-    if (!isSwiping) {
-      setIsSwiping(false);
+    if (touchStartX.current - touchEndX.current > minSwipeDist) {
+      setIsSwiped(true);
     }
   };
 
   const navigate = useNavigate();
   const gotoPageHandler = (path: string) => {
-    if (!isSwiping) {
+    if (!isSwiped) {
       navigate(path);
     }
   };
@@ -73,7 +72,7 @@ const SideChatListItem = () => {
           >
             <img src={chatListIcon} className="size-[20px]" alt="채팅 아이콘" />
             <span className="w-[240px] truncate text-left text-body2 font-paragraph text-[#3F3F46]">
-              비오는 날 신기 좋은 레인부츠 브랜드 추천
+              {title}
             </span>
           </Button>
           <div className="relative right-0 flex pl-[10px]">
