@@ -13,8 +13,11 @@ import infoIcon from "@assets/images/info-icon.svg";
 import chevRightIcon from "@assets/images/chevron-right-icon.svg";
 import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import cameraIcon from "@assets/images/camera-icon.svg";
-import likeStrokeIcon from "@assets/images/like-stroke-icon.svg"
-
+import likeStrokeIcon from "@assets/images/like-stroke-icon.svg";
+import plusIcon from "@assets/images/plus-icon.svg";
+import chatListIcon from "@assets/images/chat-list-icon.svg";
+import shareWhiteIcon from "@assets/images/share-white-icon.svg";
+import trashIcon from "@assets/images/trash-icon.svg";
 
 export {
   menuIcon,
@@ -32,5 +35,9 @@ export {
   chevRightIcon,
   defaultProfileImg,
   cameraIcon,
-  likeStrokeIcon
+  likeStrokeIcon,
+  plusIcon,
+  chatListIcon,
+  shareWhiteIcon,
+  trashIcon,
 };
