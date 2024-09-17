@@ -10,7 +10,7 @@ const mocEx = () => {
 const LikedItems = () => {
   const n: number = 5;
 
-  const [showCompoenet, setShowComponent] = useState(false);
+  const [showComponent, setShowComponent] = useState(false);
   const handleShowComponent = () => {
     setShowComponent(true);
   };
