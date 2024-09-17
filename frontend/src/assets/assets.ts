@@ -1,25 +1,25 @@
-import menuIcon from "@assets/images/icons/menu-icon.svg";
-import backIcon from "@assets/images/icons/back-icon.svg";
-import dotIcon from "@assets/images/icons/kebab-icon.svg";
-import arrowUpIcon from "@assets/images/icons/arrow-up-icon.svg";
-import dropDownIcon from "@assets/images/icons/drop-down-icon.svg";
-import imageSelectIcon from "@assets/images/icons/image-select-icon.svg";
-import perfittLogo from "@assets/images/icons/perfitt-logo.svg";
-import showBrandProductIcon from "@assets/images/icons/show-brand-product-icon.svg";
-import thumbsDownIcon from "@assets/images/icons/thumbs-down-icon.svg";
-import shareIcon from "@assets/images/icons/share-icon.svg";
-import infoIcon from "@assets/images/icons/info-icon.svg";
+import menuIcon from "@assets/images/menu-icon.svg";
+import backIcon from "@assets/images/back-icon.svg";
+import dotIcon from "@assets/images/kebab-icon.svg";
+import arrowUpIcon from "@assets/images/arrow-up-icon.svg";
+import dropDownIcon from "@assets/images/drop-down-icon.svg";
+import imageSelectIcon from "@assets/images/image-select-icon.svg";
+import perfittLogo from "@assets/images/perfitt-logo.svg";
+import showBrandProductIcon from "@assets/images/show-brand-product-icon.svg";
+import thumbsDownIcon from "@assets/images/thumbs-down-icon.svg";
+import shareIcon from "@assets/images/share-icon.svg";
+import infoIcon from "@assets/images/info-icon.svg";
 
 import grabber from "@assets/images/bar-icon.svg";
 import footInfoPlaceholder from "@assets/images/foot-loading.webp";
-import plusIcon from "@assets/images/icons/plus-icon.svg";
+import plusIcon from "@assets/images/plus-icon.svg";
 
-import sortIcon from "@assets/images/icons/sort-icon.svg";
-import starIcon from "@assets/images/icons/star-icon.svg";
-import starFilledIcon from "@assets/images/icons/star-filled-icon.svg";
+import sortIcon from "@assets/images/sort-icon.svg";
+import starIcon from "@assets/images/star-icon.svg";
+import starFilledIcon from "@assets/images/star-filled-icon.svg";
 
-import shoeSearch from "@assets/images/icons/shoe-search.svg";
-import defaultProfile from "@assets/images/archive/default-profile-image.svg";
+import shoeSearch from "@assets/images/shoe-search.svg";
+import defaultProfile from "@assets/images/default-profile-image.svg";
 
 export {
   menuIcon,
