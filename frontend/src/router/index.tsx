@@ -3,6 +3,7 @@ import Layout from "@components/layout/Layout";
 import NotFound from "@pages/NotFound/NotFound";
 import Chat from "@pages/Chat/Chat";
 import MyPage from "@/pages/MyPage/MyPage";
+import MyShopping from "@/pages/MyShopping/MyShopping";
 
 const router = createBrowserRouter(
   [
@@ -23,6 +24,10 @@ const router = createBrowserRouter(
     {
       path: "mypage",
       element: <MyPage />,
+    },
+    {
+      path: "myshopping",
+      element: <MyShopping />,
     },
   ],
   {
