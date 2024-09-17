@@ -10,7 +10,10 @@ import thumbsDownIcon from "@assets/images/icons/thumbs-down-icon.svg";
 import shareIcon from "@assets/images/icons/share-icon.svg";
 import infoIcon from "@assets/images/icons/info-icon.svg";
 
+import grabber from "@assets/images/bar-icon.svg";
+import footInfoPlaceholder from "@assets/images/foot-loading.webp";
 import plusIcon from "@assets/images/icons/plus-icon.svg";
+
 import sortIcon from "@assets/images/icons/sort-icon.svg";
 import starIcon from "@assets/images/icons/star-icon.svg";
 import starFilledIcon from "@assets/images/icons/star-filled-icon.svg";
@@ -30,10 +33,4 @@ export {
   showBrandProductIcon,
   thumbsDownIcon,
   shareIcon,
-  plusIcon,
-  sortIcon,
-  starIcon,
-  starFilledIcon,
-  shoeSearch,
-  defaultProfile,
 };
