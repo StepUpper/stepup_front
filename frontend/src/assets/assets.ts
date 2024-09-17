@@ -9,6 +9,8 @@ import showBrandProductIcon from "@assets/images/show-brand-product-icon.svg";
 import thumbsDownIcon from "@assets/images/thumbs-down-icon.svg";
 import shareIcon from "@assets/images/share-icon.svg";
 import infoIcon from "@assets/images/info-icon.svg";
+import grabber from "@assets/images/bar-icon.svg";
+import footInfoPlaceholder from "@assets/images/foot-loading.webp";
 
 export {
   menuIcon,
@@ -22,4 +24,6 @@ export {
   showBrandProductIcon,
   thumbsDownIcon,
   shareIcon,
+  grabber,
+  footInfoPlaceholder,
 };
