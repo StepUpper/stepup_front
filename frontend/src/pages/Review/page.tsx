@@ -1,8 +1,8 @@
 import Header from "@common/Header";
-import ShoeRegisterInputForm from "@/components/ShoeCloset/Register/ShoeRegisterInputForm";
-import RatingComponent from "@/components/ShoeCloset/Register/RatingComponent";
-import SearchShoeButton from "@/components/ShoeCloset/Register/SearchShoeButton";
-import SubmitBottomButton from "@/components/ShoeCloset/Register/SubmitBottomButton";
+import ShoeRegisterInputForm from "@components/shoe_closet/register/ShoeRegisterInputForm";
+import RatingComponent from "@components/shoe_closet/register/RatingComponent";
+import SearchShoeButton from "@components/shoe_closet/register/SearchShoeButton";
+import SubmitBottomButton from "@components/shoe_closet/register/SubmitBottomButton";
 
 const page = () => {
   return (
@@ -16,7 +16,7 @@ const page = () => {
         {/* input form */}
         <ShoeRegisterInputForm />
         {/* 등록하기 버튼 */}
-        <SubmitBottomButton/>
+        <SubmitBottomButton />
       </main>
     </div>
   );
