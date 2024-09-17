@@ -1,5 +1,5 @@
 import { footInfoPlaceholder } from "@assets/assets";
-import BottomButton from "../common/BottomButton";
+import BottomButton from "@common/BottomButton";
 
 const FootInfoPlaceholder = () => {
   return (
