@@ -33,4 +33,12 @@ export {
   showBrandProductIcon,
   thumbsDownIcon,
   shareIcon,
+  grabber,
+  footInfoPlaceholder,
+  sortIcon,
+  starFilledIcon,
+  starIcon,
+  plusIcon,
+  shoeSearch,
+  defaultProfile,
 };
