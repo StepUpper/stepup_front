@@ -18,6 +18,8 @@ import plusIcon from "@assets/images/plus-icon.svg";
 import chatListIcon from "@assets/images/chat-list-icon.svg";
 import shareWhiteIcon from "@assets/images/share-white-icon.svg";
 import trashIcon from "@assets/images/trash-icon.svg";
+import grabber from "@assets/images/bar-icon.svg";
+import footInfoPlaceholder from "@assets/images/foot-loading.webp";
 
 export {
   menuIcon,
@@ -40,4 +42,6 @@ export {
   chatListIcon,
   shareWhiteIcon,
   trashIcon,
+  grabber,
+  footInfoPlaceholder,
 };
