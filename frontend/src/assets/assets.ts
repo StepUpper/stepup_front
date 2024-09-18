@@ -26,6 +26,7 @@ import shoeSearch from "@assets/icons/shoe-search.svg";
 import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import defaultProfilePlusImg from "@assets/images/default-profile-plus-img.svg";
 import footInfoPlaceholder from "@assets/images/foot-loading.webp";
+import aiIconImg from "@assets/images/ai-icon-img.png";
 
 export {
   // ******* ICON
@@ -57,4 +58,5 @@ export {
   defaultProfileImg,
   defaultProfilePlusImg,
   footInfoPlaceholder,
+  aiIconImg,
 };
