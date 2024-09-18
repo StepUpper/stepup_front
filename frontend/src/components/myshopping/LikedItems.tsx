@@ -1,4 +1,8 @@
-import ProductItem from "@common/ProductItem";
+
+import { useState } from "react";
+import ProductList from "@common/ProductList";
+import CategorySelector from "@common/CategorySelector";
+import Button from "@common/html/Button";
 
 const LikedItems = () => {
   const n: number = 5;
@@ -7,22 +11,23 @@ const LikedItems = () => {
     <>
       <div className="px-[16px]">
         <p className="text-body3 font-bold"> 총 {n} 개</p>
-        <div className="mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-s xl:grid-cols-5 justify-items-center gap-[11px] py-[16px] ">
+        <ProductList>
           {Array(n)
             .fill(null)
             .map((_, index) => (
-              <ProductItem
+              <ProductList.Item
                 key={index}
                 recSize=""
                 thumb=""
-                brand=""
-                brandImg=""
-                title=""
-                price=""
+                brandName=""
+                productName=""
+                customerImg=""
+                customerLink=""
                 isLiked={true}
               />
             ))}
-        </div>
+        </ProductList>
+        <div className="mx-auto grid grid-cols-2 justify-items-center gap-[11px] py-[16px]"></div>
       </div>
     </>
   );

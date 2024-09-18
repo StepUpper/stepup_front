@@ -4,7 +4,7 @@ import Button from "@common/html/Button";
 
 export type LikeButtonProps = {
   isLiked: boolean;
-  className: string;
+  className?: string;
   onClick?: () => void;
 };
 const LikeButton = (props: LikeButtonProps) => {
