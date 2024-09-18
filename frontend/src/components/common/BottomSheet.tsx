@@ -1,6 +1,6 @@
 import { ReactNode, useRef, useState } from "react";
 import { motion, PanInfo, useDragControls } from "framer-motion";
-import { grabber } from "@assets/assets";
+import { grabberIcon } from "@assets/assets";
 import { twMerge } from "tailwind-merge";
 
 interface BottomSheetProps {
@@ -92,7 +92,7 @@ const BottomSheet = (props: BottomSheetProps) => {
             }}
             // onTap={onClose}
           >
-            <img src={grabber} alt="드래그 바" />
+            <img src={grabberIcon} alt="드래그 바" />
           </motion.div>
         )}
 
