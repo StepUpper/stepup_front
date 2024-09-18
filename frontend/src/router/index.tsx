@@ -7,6 +7,7 @@ import Review from "@pages/Review/page";
 import MyPage from "@pages/MyPage/MyPage";
 import MyShopping from "@pages/MyShopping/MyShopping";
 import MyFootInfo from "@pages/MyFootInfo/MyFootInfo";
+import Bridge from "@pages/Bridge/Bridge";
 
 const router = createBrowserRouter(
   [
@@ -37,6 +38,10 @@ const router = createBrowserRouter(
         {
           path: "/myfootinfo",
           element: <MyFootInfo />,
+        },
+        {
+          path: "/bridge",
+          element: <Bridge />,
         },
       ],
     },

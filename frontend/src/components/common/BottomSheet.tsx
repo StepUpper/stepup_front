@@ -1,37 +1,24 @@
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useEffect } from "react";
+import { twMerge } from "tailwind-merge";
 import { motion, PanInfo, useDragControls } from "framer-motion";
 import { grabberIcon } from "@assets/assets";
-import { twMerge } from "tailwind-merge";
+import { useBottomSheet } from "@/store/bottomSheet.store";
 
-interface BottomSheetProps {
+type BottomSheetProps = {
+  id: string;
   isDragBar?: boolean;
-  isOpen: boolean;
-  isMinimized?: boolean;
-  yPosition: number;
-  onClose?: () => void;
-  onMinimize?: () => void;
-  onMaximize?: () => void;
-  children: ReactNode;
-}
+  children?: ReactNode;
+};
 
 const BottomSheet = (props: BottomSheetProps) => {
-  const {
-    isDragBar = true,
-    isOpen,
-    isMinimized,
-    yPosition,
-    onClose,
-    onMinimize,
-    onMaximize,
-    children,
-  } = props;
+  const { id, isDragBar = true, children } = props;
 
-  const bottomSheetRef = useRef<HTMLDivElement | null>(null);
+  const { sheets, close, minimize, maximize } = useBottomSheet();
+
+  const isOpen = sheets[id]?.isOpen || false;
+  const isMinimized = sheets[id]?.isMinimized || false;
+
   const dragControls = useDragControls();
-
-  // TODO: 바텀 시트가 다 올라왔을 때 위로 올라오지 않도록 제한
-  // 드래그 제한 설정을 위한 상태
-  const [dragConstraints, setDragConstraints] = useState({ top: 0, bottom: 0 });
 
   // 스냅 애니메이션 추가
   const handleDragEnd = (
@@ -39,67 +26,80 @@ const BottomSheet = (props: BottomSheetProps) => {
     info: PanInfo
   ) => {
     const threshold = 150; // 스냅 기준값 (얼마나 드래그 됐을 때 스냅할지)
-    const velocityThreshold = 20; // 드래그 속도에 따른 스냅 기준
+    const smallDragThreshold = 50; // 작은 드래그 거리 기준
+    const velocityThreshold = 50; // 드래그 속도에 따른 스냅 기준
 
     // 드래그된 위치와 속도를 기반으로 스냅 결정
     if (info.offset.y > threshold || info.velocity.y > velocityThreshold) {
-      if (onMinimize) onMinimize(); // 최소화
-    } else {
-      if (onMaximize) onMaximize(); // 최대화
+      minimize(id); // 최소화
+      console.log("Minimized:", id);
+    } else if (
+      info.offset.y > smallDragThreshold &&
+      info.offset.y < threshold
+    ) {
+      return; // 유지 (작은 드래그일 경우 동작하지 않음)
+    } // 위로 드래그했을 때 최대화
+    else if (info.offset.y < -threshold) {
+      maximize(id); // 최대화
+      console.log("Maximized:", id);
     }
   };
 
   return (
-    <div>
-      {/* 오버레이 */}
-      {isOpen && !isMinimized && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black"
-          onClick={onClose}
-        ></motion.div>
-      )}
+    <>
+      {isOpen && (
+        <div>
+          {/* 오버레이 */}
+          {isOpen && !isMinimized && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-white"
+              onClick={() => close(id)}
+            ></motion.div>
+          )}
 
-      {/* 바텀시트 본체 */}
-      <motion.div
-        ref={bottomSheetRef}
-        initial={{ y: "100%" }} // 초기값
-        animate={{ y: isOpen ? yPosition : "100%" }}
-        transition={{
-          type: "spring",
-          stiffness: 90,
-          damping: 20,
-          duration: 0.6,
-        }}
-        // transition={{ duration: 0.6, ease: "easeInOut" }}
-        drag="y"
-        dragControls={dragControls}
-        dragConstraints={dragConstraints} // 드래그 범위
-        dragListener={false}
-        onDragEnd={handleDragEnd} // 드래그 끝난 후 스냅 애니메이션 적용
-        className="fixed bottom-0 left-0 flex max-h-[98vh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-custom"
-      >
-        {/* 드래그 바 */}
-        {isDragBar && (
+          {/* 바텀시트 본체 */}
           <motion.div
-            className="item-center w-full cursor-pointer flex-col pt-2"
-            style={{ touchAction: "none" }}
-            onPointerDown={(e) => {
-              e.preventDefault();
-              dragControls.start(e);
+            initial={{ y: "100%" }} // 초기값
+            animate={{ y: isMinimized ? "97%" : "0%" }}
+            exit={{ y: "100%" }}
+            transition={{
+              type: "spring",
+              stiffness: 90,
+              damping: 20,
+              duration: 0.6,
             }}
-            // onTap={onClose}
+            // transition={{ duration: 0.6, ease: "easeInOut" }}
+            drag="y"
+            dragControls={dragControls}
+            dragConstraints={{ top: 0, bottom: 0 }} // 드래그 범위
+            dragListener={false}
+            onDragEnd={handleDragEnd} // 드래그 끝난 후 스냅 애니메이션 적용
+            className="absolute bottom-0 left-0 z-10 flex max-h-[98vh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-custom"
           >
-            <img src={grabberIcon} alt="드래그 바" />
-          </motion.div>
-        )}
+            {/* 드래그 바 */}
+            {isDragBar && (
+              <motion.div
+                className="item-center w-full cursor-pointer flex-col pt-2"
+                style={{ touchAction: "none" }}
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  dragControls.start(e);
+                }}
+                // onTap={() => close(id)}
+              >
+                <img src={grabberIcon} alt="드래그 바" />
+              </motion.div>
+            )}
 
-        {/* 헤더 / 콘텐츠 영역 */}
-        {children}
-      </motion.div>
-    </div>
+            {/* 헤더 / 콘텐츠 영역 */}
+            {children}
+          </motion.div>
+        </div>
+      )}
+    </>
   );
 };
 export default BottomSheet;
@@ -110,12 +110,12 @@ const BottomSheetHeader = ({
   className,
   children,
 }: {
-  isTitleOnly: boolean;
+  isTitleOnly?: boolean;
   className?: string;
-  children: ReactNode;
+  children?: ReactNode;
 }) => {
   return (
-    <div className={twMerge("flex w-full justify-center p-4", className)}>
+    <div className={twMerge("flex w-full justify-center py-4", className)}>
       {isTitleOnly ? (
         <h2 className="text-body1 font-label leading-[24px] tracking-[-0.27px]">
           {children}
@@ -128,23 +128,15 @@ const BottomSheetHeader = ({
 };
 
 // BottomSheetContent 👇
-const BottomSheetContent = ({ children }: { children: ReactNode }) => {
-  return (
-    <div className="flex w-full flex-col overflow-y-auto px-4">{children}</div>
-  );
+const BottomSheetContent = ({
+  className,
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) => {
+  return <div className={twMerge("container-y", className)}>{children}</div>;
 };
 
 BottomSheet.Header = BottomSheetHeader;
 BottomSheet.Content = BottomSheetContent;
-
-// Overlay 👇
-const Overlay = () => {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 0.5 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black"
-    ></motion.div>
-  );
-};

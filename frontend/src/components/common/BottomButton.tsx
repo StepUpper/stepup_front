@@ -3,16 +3,15 @@ import { ComponentPropsWithoutRef } from "react";
 
 interface BottomButtonProps extends ComponentPropsWithoutRef<"button"> {
   title: string;
-  onClick?: () => void;
 }
 
 const BottomButton = (props: BottomButtonProps) => {
-  const { title, onClick } = props;
+  const { title, ...rest } = props;
   return (
     <>
       <Button
-        className="w-full rounded bg-black px-3.5 py-4 text-white"
-        onClick={onClick}
+        className="my-6 w-full rounded bg-black px-3.5 py-6 text-white"
+        {...rest}
       >
         {title}
       </Button>
