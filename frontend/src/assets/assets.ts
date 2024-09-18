@@ -20,6 +20,12 @@ import shareWhiteIcon from "@assets/images/share-white-icon.svg";
 import trashIcon from "@assets/images/trash-icon.svg";
 import grabber from "@assets/images/bar-icon.svg";
 import footInfoPlaceholder from "@assets/images/foot-loading.webp";
+import plusIcon from "@assets/images/plus-icon.svg";
+import sortIcon from "@assets/images/sort-icon.svg";
+import starIcon from "@assets/images/star-icon.svg";
+import starFilledIcon from "@assets/images/star-filled-icon.svg";
+import shoeSearch from "@assets/images/shoe-search.svg";
+import defaultProfile from "@assets/images/default-profile-image.svg";
 
 export {
   menuIcon,
@@ -44,4 +50,10 @@ export {
   trashIcon,
   grabber,
   footInfoPlaceholder,
+  sortIcon,
+  starFilledIcon,
+  starIcon,
+  plusIcon,
+  shoeSearch,
+  defaultProfile,
 };
