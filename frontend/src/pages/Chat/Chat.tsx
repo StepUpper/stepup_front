@@ -7,6 +7,7 @@ import { TChatResponse } from "@/types/chat";
 import useChatStore from "@store/useChatStore";
 import ChatLogin from "@components/Chat/ChatLogin";
 import ChatRecommendedQuestion from "@/components/Chat/ChatRecommendedQuestion";
+import LoginBottomSheet from "@/components/login/LoginBottomSheet";
 
 const Chat = () => {
   const { guestMessages, userMessages, loadGuestMessages, loadUserMessages } =
@@ -35,7 +36,7 @@ const Chat = () => {
   return (
     <div className="flex h-screen flex-col">
       <Header type="menu" />
-
+      <LoginBottomSheet/>
       <main className="no-scrollbar flex-1 overflow-y-auto">
         {!isLoggedIn && <ChatLogin />}
 
