@@ -3,20 +3,28 @@ import InputField from "@common/InputField";
 import Input from "@common/html/Input";
 import BottomButton from "@common/BottomButton";
 import DropDown, { DropDownRef } from "@common/html/DropDown";
+import { signUpWithCredential, updateUserData } from "@apis/firebase/auth";
+import { useInput } from "@hooks/useInput";
+import userStore from "@store/auth.store";
+import { auth } from "@/firebase";
 
 const SignUpRequired = () => {
   {
-    const [signUpRequired, setSignUpRequired] = useState({
-      email: "",
-      password: "",
-      name: "",
+    const user = auth.currentUser;
+    const { updateUserInfo } = userStore((store) => ({
+      updateUserInfo: store.updateUserInfo,
+    }));
+    const { value: signUpRequired, setValue: setSignUpRequired } = useInput({
+      email: user?.email || "",
+      password: user ? "blocked" : "",
+      username: user?.displayName || "",
       gender: "",
       birthDate: "",
     });
 
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
-    const [nameError, setNameError] = useState("");
+    const [nameError, setnameError] = useState("");
     const [genderError, setGenderError] = useState("");
     const [birthDateError, setBirthDateError] = useState("");
 
@@ -75,7 +83,7 @@ const SignUpRequired = () => {
 
       if (name === "email") setEmailError("");
       if (name === "password") setPasswordError("");
-      if (name === "name") setNameError("");
+      if (name === "username") setnameError("");
     };
 
     const submitHandle = (e: React.FormEvent) => {
@@ -109,8 +117,8 @@ const SignUpRequired = () => {
         isSignUpRequiredValid = false;
       }
 
-      if (!signUpRequired.name) {
-        setNameError("이름을 입력하세요");
+      if (!signUpRequired.username) {
+        setnameError("이름을 입력하세요");
         isSignUpRequiredValid = false;
       }
 
@@ -126,11 +134,20 @@ const SignUpRequired = () => {
 
       //값 확인용
       if (isSignUpRequiredValid) {
-        console.log("email: ", signUpRequired.email);
-        console.log("password: ", signUpRequired.password);
-        console.log("name: ", signUpRequired.name);
-        console.log("gender: ", signUpRequired.gender);
-        console.log("birthdate: ", signUpRequired.birthDate);
+        if (user) {
+          updateUserData("gender", signUpRequired.gender);
+          updateUserData("birthDate", signUpRequired.birthDate);
+
+          updateUserInfo();
+        } else
+          signUpWithCredential({
+            email: signUpRequired.email,
+            password: signUpRequired.password,
+            imgUrl: null,
+            gender: signUpRequired.gender === "남성" ? "male" : "female",
+            username: signUpRequired.username,
+            birthDate: signUpRequired.birthDate,
+          }).then(updateUserInfo);
       }
     };
 
@@ -143,10 +160,11 @@ const SignUpRequired = () => {
               <Input
                 type="email"
                 name="email"
-                placeholder="이메일을 입력해주세요"
+                placeholder={user?.email || "이메일을 입력해주세요"}
                 className="h-[48px] w-full rounded-[4px] px-4 py-[14px]"
-                value={signUpRequired.email}
+                value={user?.email ? "" : signUpRequired.email}
                 onChange={handleInputChange}
+                disabled={user?.email ? true : false}
               />
             </InputField>
             {/*패스워드 입력 필드*/}
@@ -154,21 +172,27 @@ const SignUpRequired = () => {
               <Input
                 type="password"
                 name="password"
-                placeholder="비밀번호를 입력해주세요"
+                placeholder={
+                  user?.email
+                    ? "소셜 로그인 회원입니다."
+                    : "비밀번호를 입력해주세요"
+                }
                 className="h-[48px] w-full rounded-[4px] px-4 py-[14px]"
-                value={signUpRequired.password}
+                value={user?.email ? "" : signUpRequired.password}
                 onChange={handleInputChange}
+                disabled={user?.email ? true : false}
               />
             </InputField>
             {/*이름 입력 필드*/}
             <InputField title="이름" error={nameError}>
               <Input
                 type="text"
-                name="name"
-                placeholder="이름을 입력해주세요"
+                name="username"
+                placeholder={user?.displayName || "이름을 입력해주세요"}
                 className="h-[48px] w-full rounded-[4px] px-4 py-[14px]"
-                value={signUpRequired.name}
+                value={user?.displayName ? "" : signUpRequired.username}
                 onChange={handleInputChange}
+                disabled={user?.displayName ? true : false}
               />
             </InputField>
             {/*성별 선택 필드*/}
@@ -219,7 +243,7 @@ const SignUpRequired = () => {
           </div>
           <div className="mt-4 px-5">
             {/*회원가입 다음 페이지로 이동 버튼*/}
-            <BottomButton title="다음" />
+            <BottomButton title="다음" type="submit" />
           </div>
         </form>
       </>

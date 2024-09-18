@@ -1,12 +1,12 @@
-import SignUpRequired from "@components/signup/SignUpRequired";
-import SignUpAdditional from "@components/signup/SignUpAdditional";
+import SignUpRequired from "./SignUpRequired";
+import SignUpAdditional from "./SignUpAdditional";
+import userStore from "@store/auth.store.ts";
+import { redirect } from "react-router-dom";
 
 const SignUp = () => {
-  return (
-    <>
-      <SignUpRequired />
-      <SignUpAdditional />
-    </>
-  );
+  const { user } = userStore((store) => ({ user: store.user }));
+  if (user && user.sizeType) return redirect("/");
+  return <>{user?.gender ? <SignUpAdditional /> : <SignUpRequired /> 
+    }</>;
 };
 export default SignUp;
