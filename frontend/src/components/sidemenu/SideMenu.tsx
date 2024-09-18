@@ -12,14 +12,38 @@ const SideMenu = () => {
     navigate(path);
   };
 
-  const [chats, setChats] = useState([
-    { id: 1, title: "채팅1", createdAt: "2024-09-17T12:30:00Z" },
-    { id: 2, title: "채팅2", createdAt: "2024-09-16T12:30:00Z" },
-    { id: 3, title: "채팅3", createdAt: "2024-09-15T12:30:00Z" },
-    { id: 4, title: "채팅4", createdAt: "2024-09-11T12:30:00Z" },
-    { id: 5, title: "채팅5", createdAt: "2024-09-13T12:30:00Z" },
-    { id: 6, title: "채팅6", createdAt: "2024-09-09T12:30:00Z" },
-    { id: 7, title: "채팅7", createdAt: "2024-09-17T15:30:00Z" },
+  const [chats] = useState([
+    {
+      id: 1,
+      title: "장마철에 신기 좋은 레인부츠 브랜드 추천",
+      createdAt: "2024-09-19T12:30:00+09:00",
+    },
+    {
+      id: 2,
+      title: "장마철에 신기 좋은 운동화 추천",
+      createdAt: "2024-09-17T12:30:00+09:00",
+    },
+    {
+      id: 3,
+      title: "아식스에서 제일 유명한 신발",
+      createdAt: "2024-09-16T12:30:00+09:00",
+    },
+    {
+      id: 4,
+      title: "20대 여성이 좋아하는 신발",
+      createdAt: "2024-09-12T12:30:00+09:00",
+    },
+    {
+      id: 5,
+      title: "등산할 때 신기 좋은 가벼운 등산화",
+      createdAt: "2024-09-14T12:30:00+09:00",
+    },
+    { id: 6, title: "채팅6", createdAt: "2024-09-10T12:30:00+09:00" },
+    {
+      id: 7,
+      title: "요즘 유행하는 신발",
+      createdAt: "2024-09-19T15:30:00+09:00",
+    },
   ]);
 
   const today = new Date();
@@ -49,11 +73,28 @@ const SideMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+  const [swipedItem, setSwipedItem] = useState<number | null>(null);
+  const [longPressedItem, setLongPressedItem] = useState<number | null>(null);
+
+  const handleSwipe = (id: number) => {
+    setSwipedItem(id);
+    setLongPressedItem(null);
+  };
+  const handleLongPress = (id: number) => {
+    setLongPressedItem(id);
+    setSwipedItem(null);
+  };
+
+  const handleReset = () => {
+    setSwipedItem(null);
+    setLongPressedItem(null);
+  };
+
   return (
     <>
       <div className="h-screen w-full overflow-hidden">
         {/* 어두운 영역 */}
-        <Button className="visible absolute right-1/2 top-0 z-[-30] h-screen w-full translate-x-1/2 cursor-default bg-black bg-opacity-50 p-0" />
+        <Button className="visible absolute right-1/2 top-0 -z-30 h-screen w-full translate-x-1/2 cursor-default bg-black/50 p-0" />
         {/* 사이드메뉴 영역 */}
         <nav className="absolute flex h-screen w-[290px] flex-col rounded-r-[8px] border bg-white">
           <Header type="menu" />
@@ -73,7 +114,15 @@ const SideMenu = () => {
                 <span className="h-[24px] text-body3 text-grey-500">오늘</span>
                 <ul>
                   {todayChats.map((chat) => (
-                    <SideChatListItem title={chat.title} />
+                    <SideChatListItem
+                      key={chat.id}
+                      title={chat.title}
+                      isSwiped={swipedItem === chat.id}
+                      isLongPressed={longPressedItem === chat.id}
+                      onSwipe={() => handleSwipe(chat.id)}
+                      onLongPress={() => handleLongPress(chat.id)}
+                      onReset={handleReset}
+                    />
                   ))}
                 </ul>
               </div>
@@ -85,7 +134,15 @@ const SideMenu = () => {
                 </span>
                 <ul>
                   {last7DaysChats.map((chat) => (
-                    <SideChatListItem title={chat.title} />
+                    <SideChatListItem
+                      key={chat.id}
+                      title={chat.title}
+                      isSwiped={swipedItem === chat.id}
+                      isLongPressed={longPressedItem === chat.id}
+                      onSwipe={() => handleSwipe(chat.id)}
+                      onLongPress={() => handleLongPress(chat.id)}
+                      onReset={handleReset}
+                    />
                   ))}
                 </ul>
               </div>
