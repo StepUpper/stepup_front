@@ -1,6 +1,6 @@
 import Button from "@common/html/Button";
 import CategorySelector from "@common/CategorySelector";
-import LikeButton from "../common/LikeButton";
+import LikeButton from "@common/LikeButton";
 
 const mocEx = () => {
   return 1 + 1;
