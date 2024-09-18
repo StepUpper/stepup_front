@@ -11,11 +11,7 @@ const ChatBrandCard = ({ brand, link, thumbnail }: BrandProps) => {
   return (
     <div className="h-32 w-28 overflow-hidden rounded-md border">
       <div className="flex h-24 items-center justify-center p-4">
-        <img
-          src={thumbnail}
-          alt={`${brand}`}
-          className="h-full object-contain"
-        />
+        <img src={thumbnail} alt={brand} className="h-full object-contain" />
       </div>
 
       <div className="border-t px-4 py-2 text-center">

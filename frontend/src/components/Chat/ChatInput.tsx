@@ -4,19 +4,33 @@ import { imageSelectIcon, arrowUpIcon } from "@assets/assets";
 import { useState } from "react";
 import { chatApi } from "@/apis/services/chat";
 import useChatStore from "@/store/useChatStore";
+import { addMessageToFirestore } from "@/apis/firebase/chatFirestore";
 
 const ChatInput = () => {
-  const { addMessage } = useChatStore();
+  const { addGuestMessage, roomId, addUserMessage } = useChatStore();
   const [isSending, setIsSending] = useState(false);
   const [chatMsg, setChatMsg] = useState("");
 
+  // 로그인 여부와 userId (예시, 실제로는 상태 또는 컨텍스트에서 가져옴)
+  const isLoggedIn = true; // 로그인 여부
+  const userId = "someUserId"; // 실제 사용자 ID
+
   const handleSubmit = async () => {
     if (isSending || chatMsg.trim() === "") return;
-    addMessage({ type: "user", content: chatMsg });
-    setChatMsg("");
+
     setIsSending(true);
 
     try {
+      // Firestore에 메시지 추가
+      if (isLoggedIn && roomId) {
+        addUserMessage({ type: "user", content: chatMsg });
+      } else {
+        addGuestMessage({ type: "user", content: chatMsg });
+      }
+
+      setChatMsg("");
+
+      // bot의 응답 처리
       const res = await chatApi.postChatResponse({
         message: {
           content: chatMsg,
@@ -24,17 +38,22 @@ const ChatInput = () => {
       });
 
       if (res.status === 200) {
-        console.log(res.data);
-        addMessage({ type: "bot", content: res.data });
+        if (isLoggedIn && roomId) {
+          await addMessageToFirestore(userId, roomId, chatMsg, res.data);
+          addUserMessage({ type: "bot", content: res.data });
+        } else {
+          addGuestMessage({ type: "bot", content: res.data });
+        }
       }
     } catch (error) {
-      addMessage({
-        type: "bot",
-        content: {
-          message:
-            "예기치 못한 에러가 발생하였습니다. 다시 한번 채팅을 시도해주세요",
-        },
-      });
+      const errorMessage =
+        "예기치 못한 에러가 발생하였습니다. 다시 시도해주세요.";
+      if (isLoggedIn && roomId) {
+        // 호출 실패하면 굳이 firestore에 저장할 필요 없으니 상태 업데이트만 해줌
+        addUserMessage({ type: "bot", content: { message: errorMessage } });
+      } else {
+        addGuestMessage({ type: "bot", content: { message: errorMessage } });
+      }
     } finally {
       setIsSending(false);
     }
@@ -47,10 +66,10 @@ const ChatInput = () => {
   };
 
   return (
-    <div className="flex h-28 w-full items-center bg-gray-100 px-4 pb-10 pt-4">
+    <div className="flex h-28 w-full items-center bg-gray-100 pb-10 pl-4 pr-4 pt-4">
       <img src={imageSelectIcon} alt="imageSelectIcon" className="mr-2 w-5" />
 
-      <div className="flex grow items-center rounded-full border border-gray-300 bg-white">
+      <div className="flex flex-grow items-center rounded-full border border-gray-300 bg-white">
         <Input
           className="h-12 flex-grow border-none bg-transparent pb-3.5 pl-4 pr-1 pt-3.5 font-paragraph text-gray-500 outline-none"
           placeholder="궁금한 신발 정보 물어보세요!"
