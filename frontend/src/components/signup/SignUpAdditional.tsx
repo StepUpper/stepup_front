@@ -11,8 +11,9 @@ import { useNavigate } from "react-router-dom";
 
 const SignUpAdditional = () => {
   const navigate = useNavigate();
-  const { setUserInfo } = userStore((store) => ({
+  const { setUserInfo, setIsLoggedIn } = userStore((store) => ({
     setUserInfo: store.setUserInfo,
+    setIsLoggedIn: store.setIsLoggedIn,
   }));
 
   const { value: size, setValue: setSize } = useInput({
@@ -57,7 +58,7 @@ const SignUpAdditional = () => {
     updateUserData("sneakerSize", +size.sneakerSize);
     setUserInfo("sizeType", size.sizeType);
     setUserInfo("sneakerSize", +size.sneakerSize);
-
+    setIsLoggedIn(true);
     return navigate("/");
   };
 

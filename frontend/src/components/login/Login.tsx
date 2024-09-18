@@ -8,8 +8,9 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { updateUserInfo } = userStore((store) => ({
+  const { updateUserInfo, setIsLoggedIn } = userStore((store) => ({
     updateUserInfo: store.updateUserInfo,
+    setIsLoggedIn: store.setIsLoggedIn,
   }));
   const [loginData, setLoginData] = useState({
     email: "",
@@ -63,6 +64,8 @@ const Login = () => {
     //값 확인용
     if (isLoginValid) {
       signInWithCredential(loginData).then(updateUserInfo);
+      setIsLoggedIn(true);
+
       return navigate("/");
     }
   };
