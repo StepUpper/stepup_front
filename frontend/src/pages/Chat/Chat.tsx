@@ -51,9 +51,7 @@ const Chat = () => {
         <div ref={messageEndRef} />
       </main>
 
-      {/* 로그인 여부 && 질문 클릭 여부 */}
-      {/* {isLoggedIn && <ChatRecommendedQuestion />} */}
-
+      <ChatRecommendedQuestion />
       <ChatInput />
     </div>
   );

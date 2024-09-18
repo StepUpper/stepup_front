@@ -21,8 +21,7 @@ const ChatInput = () => {
     setIsSending(true);
 
     try {
-      // Firestore에 메시지 추가
-      if (isLoggedIn && roomId) {
+      if (isLoggedIn) {
         addUserMessage({ type: "user", content: chatMsg });
       } else {
         addGuestMessage({ type: "user", content: chatMsg });
@@ -30,7 +29,6 @@ const ChatInput = () => {
 
       setChatMsg("");
 
-      // bot의 응답 처리
       const res = await chatApi.postChatResponse({
         message: {
           content: chatMsg,
@@ -38,8 +36,8 @@ const ChatInput = () => {
       });
 
       if (res.status === 200) {
-        if (isLoggedIn && roomId) {
-          await addMessageToFirestore(userId, roomId, chatMsg, res.data);
+        if (isLoggedIn) {
+          await addMessageToFirestore(userId, roomId!, chatMsg, res.data);
           addUserMessage({ type: "bot", content: res.data });
         } else {
           addGuestMessage({ type: "bot", content: res.data });
@@ -48,7 +46,7 @@ const ChatInput = () => {
     } catch (error) {
       const errorMessage =
         "예기치 못한 에러가 발생하였습니다. 다시 시도해주세요.";
-      if (isLoggedIn && roomId) {
+      if (isLoggedIn) {
         // 호출 실패하면 굳이 firestore에 저장할 필요 없으니 상태 업데이트만 해줌
         addUserMessage({ type: "bot", content: { message: errorMessage } });
       } else {
