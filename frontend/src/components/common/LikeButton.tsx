@@ -1,5 +1,5 @@
 import { twMerge } from "tailwind-merge";
-import LikeIcon from "@assets/images/like-icon.svg?react";
+import LikeIcon from "@assets/icons/like-icon.svg?react";
 import Button from "@common/html/Button";
 
 export type LikeButtonProps = {
