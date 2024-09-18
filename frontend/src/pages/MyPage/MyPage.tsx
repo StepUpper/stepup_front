@@ -2,8 +2,14 @@ import { chevRightIcon, likeStrokeIcon, smileIcon } from "@assets/assets";
 import Header from "@components/common/Header";
 import Button from "@components/common/html/Button";
 import ProfileImage from "@components/common/ProfileImage";
+import { useNavigate } from "react-router-dom";
 
 const MyPage = () => {
+  const navigate = useNavigate();
+  const gotoPageHandler = (path: string) => {
+    navigate(path);
+  };
+
   return (
     <>
       <Header type="back" />
@@ -18,11 +24,11 @@ const MyPage = () => {
         </div>
         {/* 좋아요, 신발장 버튼 */}
         <div className="mt-[6px] flex items-center justify-between space-x-0.5">
-          <Button className="flex h-[60px] grow place-content-center items-center gap-[10px] bg-white p-[10px]">
+          <Button className="flex h-[60px] grow place-content-center items-center gap-[10px] bg-white p-[10px]" onClick={() => gotoPageHandler("/myshopping")}>
             <img src={likeStrokeIcon} className="w-[14px]" />
             <span className="text-body3 font-medium"> 좋아요 </span>
           </Button>
-          <Button className="flex h-[60px] grow place-content-center items-center gap-[10px] bg-white p-[10px]">
+          <Button className="flex h-[60px] grow place-content-center items-center gap-[10px] bg-white p-[10px]" onClick={() => gotoPageHandler("/archive")}>
             <img src={smileIcon} className="w-[14px]" />
             <span className="text-body3 font-medium"> 신발장 </span>
           </Button>
