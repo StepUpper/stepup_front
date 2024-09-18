@@ -4,35 +4,42 @@ import ChatUserMessage from "@components/Chat/ChatUserMessage";
 import Header from "@common/Header";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { TChatResponse } from "@/types/chat";
-import useChatStore from "@/store/useChatStore";
-import ChatLogin from "@/components/Chat/ChatLogin";
+import useChatStore from "@store/useChatStore";
+import ChatLogin from "@components/Chat/ChatLogin";
 import ChatRecommendedQuestion from "@/components/Chat/ChatRecommendedQuestion";
 
 const Chat = () => {
-  const { messages, loadMessages } = useChatStore();
+  const { guestMessages, userMessages, loadGuestMessages, loadUserMessages } =
+    useChatStore();
+
+  const isLoggedIn = true;
+  const userId = "someUserId";
 
   useEffect(() => {
-    loadMessages();
-  }, []);
+    if (isLoggedIn) {
+      loadUserMessages(userId);
+    } else {
+      loadGuestMessages();
+    }
+  }, [isLoggedIn, userId]);
 
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 
+  // 스크롤을 항상 하단에 위치시키기
   useLayoutEffect(() => {
     setTimeout(() => {
       messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 0);
-  }, [messages.length]);
+  }, [isLoggedIn ? userMessages.length : guestMessages.length]);
 
   return (
     <div className="flex h-screen flex-col">
       <Header type="menu" />
 
       <main className="no-scrollbar flex-1 overflow-y-auto">
-        {/* 로그인 여부에 따라 조건부 렌더링 */}
-        <ChatLogin />
-        {/* 로그인 성공하면 맞춤상품추천 호출하고 store에 있는 addMessage 호출해서 bot에 message 추가한다. */}
+        {!isLoggedIn && <ChatLogin />}
 
-        {messages.map((msg, index) => (
+        {(isLoggedIn ? userMessages : guestMessages).map((msg, index) => (
           <div key={index}>
             {msg.type === "user" ? (
               <ChatUserMessage title={msg.content as string} />
@@ -43,8 +50,9 @@ const Chat = () => {
         ))}
         <div ref={messageEndRef} />
       </main>
+
       {/* 로그인 여부 && 질문 클릭 여부 */}
-      <ChatRecommendedQuestion />
+      {/* {isLoggedIn && <ChatRecommendedQuestion />} */}
 
       <ChatInput />
     </div>

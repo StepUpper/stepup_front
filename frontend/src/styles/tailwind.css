@@ -25,6 +25,7 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
 
   .container-y {
     display: flex;
