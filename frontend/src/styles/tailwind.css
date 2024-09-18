@@ -18,6 +18,14 @@
     align-items: center;
   }
 
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
   .container-y {
     display: flex;
     flex-direction: column;
