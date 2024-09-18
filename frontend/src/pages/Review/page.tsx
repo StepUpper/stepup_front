@@ -1,8 +1,8 @@
 import Header from "@common/Header";
-import ShoeRegisterInputForm from "@components/shoe_closet/register/ShoeRegisterInputForm";
-import RatingComponent from "@components/shoe_closet/register/RatingComponent";
-import SearchShoeButton from "@components/shoe_closet/register/SearchShoeButton";
-import SubmitBottomButton from "@components/shoe_closet/register/SubmitBottomButton";
+import ShoeRegisterInputForm from "@/components/shoeCloset/register/ShoeRegisterInputForm";
+import RatingComponent from "@/components/shoeCloset/register/RatingComponent";
+import SearchShoeButton from "@/components/shoeCloset/register/SearchShoeButton";
+import SubmitBottomButton from "@/components/shoeCloset/register/SubmitBottomButton";
 
 const page = () => {
   return (

@@ -8,12 +8,16 @@ import useChatStore from "@store/useChatStore";
 import ChatLogin from "@components/Chat/ChatLogin";
 import ChatRecommendedQuestion from "@/components/Chat/ChatRecommendedQuestion";
 import LoginBottomSheet from "@/components/login/LoginBottomSheet";
+import userStore from "@/store/auth.store";
 
 const Chat = () => {
   const { guestMessages, userMessages, loadGuestMessages, loadUserMessages } =
     useChatStore();
 
-  const isLoggedIn = true;
+  const loginState = userStore((store) => store.isLoggedIn);
+
+  const isLoggedIn = loginState;
+
   const userId = "someUserId";
 
   useEffect(() => {
@@ -36,7 +40,7 @@ const Chat = () => {
   return (
     <div className="flex h-screen flex-col">
       <Header type="menu" />
-      <LoginBottomSheet/>
+      <LoginBottomSheet />
       <main className="no-scrollbar flex-1 overflow-y-auto">
         {!isLoggedIn && <ChatLogin />}
 
