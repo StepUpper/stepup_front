@@ -4,12 +4,17 @@ import ChatBrandCard from "./ChatBrandCard";
 import ChatProductItem from "./ChatProductItem";
 import ReactMarkdown from "react-markdown";
 import ChatShareDislikeBox from "./ChatShareDislikeBox";
+import { useState } from "react";
 
 interface ChatMessageProps {
   title: TChatResponse;
 }
 
 const ChatMessage = (props: ChatMessageProps) => {
+  const [clickedBrand, setClickedBrand] = useState("");
+  const [clickedProducts, setClickedProducts] = useState<TChatResponse | null>(
+    null
+  );
   const { title } = props;
   return (
     <>
@@ -38,7 +43,13 @@ const ChatMessage = (props: ChatMessageProps) => {
         <>
           <div className="no-scrollbar mt-2 flex space-x-4 overflow-x-auto pl-8">
             {title.brands.map((brand, index) => (
-              <div key={index} className="inline-block">
+              <div
+                key={index}
+                className="inline-block"
+                onClick={() => {
+                  setClickedBrand(brand.brand);
+                }}
+              >
                 <ChatBrandCard
                   brand={brand.brand}
                   description={brand.description}
@@ -57,11 +68,21 @@ const ChatMessage = (props: ChatMessageProps) => {
         <>
           <div className="no-scrollbar mt-2 flex space-x-4 overflow-x-auto pl-8">
             {title.products.map((product, index) => (
-              <div key={index} className="inline-block">
+              <div
+                key={index}
+                className="inline-block"
+                onClick={() => {
+                  console.log(title);
+                  setClickedProducts(title);
+                }}
+              >
                 <ChatProductItem
                   brand={product.brand}
                   title={product.modelName}
                   imgUrl={product.image}
+                  link={product.link}
+                  modelNo={product.modelNo}
+                  productId={product.productId}
                 />
               </div>
             ))}

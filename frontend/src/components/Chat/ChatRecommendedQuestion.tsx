@@ -1,12 +1,33 @@
+import { addMessageToFirestore } from "@/apis/firebase/chatFirestore";
 import { chatApi } from "@/apis/services/chat";
+import useChatStore from "@/store/useChatStore";
 import { useEffect, useState } from "react";
 
 interface Question {
   question: string;
 }
 
-// 로그인 된 사용자에게만
 const ChatRecommendedQuestion = () => {
+  const isLoggedIn = true;
+  const userId = "someUserId";
+
+  const { addGuestMessage, roomId, addUserMessage } = useChatStore();
+
+  // 상태가 변경될 때마다 불필요하게 sessionStorage를 조회하지 않기 위해, 이 작업을 최초 렌더링에서 한 번만 수행
+  const [isVisible, setIsVisible] = useState(() => {
+    if (isLoggedIn) {
+      const userClicked = sessionStorage.getItem(
+        `hasClickedQuestion_${userId}`
+      );
+      // 값이 없다면 null이 담김
+      return !userClicked;
+      // 따라서 isVisible에는 true가 할당
+    } else {
+      const guestClicked = sessionStorage.getItem("guestHasClickedQuestion");
+      return !guestClicked;
+    }
+  });
+
   const [recommendedQuestion, setRecommendedQuestion] = useState<Question[]>(
     []
   );
@@ -26,12 +47,49 @@ const ChatRecommendedQuestion = () => {
     getRecommendedQuestion();
   }, []);
 
-  const handlereqQuestion = (question: string) => {
-    // 추천 질문 하나를 누르면 그에 해당하는 value를 postChatResponse보냄.
-    // 요청 보냄과 동시에 store에 있는 addMessage를 가져와서 ChatInput에서와
-    // 같은 맥락으로 동작을 수행한다.
-    // 세션이 유지되는동안 단 1회만 실행됐으면 하니 sessionStorage에 저장한다.(눌렀는지 여부를)
+  const handlereqQuestion = async (question: string) => {
+    if (isLoggedIn) {
+      sessionStorage.setItem(`hasClickedQuestion_${userId}`, "true");
+    } else {
+      sessionStorage.setItem("guestHasClickedQuestion", "true");
+    }
+    setIsVisible(false);
+
+    try {
+      if (isLoggedIn) {
+        addUserMessage({ type: "user", content: question });
+      } else {
+        addGuestMessage({ type: "user", content: question });
+      }
+
+      const res = await chatApi.postChatResponse({
+        message: {
+          content: question,
+        },
+      });
+
+      if (res.status === 200) {
+        if (isLoggedIn) {
+          await addMessageToFirestore(userId, roomId!, question, res.data);
+          addUserMessage({ type: "bot", content: res.data });
+        } else {
+          addGuestMessage({ type: "bot", content: res.data });
+        }
+      }
+    } catch (error) {
+      const errorMessage =
+        "예기치 못한 에러가 발생하였습니다. 다시 시도해주세요.";
+      if (isLoggedIn) {
+        addUserMessage({ type: "bot", content: { message: errorMessage } });
+      } else {
+        addGuestMessage({ type: "bot", content: { message: errorMessage } });
+      }
+    }
   };
+
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <>
