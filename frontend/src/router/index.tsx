@@ -3,9 +3,10 @@ import Layout from "@components/layout/Layout";
 import NotFound from "@pages/NotFound/NotFound";
 import ShoeCloset from "@pages/ShoeCloset/page";
 import Chat from "@pages/Chat/Chat";
-import Review from "@/pages/Review/page";
-import MyPage from "@/pages/MyPage/MyPage";
-import MyShopping from "@/pages/MyShopping/MyShopping";
+import Review from "@pages/Review/page";
+import MyPage from "@pages/MyPage/MyPage";
+import MyShopping from "@pages/MyShopping/MyShopping";
+import MyFootInfo from "@pages/MyFootInfo/MyFootInfo";
 
 const router = createBrowserRouter(
   [
@@ -32,6 +33,10 @@ const router = createBrowserRouter(
         {
           path: "myshopping",
           element: <MyShopping />,
+        },
+        {
+          path: "/myfootinfo",
+          element: <MyFootInfo />,
         },
       ],
     },
