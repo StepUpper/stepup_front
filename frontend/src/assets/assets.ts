@@ -22,6 +22,9 @@ import sortIcon from "@assets/icons/sort-icon.svg";
 import starIcon from "@assets/icons/star-icon.svg";
 import starFilledIcon from "@assets/icons/star-filled-icon.svg";
 import shoeSearch from "@assets/icons/shoe-search.svg";
+import closeIcon from "@assets/icons/close-icon.svg";
+import selectArrowIcon from "@assets/icons/select-arrow-icon.svg";
+import filterIcon from "@assets/icons/filter-icon.svg";
 
 import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import defaultProfilePlusImg from "@assets/images/default-profile-plus-img.svg";
@@ -54,6 +57,9 @@ export {
   starFilledIcon,
   starIcon,
   shoeSearch,
+  closeIcon,
+  selectArrowIcon,
+  filterIcon,
   // ******* IMAGE
   defaultProfileImg,
   defaultProfilePlusImg,
