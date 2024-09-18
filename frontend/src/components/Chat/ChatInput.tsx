@@ -47,10 +47,10 @@ const ChatInput = () => {
   };
 
   return (
-    <div className="flex h-28 w-full items-center bg-gray-100 pb-10 pl-4 pr-4 pt-4">
+    <div className="flex h-28 w-full items-center bg-gray-100 px-4 pb-10 pt-4">
       <img src={imageSelectIcon} alt="imageSelectIcon" className="mr-2 w-5" />
 
-      <div className="flex flex-grow items-center rounded-full border border-gray-300 bg-white">
+      <div className="flex grow items-center rounded-full border border-gray-300 bg-white">
         <Input
           className="h-12 flex-grow border-none bg-transparent pb-3.5 pl-4 pr-1 pt-3.5 font-paragraph text-gray-500 outline-none"
           placeholder="궁금한 신발 정보 물어보세요!"

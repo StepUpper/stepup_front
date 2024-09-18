@@ -1,6 +1,7 @@
 import Button from "@common/html/Button";
+import { ComponentPropsWithoutRef } from "react";
 
-interface BottomButtonProps {
+interface BottomButtonProps extends ComponentPropsWithoutRef<"button"> {
   title: string;
 }
 

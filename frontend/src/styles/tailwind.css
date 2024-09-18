@@ -25,5 +25,12 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+
+  .container-y {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 1rem; /* 16px */
+    overflow-y: auto;
   }
 }
