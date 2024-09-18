@@ -3,7 +3,6 @@ import { ComponentPropsWithoutRef } from "react";
 
 interface BottomButtonProps extends ComponentPropsWithoutRef<"button"> {
   title: string;
-  onClick: () => void;
 }
 
 const BottomButton = (props: BottomButtonProps) => {

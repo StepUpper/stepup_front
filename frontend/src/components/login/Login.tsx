@@ -2,8 +2,16 @@ import BottomButton from "@common/BottomButton";
 import InputField from "@common/InputField";
 import Input from "@common/html/Input";
 import React, { useState } from "react";
+import { signInWithCredential } from "@apis/firebase/auth";
+import userStore from "@store/auth.store";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { updateUserInfo, setIsLoggedIn } = userStore((store) => ({
+    updateUserInfo: store.updateUserInfo,
+    setIsLoggedIn: store.setIsLoggedIn,
+  }));
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -55,8 +63,10 @@ const Login = () => {
 
     //값 확인용
     if (isLoginValid) {
-      console.log("email: ", loginData.email);
-      console.log("password: ", loginData.password);
+      signInWithCredential(loginData).then(updateUserInfo);
+      setIsLoggedIn(true);
+
+      return navigate("/");
     }
   };
 
@@ -89,7 +99,7 @@ const Login = () => {
         </div>
         <div className="mt-4 px-5">
           {/*로그인 폼 제출 버튼*/}
-          <BottomButton title="로그인" />
+          <BottomButton title="로그인" type="submit" />
         </div>
       </form>
     </>

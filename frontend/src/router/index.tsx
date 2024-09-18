@@ -46,6 +46,10 @@ const router = createBrowserRouter(
       ],
     },
     {
+      path: "onboading",
+      element: <p>ON BOADING</p>,
+    },
+    {
       path: "*",
       element: <NotFound />,
     },

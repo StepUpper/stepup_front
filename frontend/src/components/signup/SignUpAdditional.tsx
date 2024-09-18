@@ -1,14 +1,27 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import BottomButton from "@common/BottomButton";
 import DropDown, { DropDownRef } from "@common/html/DropDown";
 import InputField from "@common/InputField";
 import OptionSelectorButton from "@common/OptionSelectorButton";
 import { infoIcon } from "@assets/assets";
+import userStore from "@store/auth.store";
+import { updateUserData } from "@apis/firebase/auth";
+import { useInput } from "@hooks/useInput";
+import { useNavigate } from "react-router-dom";
 
 const SignUpAdditional = () => {
-  const [sizeType, setSizeType] = useState<string>("");
-  const handleSelect = (option: string) => {
-    setSizeType(option);
+  const navigate = useNavigate();
+  const { setUserInfo, setIsLoggedIn } = userStore((store) => ({
+    setUserInfo: store.setUserInfo,
+    setIsLoggedIn: store.setIsLoggedIn,
+  }));
+
+  const { value: size, setValue: setSize } = useInput({
+    sizeType: "",
+    sneakerSize: "",
+  });
+  const handleSelect = (option: string, key?: string) => {
+    setSize((size) => ({ ...size, [key ? key : "sneakerSize"]: option }));
   };
 
   const dropdownRef = useRef<DropDownRef>(null);
@@ -27,7 +40,7 @@ const SignUpAdditional = () => {
   }
 
   const getOptionsBySizeType = () => {
-    switch (sizeType) {
+    switch (size.sizeType) {
       case "mm":
         return mmOptions;
       case "EU":
@@ -41,10 +54,12 @@ const SignUpAdditional = () => {
 
   const submitHandle = (e: React.FormEvent) => {
     e.preventDefault();
-
-    //값 확인용
-    console.log("size type: ", sizeType);
-    console.log("size option: ", dropdownRef.current?.getSelectedOption());
+    updateUserData("sizeType", size.sizeType);
+    updateUserData("sneakerSize", +size.sneakerSize);
+    setUserInfo("sizeType", size.sizeType);
+    setUserInfo("sneakerSize", +size.sneakerSize);
+    setIsLoggedIn(true);
+    return navigate("/");
   };
 
   return (
@@ -55,18 +70,18 @@ const SignUpAdditional = () => {
             <div className="flex h-11 justify-center space-x-2 text-body2 font-semibold">
               <OptionSelectorButton
                 title="mm"
-                isSelected={sizeType === "mm"}
-                onClick={() => handleSelect("mm")}
+                isSelected={size.sizeType === "mm"}
+                onClick={() => handleSelect("mm", "sizeType")}
               />
               <OptionSelectorButton
                 title="EU"
-                isSelected={sizeType === "EU"}
-                onClick={() => handleSelect("EU")}
+                isSelected={size.sizeType === "EU"}
+                onClick={() => handleSelect("EU", "sizeType")}
               />
               <OptionSelectorButton
                 title="US"
-                isSelected={sizeType === "US"}
-                onClick={() => handleSelect("US")}
+                isSelected={size.sizeType === "US"}
+                onClick={() => handleSelect("US", "sizeType")}
               />
             </div>
           </InputField>
@@ -76,6 +91,7 @@ const SignUpAdditional = () => {
               className="gap-2 rounded-[4px] border-[#E4E4E7] px-4 py-[14px]"
               placeholder="사이즈를 선택해 주세요"
               options={getOptionsBySizeType()}
+              onChange={handleSelect}
             />
           </InputField>
         </div>
@@ -90,7 +106,7 @@ const SignUpAdditional = () => {
           </div>
         </div>
         <div className="mx-5 mb-[34px] mt-6 h-[114px]">
-          <BottomButton title="가입 완료" />
+          <BottomButton type="submit" title="가입 완료" />
         </div>
       </form>
     </>
