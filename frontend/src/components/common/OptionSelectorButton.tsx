@@ -19,6 +19,7 @@ const OptionSelectorButton = (props: OptionSelectorButtonProps) => {
             ? "border-gray-200 bg-white text-black"
             : "bg-gray-200 text-gray-400"
         )}
+        type="button"
         onClick={onClick}
       >
         {title}
