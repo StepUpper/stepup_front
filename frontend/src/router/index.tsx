@@ -25,19 +25,19 @@ const router = createBrowserRouter(
           path: "/archive/review",
           element: <Review />,
         },
+        {
+          path: "mypage",
+          element: <MyPage />,
+        },
+        {
+          path: "myshopping",
+          element: <MyShopping />,
+        },
       ],
     },
     {
       path: "*",
       element: <NotFound />,
-    },
-    {
-      path: "mypage",
-      element: <MyPage />,
-    },
-    {
-      path: "myshopping",
-      element: <MyShopping />,
     },
   ],
   {
