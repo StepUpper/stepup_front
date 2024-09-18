@@ -11,7 +11,7 @@ const BottomButton = (props: BottomButtonProps) => {
   return (
     <>
       <Button
-        className="w-full rounded bg-black px-3.5 py-4 text-white"
+        className="my-6 w-full rounded bg-black px-3.5 py-6 text-white"
         {...rest}
       >
         {title}

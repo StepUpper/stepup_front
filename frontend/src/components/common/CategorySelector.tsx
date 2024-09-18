@@ -26,7 +26,7 @@ const CategoryItem = (props: CategoryItemProps) => {
         "gap-1 rounded-full px-3 py-1 text-body2",
         isClicked
           ? "border-none bg-black font-bold text-white"
-          : "border-[#e4e4e7] bg-white text-[#6B7280] hover:border-black hover:text-black"
+          : "border border-[#e4e4e7] bg-white text-[#6B7280] hover:border-black hover:text-black"
       )}
       onClick={onClick}
     >
