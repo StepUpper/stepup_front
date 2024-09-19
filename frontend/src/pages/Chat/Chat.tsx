@@ -11,6 +11,8 @@ import BrandPLPBottomSheet from "@components/plp/BrandPLPBottomSheet";
 import userStore from "@store/auth.store";
 import useChatStore from "@store/chat.store";
 import productAndBrandStore from "@store/productAndBrand.store";
+import InterestKeywordsBottomSheet from "@/components/Chat/InterestKeywordsBottomSheet";
+import { useBottomSheet } from "@/store/bottomSheet.store";
 
 const Chat = () => {
   const { guestMessages, userMessages, loadGuestMessages, loadUserMessages } =
@@ -19,7 +21,14 @@ const Chat = () => {
 
   const { isLoggedIn, user } = userStore();
 
+  const { sheets } = useBottomSheet();
+
   const userId = user?.uid!;
+
+  // TODO: 현재 바텀시트 상태 체크용 제거 예정
+  useEffect(() => {
+    console.log("현재 바텀시트 상태:", sheets);
+  }, [sheets]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -60,7 +69,11 @@ const Chat = () => {
       <ChatInput />
 
       {/* 로그인 */}
-      <LoginBottomSheet />
+      {sheets["login"] && sheets["login"].isOpen && <LoginBottomSheet />}
+      {/* 관심 키워드 */}
+      {sheets["interestKeywords"] && sheets["interestKeywords"].isOpen && (
+        <InterestKeywordsBottomSheet />
+      )}
       {/* 브랜드 PLP */}
       {clickedBrand && <BrandPLPBottomSheet brandName={clickedBrand} />}
     </div>
