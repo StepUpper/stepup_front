@@ -8,6 +8,7 @@ import userStore from "@store/auth.store";
 import { updateUserData } from "@apis/firebase/auth";
 import { useInput } from "@hooks/useInput";
 import { useNavigate } from "react-router-dom";
+import { useBottomSheet } from "@store/bottomSheet.store";
 
 const SignUpAdditional = () => {
   const navigate = useNavigate();
@@ -20,6 +21,9 @@ const SignUpAdditional = () => {
     sizeType: "",
     sneakerSize: "",
   });
+
+  const { open, close } = useBottomSheet();
+
   const handleSelect = (option: string, key?: string) => {
     setSize((size) => ({ ...size, [key ? key : "sneakerSize"]: option }));
   };
@@ -106,7 +110,14 @@ const SignUpAdditional = () => {
           </div>
         </div>
         <div className="mx-5 mb-[34px] mt-6 h-[114px]">
-          <BottomButton type="submit" title="가입 완료" />
+          <BottomButton
+            type="submit"
+            title="가입 완료"
+            onClick={() => {
+              close("login"); // 회원가입 바텀시트 닫기
+              open("interestKeywords"); // 키워드 바텀 시트 열기
+            }}
+          />
         </div>
       </form>
     </>

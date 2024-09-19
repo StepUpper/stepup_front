@@ -7,17 +7,17 @@ import BottomSheet from "@common/BottomSheet";
 import PLPHeader from "@components/plp/PLPHeader";
 import PLPControls from "@components/plp/PLPControls";
 import ProductList from "@common/ProductList";
-import FilterPanel from "@components/plp/FilterPanel";
+import FilterPanel from "@/components/plp/FilterBottomSheet";
 import PLPEmptyList from "@components/plp/PLPEmptyList";
 import GenderCategorySelector, {
   GenderCategory,
 } from "@components/plp/GenderCategorySelector";
 
-interface BrandPLPProps {
+interface BrandPLPBottomSheetProps {
   brandName: string;
 }
 
-const BrandPLPPanel = (props: BrandPLPProps) => {
+const BrandPLPBottomSheet = (props: BrandPLPBottomSheetProps) => {
   const { brandName } = props;
 
   const [brandInfo, setBrandInfo] = useState<TBrandPLPResponse | null>(null);
@@ -61,13 +61,13 @@ const BrandPLPPanel = (props: BrandPLPProps) => {
   return (
     <>
       {brandInfo && (
-        <BottomSheet id="BrandPLPPanel" isDragBar={true}>
+        <BottomSheet id="brandPLP" isDragBar={true}>
           {/* 헤더 */}
           <BottomSheet.Header
             isTitleOnly={false}
             className="flex w-full flex-col"
           >
-            <PLPHeader onClick={() => close("BrandPLPPanel")}>
+            <PLPHeader onClick={() => close("brandPLP")}>
               <h2 className="text-body2 font-label">{brandInfo.brand}</h2>
             </PLPHeader>
             <Link to={brandInfo.link}>
@@ -130,4 +130,4 @@ const BrandPLPPanel = (props: BrandPLPProps) => {
     </>
   );
 };
-export default BrandPLPPanel;
+export default BrandPLPBottomSheet;

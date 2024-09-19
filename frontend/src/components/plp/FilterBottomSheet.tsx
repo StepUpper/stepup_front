@@ -7,12 +7,12 @@ import GenderCategorySelector, {
   GenderCategory,
 } from "@components/plp/GenderCategorySelector";
 
-interface FilterPanelProps {
+interface FilterBottomSheetProps {
   products: TProduct[];
   applyFilters: (gender: GenderCategory) => void;
 }
 
-const FilterPanel = (props: FilterPanelProps) => {
+const FilterBottomSheet = (props: FilterBottomSheetProps) => {
   const { products, applyFilters } = props;
 
   const [selectedGender, setSelectedGender] = useState<GenderCategory>("ALL");
@@ -53,4 +53,4 @@ const FilterPanel = (props: FilterPanelProps) => {
     </>
   );
 };
-export default FilterPanel;
+export default FilterBottomSheet;

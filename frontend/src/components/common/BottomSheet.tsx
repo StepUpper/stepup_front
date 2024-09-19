@@ -5,9 +5,9 @@ import { grabberIcon } from "@assets/assets";
 import { useBottomSheet } from "@/store/bottomSheet.store";
 
 type BottomSheetProps = {
-  id: string;
-  isDragBar?: boolean;
-  isOverlayClose?: boolean;
+  id: string; // 바텀 시트 ID
+  isDragBar?: boolean; // 드래그 바 여부
+  isOverlayClose?: boolean; // 바텀 시트 밖에 영역 클릭 시 닫힘 여부
   children?: ReactNode;
 };
 
@@ -20,6 +20,14 @@ const BottomSheet = (props: BottomSheetProps) => {
   const isMinimized = sheets[id]?.isMinimized || false;
 
   const dragControls = useDragControls();
+
+  useEffect(() => {
+    if (isMinimized) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isMinimized]);
 
   // 스냅 애니메이션 추가
   const handleDragEnd = (
