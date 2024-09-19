@@ -18,7 +18,7 @@ const Layout = () => {
   }, [user?.uid]);
   return (
     <div className="flex h-screen flex-col items-center overflow-hidden">
-      <div className="w-full min-w-80 max-w-5xl">
+      <div className="relative w-full min-w-80 max-w-5xl">
         <Outlet />
       </div>
     </div>
