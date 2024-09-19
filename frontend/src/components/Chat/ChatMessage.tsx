@@ -4,8 +4,8 @@ import ChatBrandCard from "./ChatBrandCard";
 import ChatProductItem from "./ChatProductItem";
 import ReactMarkdown from "react-markdown";
 import ChatShareDislikeBox from "./ChatShareDislikeBox";
-import productAndBrandStore from "@/store/productAndBrand.store";
-import { useBottomSheet } from "@/store/bottomSheet.store";
+import productAndBrandStore from "@store/productAndBrand.store";
+import { useBottomSheet } from "@store/bottomSheet.store";
 
 interface ChatMessageProps {
   title: TChatResponse;
@@ -48,9 +48,8 @@ const ChatMessage = (props: ChatMessageProps) => {
                 key={index}
                 className="inline-block"
                 onClick={() => {
-                  console.log("click");
                   setClickedBrand(brand.brand);
-                  open("brandPLP");
+                  open("brandPLP"); // 브랜드 PLP 열기
                 }}
               >
                 <ChatBrandCard

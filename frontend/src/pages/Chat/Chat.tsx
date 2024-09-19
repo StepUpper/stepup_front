@@ -1,18 +1,21 @@
+import { useEffect, useLayoutEffect, useRef } from "react";
 import ChatInput from "@components/Chat/ChatInput";
 import ChatMessage from "@components/Chat/ChatMessage";
 import ChatUserMessage from "@components/Chat/ChatUserMessage";
 import Header from "@common/Header";
-import { useEffect, useLayoutEffect, useRef } from "react";
-import { TChatResponse } from "@/types/chat";
+import { TChatResponse } from "@types/chat";
 import ChatLogin from "@components/Chat/ChatLogin";
-import ChatRecommendedQuestion from "@/components/Chat/ChatRecommendedQuestion";
-import LoginBottomSheet from "@/components/login/LoginBottomSheet";
-import userStore from "@/store/auth.store";
-import useChatStore from "@/store/chat.store";
+import ChatRecommendedQuestion from "@components/Chat/ChatRecommendedQuestion";
+import LoginBottomSheet from "@components/login/LoginBottomSheet";
+import BrandPLPBottomSheet from "@components/plp/BrandPLPBottomSheet";
+import userStore from "@store/auth.store";
+import useChatStore from "@store/chat.store";
+import productAndBrandStore from "@store/productAndBrand.store";
 
 const Chat = () => {
   const { guestMessages, userMessages, loadGuestMessages, loadUserMessages } =
     useChatStore();
+  const { clickedProducts, clickedBrand } = productAndBrandStore();
 
   const { isLoggedIn, user } = userStore();
 
@@ -58,6 +61,8 @@ const Chat = () => {
 
       {/* 로그인 */}
       <LoginBottomSheet />
+      {/* 브랜드 PLP */}
+      {clickedBrand && <BrandPLPBottomSheet brandName={clickedBrand} />}
     </div>
   );
 };
