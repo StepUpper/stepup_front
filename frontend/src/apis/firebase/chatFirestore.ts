@@ -60,13 +60,15 @@ export const getMessagesFromLatestRoom = async (
     const data = doc.data();
     const result = [];
 
-    if (data.user) {
+    // user 메시지가 빈 문자열이 아닌 경우에만 추가
+    if (data.user && data.user.trim() !== "") {
       result.push({
         type: "user" as const,
         content: data.user as string,
       });
     }
 
+    // bot 메시지가 존재하는 경우에만 추가
     if (data.bot) {
       result.push({
         type: "bot" as const,
@@ -84,7 +86,7 @@ export const addMessageToFirestore = async (
   userId: string,
   roomId: string,
   userMessage: string,
-  botMessage: string
+  botMessage: TChatResponse
 ) => {
   try {
     const messagesCollection = collection(

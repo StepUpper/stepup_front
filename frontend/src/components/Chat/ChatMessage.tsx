@@ -20,8 +20,8 @@ const ChatMessage = (props: ChatMessageProps) => {
   return (
     <>
       <div className="flex items-start bg-white p-4">
-        <div className="flex-shrink-0">
-          <img src={perfittLogo} alt="perfittLogo" className="h-7 w-7" />
+        <div className="shrink-0">
+          <img src={perfittLogo} alt="perfittLogo" className="size-7" />
         </div>
         <ReactMarkdown
           // 각 태그별 디자인은 무엇인가....... 아래는 임시 디자인
@@ -46,7 +46,7 @@ const ChatMessage = (props: ChatMessageProps) => {
             {title.brands.map((brand, index) => (
               <div
                 key={index}
-                className="inline-block"
+                className="inline-block cursor-pointer"
                 onClick={() => {
                   setClickedBrand(brand.brand);
                   open("brandPLP"); // 브랜드 PLP 열기
@@ -72,7 +72,7 @@ const ChatMessage = (props: ChatMessageProps) => {
             {title.products.map((product, index) => (
               <div
                 key={index}
-                className="inline-block"
+                className="inline-block cursor-pointer"
                 onClick={() => {
                   setClickedProducts(title);
                   open("productPLP");

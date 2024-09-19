@@ -196,7 +196,6 @@ const SideMenu = ({
                         내 발 정보
                       </Button>
                     </div>
-                    
                   </div>
                 </>
               ) : (
@@ -204,23 +203,23 @@ const SideMenu = ({
               )}
 
               {/* 프로필 */}
-              
+
               <div className="bottom-0 px-[16px]">
                 <div className="border-t border-t-[#E4E4E7] py-[17px]">
                   <Button
                     className="flex items-center gap-[8px]"
-                      onClick={() => gotoPageHandler(isLoggedIn ? "/mypage" : "")}
+                    onClick={() => gotoPageHandler(isLoggedIn ? "/mypage" : "")}
                   >
                     <ProfileImage
                       showCameraIcon={false}
                       className="size-[30px]"
                     />
-                      <p className="text-body2 font-semibold text-black">
-                          {isLoggedIn ? "김펄핏" : "로그인이 필요합니다"}
-                      </p>
+                    <p className="text-body2 font-semibold text-black">
+                      {isLoggedIn ? "김펄핏" : "로그인이 필요합니다"}
+                    </p>
                   </Button>
                 </div>
-              </div>         
+              </div>
             </motion.nav>
           </div>
         )}

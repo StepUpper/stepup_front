@@ -9,7 +9,7 @@ import { useBottomSheet } from "@/store/bottomSheet.store";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { updateUserInfo, setIsLoggedIn } = userStore((store) => ({
+  const { updateUserInfo } = userStore((store) => ({
     updateUserInfo: store.updateUserInfo,
     setIsLoggedIn: store.setIsLoggedIn,
   }));
@@ -67,7 +67,6 @@ const Login = () => {
     //값 확인용
     if (isLoginValid) {
       signInWithCredential(loginData).then(updateUserInfo);
-      setIsLoggedIn(true);
       close("login");
 
       return navigate("/");
