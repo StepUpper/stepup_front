@@ -5,6 +5,7 @@ import ChatProductItem from "./ChatProductItem";
 import ReactMarkdown from "react-markdown";
 import ChatShareDislikeBox from "./ChatShareDislikeBox";
 import productAndBrandStore from "@/store/productAndBrand.store";
+import { useBottomSheet } from "@/store/bottomSheet.store";
 
 interface ChatMessageProps {
   title: TChatResponse;
@@ -13,6 +14,9 @@ interface ChatMessageProps {
 const ChatMessage = (props: ChatMessageProps) => {
   const { setClickedProducts, setClickedBrand } = productAndBrandStore();
   const { title } = props;
+
+  const { open } = useBottomSheet();
+
   return (
     <>
       <div className="flex items-start bg-white p-4">
@@ -44,7 +48,9 @@ const ChatMessage = (props: ChatMessageProps) => {
                 key={index}
                 className="inline-block"
                 onClick={() => {
+                  console.log("click");
                   setClickedBrand(brand.brand);
+                  open("brandPLP");
                 }}
               >
                 <ChatBrandCard
@@ -70,6 +76,7 @@ const ChatMessage = (props: ChatMessageProps) => {
                 className="inline-block"
                 onClick={() => {
                   setClickedProducts(title);
+                  open("productPLP");
                 }}
               >
                 <ChatProductItem

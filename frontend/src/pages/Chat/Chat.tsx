@@ -38,7 +38,6 @@ const Chat = () => {
   return (
     <div className="flex h-screen flex-col">
       <Header type="menu" />
-      <LoginBottomSheet />
       <main className="no-scrollbar flex-1 overflow-y-auto">
         {!isLoggedIn && <ChatLogin />}
 
@@ -56,6 +55,9 @@ const Chat = () => {
 
       <ChatRecommendedQuestion />
       <ChatInput />
+
+      {/* 로그인 */}
+      <LoginBottomSheet />
     </div>
   );
 };

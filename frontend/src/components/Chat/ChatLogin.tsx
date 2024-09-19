@@ -1,8 +1,22 @@
+import { Link, useNavigate } from "react-router-dom";
 import { perfittLogo } from "@assets/assets";
-import Button from "../common/html/Button";
-import { Link } from "react-router-dom";
+import Button from "@common/html/Button";
+import { useBottomSheet } from "@store/bottomSheet.store";
 
 const ChatLogin = () => {
+  const { open } = useBottomSheet();
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate("#login");
+    open("login");
+  };
+
+  const handleSignUp = () => {
+    navigate("#signup");
+    open("login");
+  };
+
   return (
     <>
       <div className="flex items-start bg-white px-4 pt-4">
@@ -16,26 +30,27 @@ const ChatLogin = () => {
         </p>
       </div>
       <div className="flex flex-col gap-1.5 pb-4 pl-12 pt-1">
-        <Link to="#signup" className="w-fit">
-          <Button
-            className="h-8 w-44 rounded-md bg-grey-50 px-4 py-1 text-sm"
-          >
-            구글
-          </Button>
-        </Link>
-        <Link to="#login" className="w-fit">
-          <Button className="h-8 w-44 rounded-md bg-grey-50 px-4 py-1 text-sm">
-            이메일 로그인
-          </Button>
-        </Link>
+        <Button
+          className="h-8 w-44 rounded-md bg-grey-50 px-4 py-1 text-sm"
+          onClick={handleSignUp}
+        >
+          구글
+        </Button>
+        <Button
+          className="h-8 w-44 rounded-md bg-grey-50 px-4 py-1 text-sm"
+          onClick={handleLogin}
+        >
+          이메일 로그인
+        </Button>
         <div className="flex h-8 w-44 items-center justify-center">
           <p className="text-sm">또는</p>
         </div>
-        <Link to="#signup" className="w-fit">
-          <Button className="h-8 w-44 rounded-md bg-grey-50 px-4 py-1 text-sm">
-            회원가입 하기
-          </Button>
-        </Link>
+        <Button
+          className="h-8 w-44 rounded-md bg-grey-50 px-4 py-1 text-sm"
+          onClick={handleSignUp}
+        >
+          회원가입 하기
+        </Button>
       </div>
     </>
   );
