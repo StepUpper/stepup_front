@@ -3,17 +3,17 @@ import Input from "@common/html/Input";
 import { imageSelectIcon, arrowUpIcon } from "@assets/assets";
 import { useState } from "react";
 import { chatApi } from "@/apis/services/chat";
-import useChatStore from "@/store/useChatStore";
+import useChatStore from "@/store/chat.store";
 import { addMessageToFirestore } from "@/apis/firebase/chatFirestore";
+import userStore from "@/store/auth.store";
 
 const ChatInput = () => {
   const { addGuestMessage, roomId, addUserMessage } = useChatStore();
+  const { user, isLoggedIn } = userStore();
   const [isSending, setIsSending] = useState(false);
   const [chatMsg, setChatMsg] = useState("");
 
-  // 로그인 여부와 userId (예시, 실제로는 상태 또는 컨텍스트에서 가져옴)
-  const isLoggedIn = true; // 로그인 여부
-  const userId = "someUserId"; // 실제 사용자 ID
+  const userId = user?.uid!;
 
   const handleSubmit = async () => {
     if (isSending || chatMsg.trim() === "") return;
