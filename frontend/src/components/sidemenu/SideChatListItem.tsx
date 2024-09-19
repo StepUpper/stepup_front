@@ -1,34 +1,58 @@
 import { chatListIcon, shareWhiteIcon, trashIcon } from "@/assets/assets";
 import Button from "@common/html/Button";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 type sideChatListItemProps = {
   title: string;
+  isSwiped: boolean;
+  isLongPressed: boolean;
+  onSwipe: () => void;
+  onLongPress: () => void;
+  onReset: () => void;
 };
 
 const SideChatListItem = (props: sideChatListItemProps) => {
-  const { title, ...rest } = props;
+  const {
+    title,
+    isSwiped,
+    isLongpressed,
+    onSwipe,
+    onLongPress,
+    onReset,
+    ...rest
+  } = props;
 
-  const [isSwiped, setIsSwiped] = useState(false);
   const itemRef = useRef<HTMLLIElement>(null);
 
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
-  const minSwipeDist = 30;
+  const minSwipeDist = 60; // 스와이프 최소 거리
+  const holdTimeRef = useRef<number | null>(null);
 
-  const handleReset = () => {
-    setIsSwiped(false);
-  };
-  const handleTouchStart = (e: React.TouchEvent) => {
+  // 스와이프 제스처 인식 후 스와이핑
+  const handleSwipeStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
-  const handleTouchMove = (e: React.TouchEvent) => {
+  const handleSwipeMove = (e: React.TouchEvent) => {
     touchEndX.current = e.touches[0].clientX;
   };
-  const handleTouchEnd = () => {
+  const handleSwipeEnd = () => {
     if (touchStartX.current - touchEndX.current > minSwipeDist) {
-      setIsSwiped(true);
+      onSwipe();
+    } else {
+      onReset();
+    }
+  };
+
+  const handleMouseDown = () => {
+    holdTimeRef.current = window.setTimeout(() => {
+      onLongPress();
+    }, 2000);
+  };
+  const handleMouseUp = () => {
+    if (holdTimeRef.current) {
+      clearTimeout(holdTimeRef.current);
     }
   };
 
@@ -43,7 +67,7 @@ const SideChatListItem = (props: sideChatListItemProps) => {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (itemRef.current && !itemRef.current.contains(e.target as Node)) {
-        handleReset();
+        onReset();
       }
     };
 
@@ -59,16 +83,18 @@ const SideChatListItem = (props: sideChatListItemProps) => {
       <li
         ref={itemRef}
         className="flex items-center gap-[8px] overflow-hidden"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+        onTouchStart={handleSwipeStart}
+        onTouchMove={handleSwipeMove}
+        onTouchEnd={handleSwipeEnd}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
       >
         <div
-          className={`flex items-center transition-transform ${isSwiped ? "translate-x-[-92px]" : ""}`}
+          className={`flex items-center transition-transform ${isSwiped || isLongpressed ? "translate-x-[-92px]" : ""}`}
         >
           <Button
             className="flex gap-[8px]"
-            //onClick={() => gotoPageHandler("/")}
+            onClick={() => gotoPageHandler("/")}
           >
             <img src={chatListIcon} className="size-[20px]" alt="채팅 아이콘" />
             <span className="w-[240px] truncate text-left text-body2 font-paragraph text-[#3F3F46]">
