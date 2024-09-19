@@ -25,6 +25,7 @@ import shoeSearch from "@assets/icons/shoe-search.svg";
 import closeIcon from "@assets/icons/close-icon.svg";
 import selectArrowIcon from "@assets/icons/select-arrow-icon.svg";
 import filterIcon from "@assets/icons/filter-icon.svg";
+import interestCheckIcon from "@assets/icons/interest-check-icon.svg";
 
 import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import defaultProfilePlusImg from "@assets/images/default-profile-plus-img.svg";
@@ -60,6 +61,7 @@ export {
   closeIcon,
   selectArrowIcon,
   filterIcon,
+  interestCheckIcon,
   // ******* IMAGE
   defaultProfileImg,
   defaultProfilePlusImg,

@@ -5,17 +5,24 @@ import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 const Layout = () => {
-  const { user, updateUserInfo, setIsLoggedIn } = userStore((store) => ({
-    user: store.user,
+  const { updateUserInfo, setIsLoggedIn } = userStore((store) => ({
     updateUserInfo: store.updateUserInfo,
     setIsLoggedIn: store.setIsLoggedIn,
   }));
+
   useEffect(() => {
-    if (user) setIsLoggedIn(true);
-    onAuthStateChanged(auth, () => {
-      updateUserInfo();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoggedIn(true);
+        updateUserInfo();
+      } else {
+        setIsLoggedIn(false);
+      }
     });
-  }, [user?.uid]);
+
+    return () => unsubscribe();
+  }, [setIsLoggedIn, updateUserInfo]);
+
   return (
     <div className="flex h-screen flex-col items-center overflow-hidden">
       <div className="relative w-full min-w-80 max-w-5xl">
@@ -24,4 +31,5 @@ const Layout = () => {
     </div>
   );
 };
+
 export default Layout;

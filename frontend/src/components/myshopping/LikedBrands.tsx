@@ -18,15 +18,13 @@ const LikedBrands = (props: LikedBrandsProps) => {
             .map(() => (
               <Button className="mb-[10px] flex w-full items-center justify-between gap-[20px] pl-[4px]">
                 {/* 브랜드 로고 이미지 */}
-                <div className="h-[75px] w-[75px] rounded-full bg-grey-50">
+                <div className="size-[75px] rounded-full bg-grey-50">
                   <img src={brandLogoImg} />
                 </div>
                 {/* 브랜드명 */}
-                <div className="flex flex-grow flex-col items-start gap-[6px]">
-                  <span className="flex-grow text-body2 font-semibold">
-                    NIKE
-                  </span>
-                  <span className="flex-grow text-body2 font-normal text-[#808080]">
+                <div className="flex grow flex-col items-start gap-[6px]">
+                  <span className="grow text-body2 font-semibold">NIKE</span>
+                  <span className="grow text-body2 font-normal text-grey-400">
                     나이키
                   </span>
                 </div>

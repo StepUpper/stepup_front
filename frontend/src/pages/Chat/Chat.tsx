@@ -4,7 +4,7 @@ import ChatInput from "@components/Chat/ChatInput";
 import ChatMessage from "@components/Chat/ChatMessage";
 import ChatUserMessage from "@components/Chat/ChatUserMessage";
 import Header from "@common/Header";
-import { TChatResponse } from "@types/chat";
+import { TChatResponse } from "@/types/chat";
 import ChatLogin from "@components/Chat/ChatLogin";
 import ChatRecommendedQuestion from "@components/Chat/ChatRecommendedQuestion";
 import LoginBottomSheet from "@components/login/LoginBottomSheet";

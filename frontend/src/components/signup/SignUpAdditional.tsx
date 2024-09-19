@@ -12,9 +12,10 @@ import { useBottomSheet } from "@store/bottomSheet.store";
 
 const SignUpAdditional = () => {
   const navigate = useNavigate();
-  const { setUserInfo, setIsLoggedIn } = userStore((store) => ({
+  const { setUserInfo, setIsLoggedIn, user } = userStore((store) => ({
     setUserInfo: store.setUserInfo,
     setIsLoggedIn: store.setIsLoggedIn,
+    user: store.user,
   }));
 
   const { value: size, setValue: setSize } = useInput({
@@ -62,8 +63,6 @@ const SignUpAdditional = () => {
     updateUserData("sneakerSize", +size.sneakerSize);
     setUserInfo("sizeType", size.sizeType);
     setUserInfo("sneakerSize", +size.sneakerSize);
-    setIsLoggedIn(true);
-    return navigate("/");
   };
 
   return (
@@ -116,6 +115,7 @@ const SignUpAdditional = () => {
             onClick={() => {
               close("login"); // 회원가입 바텀시트 닫기
               open("interestKeywords"); // 키워드 바텀 시트 열기
+              navigate("/");
             }}
           />
         </div>

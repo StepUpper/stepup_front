@@ -1,3 +1,4 @@
+import { perfittLogo } from "@/assets/assets";
 import LikeButton, { LikeButtonProps } from "@common/LikeButton";
 
 interface ProductItemProps {
@@ -24,7 +25,7 @@ const ChatProductItem = (props: ProductItemProps) => {
         /> */}
         {/* likebutton 누르면 유저의 좋아요 db에 기록되게끔. */}
         <div className="absolute bottom-0.5 right-1.5 size-6 rounded-full bg-grey-400">
-          <img alt={brand} />
+          <img src={perfittLogo} alt="임시 로고" />
         </div>
       </div>
       <div className="flex flex-col gap-2.5 px-1.5 py-2.5 text-body3">
