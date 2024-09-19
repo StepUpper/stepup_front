@@ -4,17 +4,14 @@ import ChatBrandCard from "./ChatBrandCard";
 import ChatProductItem from "./ChatProductItem";
 import ReactMarkdown from "react-markdown";
 import ChatShareDislikeBox from "./ChatShareDislikeBox";
-import { useState } from "react";
+import productAndBrandStore from "@/store/productAndBrand.store";
 
 interface ChatMessageProps {
   title: TChatResponse;
 }
 
 const ChatMessage = (props: ChatMessageProps) => {
-  const [clickedBrand, setClickedBrand] = useState("");
-  const [clickedProducts, setClickedProducts] = useState<TChatResponse | null>(
-    null
-  );
+  const { setClickedProducts, setClickedBrand } = productAndBrandStore();
   const { title } = props;
   return (
     <>
@@ -72,7 +69,6 @@ const ChatMessage = (props: ChatMessageProps) => {
                 key={index}
                 className="inline-block"
                 onClick={() => {
-                  console.log(title);
                   setClickedProducts(title);
                 }}
               >
