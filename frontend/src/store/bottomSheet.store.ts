@@ -11,6 +11,7 @@ type BottomSheetState = {
   close: (id: string) => void;
   minimize: (id: string) => void;
   maximize: (id: string) => void;
+  closeAll: () => void;
 };
 
 export const useBottomSheet = create<BottomSheetState>((set) => ({
@@ -51,4 +52,20 @@ export const useBottomSheet = create<BottomSheetState>((set) => ({
         [id]: { ...state.sheets[id], isMinimized: false }, // 최대화 상태로 변경
       },
     })),
+
+  closeAll: () =>
+    set((state) => {
+      const updatedSheets = Object.keys(state.sheets).reduce(
+        (acc, key) => {
+          acc[key] = {
+            ...state.sheets[key],
+            isOpen: false, // 모든 시트의 isOpen을 false로 설정
+          };
+          return acc;
+        },
+        {} as BottomSheetState["sheets"]
+      );
+
+      return { sheets: updatedSheets };
+    }),
 }));

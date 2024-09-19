@@ -20,7 +20,7 @@ const Login = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const { close } = useBottomSheet();
+  const { closeAll } = useBottomSheet();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -67,7 +67,7 @@ const Login = () => {
     //값 확인용
     if (isLoginValid) {
       signInWithCredential(loginData).then(updateUserInfo);
-      close("login");
+      closeAll();
 
       return navigate("/");
     }
