@@ -7,11 +7,12 @@ import { useBottomSheet } from "@/store/bottomSheet.store";
 type BottomSheetProps = {
   id: string;
   isDragBar?: boolean;
+  isOverlayClose?: boolean;
   children?: ReactNode;
 };
 
 const BottomSheet = (props: BottomSheetProps) => {
-  const { id, isDragBar = true, children } = props;
+  const { id, isDragBar = true, isOverlayClose = true, children } = props;
 
   const { sheets, close, minimize, maximize } = useBottomSheet();
 
@@ -48,7 +49,7 @@ const BottomSheet = (props: BottomSheetProps) => {
   return (
     <>
       {isOpen && (
-        <div>
+        <div className="z-[9999]">
           {/* 오버레이 */}
           {isOpen && !isMinimized && (
             <motion.div
@@ -56,7 +57,7 @@ const BottomSheet = (props: BottomSheetProps) => {
               animate={{ opacity: 0.1 }}
               exit={{ opacity: 0 }}
               className="absolute inset-0 bg-white"
-              onClick={() => close(id)}
+              onClick={() => (isOverlayClose ? close(id) : undefined)}
             ></motion.div>
           )}
 
