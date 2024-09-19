@@ -12,7 +12,7 @@ const GenderCategorySelector = (props: GenderCategorySelectorProps) => {
   const { selectedGender, onClick } = props;
   return (
     <CategorySelector>
-      {GENDER_CATEGORIES.map((category) => (
+      {GENDER_CATEGORIES.map((category: GenderCategory) => (
         <CategorySelector.Item
           key={category.value}
           isClicked={category.value === selectedGender}

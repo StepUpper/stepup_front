@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { perfittLogo } from "@/assets/assets";
 
 interface ProductItemProps extends LikeButtonProps {
-  recSize?: string;
+  recSize?: string | null;
   thumb: string;
   brandName: string;
   productName: string;
