@@ -5,10 +5,11 @@ import React, { useState } from "react";
 import { signInWithCredential } from "@apis/firebase/auth";
 import userStore from "@store/auth.store";
 import { useNavigate } from "react-router-dom";
+import { useBottomSheet } from "@/store/bottomSheet.store";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { updateUserInfo, setIsLoggedIn } = userStore((store) => ({
+  const { updateUserInfo } = userStore((store) => ({
     updateUserInfo: store.updateUserInfo,
     setIsLoggedIn: store.setIsLoggedIn,
   }));
@@ -18,6 +19,8 @@ const Login = () => {
   });
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  const { close } = useBottomSheet();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -64,7 +67,7 @@ const Login = () => {
     //값 확인용
     if (isLoginValid) {
       signInWithCredential(loginData).then(updateUserInfo);
-      setIsLoggedIn(true);
+      close("login");
 
       return navigate("/");
     }

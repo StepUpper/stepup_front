@@ -26,7 +26,7 @@ const Bridge = () => {
 
   return (
     <div className="item-center h-screen flex-col gap-9">
-      <div className="h-[120px] w-[120px]">
+      <div className="size-[120px]">
         <img
           src={customerImage ? customerImage : perfittLogo}
           alt={brandName}
