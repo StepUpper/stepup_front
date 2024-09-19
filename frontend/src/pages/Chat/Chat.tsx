@@ -4,21 +4,19 @@ import ChatUserMessage from "@components/Chat/ChatUserMessage";
 import Header from "@common/Header";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { TChatResponse } from "@/types/chat";
-import useChatStore from "@store/useChatStore";
 import ChatLogin from "@components/Chat/ChatLogin";
 import ChatRecommendedQuestion from "@/components/Chat/ChatRecommendedQuestion";
 import LoginBottomSheet from "@/components/login/LoginBottomSheet";
 import userStore from "@/store/auth.store";
+import useChatStore from "@/store/chat.store";
 
 const Chat = () => {
   const { guestMessages, userMessages, loadGuestMessages, loadUserMessages } =
     useChatStore();
 
-  const loginState = userStore((store) => store.isLoggedIn);
+  const { isLoggedIn, user } = userStore();
 
-  const isLoggedIn = loginState;
-
-  const userId = "someUserId";
+  const userId = user?.uid!;
 
   useEffect(() => {
     if (isLoggedIn) {

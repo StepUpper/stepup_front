@@ -1,6 +1,7 @@
 import { addMessageToFirestore } from "@/apis/firebase/chatFirestore";
 import { chatApi } from "@/apis/services/chat";
-import useChatStore from "@/store/useChatStore";
+import userStore from "@/store/auth.store";
+import useChatStore from "@/store/chat.store";
 import { useEffect, useState } from "react";
 
 interface Question {
@@ -8,10 +9,9 @@ interface Question {
 }
 
 const ChatRecommendedQuestion = () => {
-  const isLoggedIn = true;
-  const userId = "someUserId";
-
+  const { user, isLoggedIn } = userStore();
   const { addGuestMessage, roomId, addUserMessage } = useChatStore();
+  const userId = user?.uid!;
 
   // 상태가 변경될 때마다 불필요하게 sessionStorage를 조회하지 않기 위해, 이 작업을 최초 렌더링에서 한 번만 수행
   const [isVisible, setIsVisible] = useState(() => {
