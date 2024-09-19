@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { motion, PanInfo, useDragControls } from "framer-motion";
 import { grabberIcon } from "@assets/assets";
@@ -20,6 +20,14 @@ const BottomSheet = (props: BottomSheetProps) => {
   const isMinimized = sheets[id]?.isMinimized || false;
 
   const dragControls = useDragControls();
+
+  useEffect(() => {
+    if (isMinimized) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isMinimized]);
 
   // 스냅 애니메이션 추가
   const handleDragEnd = (
