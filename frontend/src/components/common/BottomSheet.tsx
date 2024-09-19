@@ -1,13 +1,13 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import { motion, PanInfo, useDragControls } from "framer-motion";
 import { grabberIcon } from "@assets/assets";
 import { useBottomSheet } from "@/store/bottomSheet.store";
 
 type BottomSheetProps = {
-  id: string;
-  isDragBar?: boolean;
-  isOverlayClose?: boolean;
+  id: string; // 바텀 시트 ID
+  isDragBar?: boolean; // 드래그 바 여부
+  isOverlayClose?: boolean; // 바텀 시트 밖에 영역 클릭 시 닫힘 여부
   children?: ReactNode;
 };
 
