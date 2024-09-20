@@ -5,14 +5,16 @@ import React, { useState } from "react";
 import { signInWithCredential } from "@apis/firebase/auth";
 import userStore from "@store/auth.store";
 import { useNavigate } from "react-router-dom";
-import { useBottomSheet } from "@store/bottomSheet.store";
+import { useBottomSheet } from "@/store/bottomSheet.store";
+import useChatStore from "@/store/chat.store";
+import { chatApi } from "@/apis/services/chat";
+import { addMessageToFirestore } from "@/apis/firebase/chatFirestore";
+import { TChatResponse } from "@/types/chat";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { updateUserInfo } = userStore((store) => ({
-    updateUserInfo: store.updateUserInfo,
-    setIsLoggedIn: store.setIsLoggedIn,
-  }));
+  const { updateUserInfo, user, isLoggedIn } = userStore();
+  const { roomId, addUserMessage } = useChatStore();
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -33,7 +35,7 @@ const Login = () => {
     if (name === "password") setPasswordError("");
   };
 
-  const submitHandle = (e: React.FormEvent) => {
+  const submitHandle = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const validateEmail = (email: string) => {
@@ -68,8 +70,41 @@ const Login = () => {
     if (isLoginValid) {
       signInWithCredential(loginData).then(updateUserInfo);
       closeAll();
+      navigate("/");
 
-      return navigate("/");
+      // 여기서 왜 isLoggedIn이 false 일까..
+      // 루트로 보내서 Layout 컴포넌트에서 로그인 상태 변경 해줘야 하는거 아닌가??
+      // 일단 급한대로 아래서 try문에서 로그인 상태 확인 없이 진행
+      console.log(isLoggedIn);
+
+      // 여기서 맞춤상품 api 호출 처리
+      try {
+        const loginMent = `반갑습니다 ${user?.username}님! ${user?.username}님을 위한 맞춤 상품을 추천해 드릴께요`;
+        const res = await chatApi.getCustomizedProduct();
+
+        if (res.status === 200) {
+          await addMessageToFirestore(user?.uid!, roomId!, "", {
+            message: loginMent,
+            reqProducts: res.data,
+          } as TChatResponse);
+          addUserMessage({
+            type: "bot",
+            content: {
+              message: loginMent,
+              reqProducts: res.data,
+            } as TChatResponse,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        const errorMessage =
+          "예기치 못한 에러가 발생하였습니다. 다시 시도해주세요.";
+        if (isLoggedIn) {
+          // 호출 실패하면 굳이 firestore에 저장할 필요 없으니 상태 업데이트만 해줌
+          addUserMessage({ type: "bot", content: { message: errorMessage } });
+        }
+      } finally {
+      }
     }
   };
 

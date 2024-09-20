@@ -9,14 +9,16 @@ import { updateUserData } from "@apis/firebase/auth";
 import { useInput } from "@hooks/useInput";
 import { useNavigate } from "react-router-dom";
 import { useBottomSheet } from "@store/bottomSheet.store";
+import useChatStore from "@/store/chat.store";
+import { addMessageToFirestore } from "@/apis/firebase/chatFirestore";
 
 const SignUpAdditional = () => {
   const navigate = useNavigate();
-  const { setUserInfo, setIsLoggedIn, user } = userStore((store) => ({
+  const { setUserInfo, user } = userStore((store) => ({
     setUserInfo: store.setUserInfo,
-    setIsLoggedIn: store.setIsLoggedIn,
     user: store.user,
   }));
+  const { roomId, addUserMessage } = useChatStore();
 
   const { value: size, setValue: setSize } = useInput({
     sizeType: "",
@@ -60,9 +62,9 @@ const SignUpAdditional = () => {
   const submitHandle = (e: React.FormEvent) => {
     e.preventDefault();
     updateUserData("sizeType", size.sizeType);
-    updateUserData("sneakerSize", +size.sneakerSize);
+    updateUserData("sneakerSize", size.sneakerSize);
     setUserInfo("sizeType", size.sizeType);
-    setUserInfo("sneakerSize", +size.sneakerSize);
+    setUserInfo("sneakerSize", size.sneakerSize);
   };
 
   return (
@@ -116,6 +118,17 @@ const SignUpAdditional = () => {
               close("login"); // 회원가입 바텀시트 닫기
               open("interestKeywords"); // 키워드 바텀 시트 열기
               navigate("/");
+
+              const welcomeMent = `${user?.username}님, 가입을 환영합니다! 선택하신 키워드에 따라 ${user?.username}님께 맞춤형 상품을 추천해드립니다! 관심 있는 키워드를 골라주세요. `;
+              addMessageToFirestore(user?.uid!, roomId!, "", {
+                message: welcomeMent,
+              });
+              addUserMessage({
+                type: "bot",
+                content: {
+                  message: welcomeMent,
+                },
+              });
             }}
           />
         </div>
