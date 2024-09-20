@@ -6,6 +6,7 @@ import { useState } from "react";
 import ProfileImage from "@common/ProfileImage";
 import SideChatListItem from "./SideChatListItem";
 import { motion, AnimatePresence } from "framer-motion";
+import userStore from "@store/auth.store";
 
 const SideMenu = ({
   isOpen,
@@ -14,8 +15,7 @@ const SideMenu = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  //임시 로그인 분기
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, user } = userStore();
 
   const navigate = useNavigate();
   const gotoPageHandler = (path: string) => {
@@ -26,7 +26,7 @@ const SideMenu = ({
     {
       id: 1,
       title: "장마철에 신기 좋은 레인부츠 브랜드 추천",
-      createdAt: "2024-09-19T12:30:00+09:00",
+      createdAt: "2024-09-20T12:30:00+09:00",
     },
     {
       id: 2,
@@ -52,7 +52,7 @@ const SideMenu = ({
     {
       id: 7,
       title: "요즘 유행하는 신발",
-      createdAt: "2024-09-19T15:30:00+09:00",
+      createdAt: "2024-09-20T15:30:00+09:00",
     },
   ]);
 
@@ -123,7 +123,7 @@ const SideMenu = ({
               {isLoggedIn ? (
                 <>
                   {/* 새 채팅 버튼 */}
-                  <div className="relative top-0 overflow-x-auto bg-white px-[16px] py-[17px]">
+                  <div className="top-0 relative no-scrollbar overflow-x-auto bg-white px-[16px] py-[17px]">
                     <Button
                       className="flex items-center gap-[8px] rounded-full bg-grey-50 py-[6px] pl-[7px] pr-[10px] text-body2 text-grey-500"
                       onClick={() => gotoPageHandler("/")}
@@ -132,7 +132,7 @@ const SideMenu = ({
                     </Button>
                   </div>
                   {/* 채팅 리스트 */}
-                  <div className="flex grow flex-col gap-[25px] overflow-y-auto px-[16px] py-[17px]">
+                  <div className="flex grow flex-col gap-[25px] overflow-y-auto px-[16px] py-[17px] no-scrollbar">
                     {todayChats.length > 0 && (
                       <div className="flex flex-col gap-[8px]">
                         <span className="h-[24px] text-body3 text-grey-500">
@@ -179,7 +179,7 @@ const SideMenu = ({
                     <div className="flex flex-col items-start gap-[14px] border-t border-t-[#E4E4E7] py-[17px] text-body2 font-normal">
                       <Button
                         className="bg-white"
-                        onClick={() => gotoPageHandler("/myshopping")}
+                        onClick={() => gotoPageHandler("/mypage/myshopping")}
                       >
                         좋아요 | 최근 본
                       </Button>
@@ -215,7 +215,7 @@ const SideMenu = ({
                       className="size-[30px]"
                     />
                     <p className="text-body2 font-semibold text-black">
-                      {isLoggedIn ? "김펄핏" : "로그인이 필요합니다"}
+                      {isLoggedIn ? user?.username : "로그인이 필요합니다"}
                     </p>
                   </Button>
                 </div>
