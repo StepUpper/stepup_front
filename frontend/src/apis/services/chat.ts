@@ -11,7 +11,7 @@ export const chatApi = {
   getRecommendedQuestion: () => api.get(`/question/recommend`),
 
   // 브랜드 정보(아직 crocs 밖에 없는 듯 함)
-  getBrandInfo: (brandName: string) => `/brands/${brandName}`,
+  getBrandInfo: (brandName: string) => api.get(`/brands/${brandName}`),
 
   // 채팅 응답
   postChatResponse: (data: {
