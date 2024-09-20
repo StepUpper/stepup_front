@@ -7,7 +7,8 @@ interface BrandProps {
   thumbnail: string;
 }
 
-const ChatBrandCard = ({ brand, link, thumbnail }: BrandProps) => {
+const ChatBrandCard = (props: BrandProps) => {
+  const { brand, thumbnail } = props;
   return (
     <div className="h-32 w-28 overflow-hidden rounded-md border">
       <div className="flex h-24 items-center justify-center p-4">
