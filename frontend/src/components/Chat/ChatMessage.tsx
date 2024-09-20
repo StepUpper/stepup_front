@@ -28,10 +28,14 @@ const ChatMessage = (props: ChatMessageProps) => {
           // 각 태그별 디자인은 무엇인가....... 아래는 임시 디자인
           components={{
             h3: ({ node, ...props }) => (
-              <h3 className="text-lg font-bold" {...props} />
+              <h3 className="text-body2 font-bold" {...props} />
             ),
-            p: ({ node, ...props }) => (
-              <p className="text-paragraph" {...props} />
+            p: ({ node, ...props }) => <p className="font-normal" {...props} />,
+            li: ({ node, ...props }) => (
+              <div className="flex items-start">
+                <span className="mr-2">•</span>
+                <li className="list-none text-caption1" {...props} />
+              </div>
             ),
           }}
           className="ml-2.5 py-2 pr-1 text-sm"
