@@ -11,17 +11,19 @@ interface GenderCategorySelectorProps {
 const GenderCategorySelector = (props: GenderCategorySelectorProps) => {
   const { selectedGender, onClick } = props;
   return (
-    <CategorySelector>
-      {GENDER_CATEGORIES.map((category: GenderCategory) => (
-        <CategorySelector.Item
-          key={category.value}
-          isClicked={category.value === selectedGender}
-          onClick={() => onClick(category.value)}
-        >
-          {category.label}
-        </CategorySelector.Item>
-      ))}
-    </CategorySelector>
+    <div className="w-full p-4">
+      <CategorySelector>
+        {GENDER_CATEGORIES.map((category) => (
+          <CategorySelector.Item
+            key={category.value}
+            isClicked={category.value === selectedGender}
+            onClick={() => onClick(category.value)}
+          >
+            {category.label}
+          </CategorySelector.Item>
+        ))}
+      </CategorySelector>
+    </div>
   );
 };
 export default GenderCategorySelector;

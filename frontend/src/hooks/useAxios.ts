@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 interface UseAxiosResult<T> {
   data: T | null;
@@ -8,7 +8,7 @@ interface UseAxiosResult<T> {
 }
 
 const useAxios = <T>(
-  fetchFunction: (...args: any[]) => Promise<T>, // api 함수
+  fetchFunction: ((...args: any[]) => Promise<AxiosResponse<T>>) | null, // api 함수
   requestData?: any // 전달 데이터
 ): UseAxiosResult<T> => {
   const [data, setData] = useState<T | null>(null);
@@ -16,6 +16,8 @@ const useAxios = <T>(
   const [error, setError] = useState<AxiosError | null>(null);
 
   useEffect(() => {
+    if (!fetchFunction) return; // 호출 함수 없는 경우 실행 x
+
     // 사용자가 컴포넌트가 언마운트될 때
     const source = axios.CancelToken.source(); // 요청 취소를 위한 CancelToken 생성
 
@@ -26,7 +28,7 @@ const useAxios = <T>(
           ...requestData,
           cancelToken: source.token,
         });
-        setData(response);
+        if (response) setData(response.data);
       } catch (err) {
         if (axios.isCancel(err)) {
           console.log("Request canceled:", err.message);

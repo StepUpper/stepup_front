@@ -8,7 +8,7 @@ import { TChatResponse } from "@/types/chat";
 import ChatLogin from "@components/Chat/ChatLogin";
 import ChatRecommendedQuestion from "@components/Chat/ChatRecommendedQuestion";
 import LoginBottomSheet from "@components/login/LoginBottomSheet";
-import BrandPLPBottomSheet from "@components/plp/BrandPLPBottomSheet";
+import PLPBottomSheet from "@/components/plp/PLPBottomSheet";
 import userStore from "@store/auth.store";
 import useChatStore from "@store/chat.store";
 import productAndBrandStore from "@store/productAndBrand.store";
@@ -94,10 +94,12 @@ const Chat = () => {
       {interestKeywords.isOpen && <InterestKeywordsBottomSheet />}
 
       {/* PLP */}
-      <div className="z-[8]">
-        {/* 브랜드 PLP */}
-        {clickedBrand && <BrandPLPBottomSheet brandName={clickedBrand} />}
-      </div>
+      {brandPLP.isOpen && (
+        <div className="z-[8]">
+          {/* 브랜드 PLP */}
+          {clickedBrand && <PLPBottomSheet brandName={clickedBrand} />}
+        </div>
+      )}
     </div>
   );
 };

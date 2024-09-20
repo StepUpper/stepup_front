@@ -2,19 +2,19 @@ import { filterIcon, selectArrowIcon } from "@assets/assets";
 import { useBottomSheet } from "@/store/bottomSheet.store";
 
 interface PLPControlsProps {
-  length: number;
+  totalItems: number;
 }
 const PLPControls = (props: PLPControlsProps) => {
-  const { length } = props;
+  const { totalItems } = props;
 
   const { open } = useBottomSheet();
 
   return (
     <>
-      <div className="flex items-center justify-between py-[0.63rem]">
+      <div className="flex items-center justify-between px-4 py-[0.63rem]">
         {/* 상품 갯수 */}
         <span className="text-body3">
-          <strong className="font-label">{length}</strong>개 상품
+          <strong className="font-label">{totalItems}</strong>개 상품
         </span>
         <div className="flex gap-[0.32rem]">
           {/* 정렬 */}
