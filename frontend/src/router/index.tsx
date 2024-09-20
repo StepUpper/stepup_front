@@ -30,12 +30,10 @@ const router = createBrowserRouter(
         {
           path: "/mypage",
           element: <MyPage />,
-          children: [
-            {
-              path: "myshopping",
-              element: <MyShopping />,
-            },
-          ]
+        },
+        {
+          path: "/mypage/myshopping",
+          element: <MyShopping />,
         },
         {
           path: "/myfootinfo",

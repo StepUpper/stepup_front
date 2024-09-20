@@ -3,12 +3,17 @@ import Header from "@components/common/Header";
 import Button from "@components/common/html/Button";
 import ProfileImage from "@components/common/ProfileImage";
 import { useNavigate } from "react-router-dom";
+import userStore from "@store/auth.store";
 
 const MyPage = () => {
+  const {user} = userStore();
+
   const navigate = useNavigate();
   const gotoPageHandler = (path: string) => {
     navigate(path);
   };
+
+  const genderLabel = user?.gender === "male" ? "남성" : user?.gender === "female" ? "여성" : "-";
 
   return (
     <>
@@ -19,14 +24,15 @@ const MyPage = () => {
           <ProfileImage showCameraIcon={true} className="size-[80px]" />
           <div className="py-[17px] text-center">
             <p className="text-[15px]"> 안녕하세요! </p>
-            <p className="text-heading tracking-widest"> 김이름 님 </p>
+            <p className="text-heading tracking-widest"> {user?.username} 님 </p>
           </div>
         </div>
+
         {/* 좋아요, 신발장 버튼 */}
         <div className="mt-[6px] flex items-center justify-between space-x-0.5">
           <Button
             className="flex h-[60px] grow place-content-center items-center gap-[10px] bg-white p-[10px]"
-            onClick={() => gotoPageHandler("/myshopping")}
+            onClick={() => gotoPageHandler("/mypage/myshopping")}
           >
             <img src={likeStrokeIcon} className="w-[14px]" />
             <span className="text-body3 font-medium"> 좋아요 </span>
@@ -47,19 +53,19 @@ const MyPage = () => {
               <tr>
                 <td className="text-body3 font-medium text-grey-400">이름 </td>
                 <td className="text-body3 font-normal text-black">
-                  {"김이름"}
+                  {user?.username}
                 </td>
               </tr>
               <tr className="">
                 <td className="text-body3 font-medium text-grey-400">성별 </td>
-                <td className="text-body3 font-normal text-black"> {"여"} </td>
+                <td className="text-body3 font-normal text-black"> {genderLabel} </td>
               </tr>
               <tr className="">
                 <td className="text-body3 font-medium text-grey-400">
                   생년월일
                 </td>
                 <td className="text-body3 font-normal text-black">
-                  {"1999" + "." + "10" + "." + "11"}
+                  {user?.birthDate}
                 </td>
               </tr>
               <tr className="">
@@ -67,7 +73,7 @@ const MyPage = () => {
                   평소사이즈
                 </td>
                 <td className="text-body3 font-normal text-black">
-                  {"235" + "mm"}
+                {`${user?.sneakerSize}${user?.sizeType}`}
                 </td>
               </tr>
             </tbody>
