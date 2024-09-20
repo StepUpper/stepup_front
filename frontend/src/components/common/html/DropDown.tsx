@@ -13,7 +13,7 @@ type DropDownProps = {
   placeholder: string;
   options: { value: string; label: string }[];
   onChange?: (value: string) => void;
-  menuPlacement? : "top" | "bottom";
+  menuPlacement?: "top" | "bottom";
 };
 
 export type DropDownRef = {
@@ -21,7 +21,13 @@ export type DropDownRef = {
 };
 
 const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
-  const { className, placeholder, options, onChange, menuPlacement = "bottom" } = props;
+  const {
+    className,
+    placeholder,
+    options,
+    onChange,
+    menuPlacement = "bottom",
+  } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>("");
@@ -79,7 +85,12 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
           </div>
         </div>
         {isOpen && (
-          <ul className={twMerge("absolute z-10 max-h-40 w-full cursor-pointer overflow-y-auto rounded-s-md border border-gray-300 bg-white", menuPlacement === "top" ? "bottom-full mb-1" : "top-full mt-1")}>
+          <ul
+            className={twMerge(
+              "absolute z-10 max-h-40 w-full cursor-pointer overflow-y-auto rounded-s-md border border-gray-300 bg-white",
+              menuPlacement === "top" ? "bottom-full mb-1" : "top-full mt-1"
+            )}
+          >
             {options.map((option) => (
               <li
                 key={option.value}

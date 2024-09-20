@@ -73,7 +73,7 @@ const Chat = () => {
 
       {/* PLP 바텀 최소/최대화일 때 채팅창에 애니메이션 적용 */}
       <motion.div
-        className="z-[10] w-full"
+        className="z-10 w-full"
         animate={{
           y: brandPLP.isOpen
             ? brandPLP.isMinimized

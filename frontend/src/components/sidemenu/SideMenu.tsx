@@ -123,7 +123,7 @@ const SideMenu = ({
               {isLoggedIn ? (
                 <>
                   {/* 새 채팅 버튼 */}
-                  <div className="top-0 relative no-scrollbar overflow-x-auto bg-white px-[16px] py-[17px]">
+                  <div className="no-scrollbar relative top-0 overflow-x-auto bg-white px-[16px] py-[17px]">
                     <Button
                       className="flex items-center gap-[8px] rounded-full bg-grey-50 py-[6px] pl-[7px] pr-[10px] text-body2 text-grey-500"
                       onClick={() => gotoPageHandler("/")}
@@ -132,7 +132,7 @@ const SideMenu = ({
                     </Button>
                   </div>
                   {/* 채팅 리스트 */}
-                  <div className="flex grow flex-col gap-[25px] overflow-y-auto px-[16px] py-[17px] no-scrollbar">
+                  <div className="no-scrollbar flex grow flex-col gap-[25px] overflow-y-auto px-[16px] py-[17px]">
                     {todayChats.length > 0 && (
                       <div className="flex flex-col gap-[8px]">
                         <span className="h-[24px] text-body3 text-grey-500">

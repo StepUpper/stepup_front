@@ -6,14 +6,15 @@ import { useNavigate } from "react-router-dom";
 import userStore from "@store/auth.store";
 
 const MyPage = () => {
-  const {user} = userStore();
+  const { user } = userStore();
 
   const navigate = useNavigate();
   const gotoPageHandler = (path: string) => {
     navigate(path);
   };
 
-  const genderLabel = user?.gender === "male" ? "남성" : user?.gender === "female" ? "여성" : "-";
+  const genderLabel =
+    user?.gender === "male" ? "남성" : user?.gender === "female" ? "여성" : "-";
 
   return (
     <>
@@ -24,7 +25,10 @@ const MyPage = () => {
           <ProfileImage showCameraIcon={true} className="size-[80px]" />
           <div className="py-[17px] text-center">
             <p className="text-[15px]"> 안녕하세요! </p>
-            <p className="text-heading tracking-widest"> {user?.username} 님 </p>
+            <p className="text-heading tracking-widest">
+              {" "}
+              {user?.username} 님{" "}
+            </p>
           </div>
         </div>
 
@@ -58,7 +62,10 @@ const MyPage = () => {
               </tr>
               <tr className="">
                 <td className="text-body3 font-medium text-grey-400">성별 </td>
-                <td className="text-body3 font-normal text-black"> {genderLabel} </td>
+                <td className="text-body3 font-normal text-black">
+                  {" "}
+                  {genderLabel}{" "}
+                </td>
               </tr>
               <tr className="">
                 <td className="text-body3 font-medium text-grey-400">
@@ -73,7 +80,7 @@ const MyPage = () => {
                   평소사이즈
                 </td>
                 <td className="text-body3 font-normal text-black">
-                {`${user?.sneakerSize}${user?.sizeType}`}
+                  {`${user?.sneakerSize}${user?.sizeType}`}
                 </td>
               </tr>
             </tbody>

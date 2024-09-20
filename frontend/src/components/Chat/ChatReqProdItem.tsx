@@ -19,7 +19,7 @@ const ChatReqProdItem = (props: ReqProdProps) => {
       <img
         src={imgUrl}
         alt={title}
-        className="h-12 w-12 rounded-md object-cover"
+        className="size-12 rounded-md object-cover"
       />
       <div className="flex-1">
         <p className="text-sm font-normal">{brand}</p>
