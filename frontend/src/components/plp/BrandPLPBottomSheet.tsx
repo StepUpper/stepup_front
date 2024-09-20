@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getBrandInfo } from "@apis/services/plp";
 import { TBrandPLPResponse, TProduct } from "@types/plp";
+import { chatApi } from "@apis/services/chat";
+import useAxios from "@hooks/useAxios";
 import { useBottomSheet } from "@store/bottomSheet.store";
 import BottomSheet from "@common/BottomSheet";
 import PLPHeader from "@components/plp/PLPHeader";
@@ -33,18 +34,11 @@ const BrandPLPBottomSheet = (props: BrandPLPBottomSheetProps) => {
 
   const { close } = useBottomSheet();
 
-  useEffect(() => {
-    const BrandInfoData = async () => {
-      try {
-        const data = await getBrandInfo(brandName);
-        setBrandInfo(data);
-      } catch (error) {
-        console.error("Error fetching brand info:", error);
-      }
-    };
+  const { data, loading, error } = useAxios(chatApi.getBrandInfo, {
+    brandName,
+  });
 
-    BrandInfoData();
-  }, [brandName]);
+  console.log(data);
 
   useEffect(() => {
     console.log(selectedCategory);
