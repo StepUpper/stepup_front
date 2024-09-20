@@ -12,6 +12,7 @@ import PLPEmptyList from "@components/plp/PLPEmptyList";
 import GenderCategorySelector, {
   GenderCategory,
 } from "@components/plp/GenderCategorySelector";
+import userStore from "@store/auth.store";
 
 interface BrandPLPBottomSheetProps {
   brandName: string;
@@ -19,6 +20,9 @@ interface BrandPLPBottomSheetProps {
 
 const BrandPLPBottomSheet = (props: BrandPLPBottomSheetProps) => {
   const { brandName } = props;
+
+  const { user } = userStore();
+  const userFootSize = user?.footInfo || null;
 
   const [brandInfo, setBrandInfo] = useState<TBrandPLPResponse | null>(null);
   const [selectedCategory, setSelectedCategory] =
@@ -106,6 +110,7 @@ const BrandPLPBottomSheet = (props: BrandPLPBottomSheetProps) => {
                   {filteredProducts.map((product, index) => (
                     <ProductList.Item
                       key={`${product.modelNo}-${index}`}
+                      recSize={userFootSize}
                       thumb={product.image}
                       brandName={product.brand}
                       productName={product.modelName}

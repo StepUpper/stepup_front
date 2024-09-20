@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import ChatInput from "@components/Chat/ChatInput";
 import ChatMessage from "@components/Chat/ChatMessage";
 import ChatUserMessage from "@components/Chat/ChatUserMessage";
@@ -11,8 +12,8 @@ import BrandPLPBottomSheet from "@components/plp/BrandPLPBottomSheet";
 import userStore from "@store/auth.store";
 import useChatStore from "@store/chat.store";
 import productAndBrandStore from "@store/productAndBrand.store";
-import InterestKeywordsBottomSheet from "@/components/Chat/InterestKeywordsBottomSheet";
-import { useBottomSheet } from "@/store/bottomSheet.store";
+import InterestKeywordsBottomSheet from "@components/Chat/InterestKeywordsBottomSheet";
+import { useBottomSheet } from "@store/bottomSheet.store";
 
 const Chat = () => {
   const { guestMessages, userMessages, loadGuestMessages, loadUserMessages } =
@@ -22,6 +23,9 @@ const Chat = () => {
   const { isLoggedIn, user } = userStore();
 
   const { sheets } = useBottomSheet();
+  const login = sheets["login"] || {}; // 로그인/회원가입 바텀 상태
+  const interestKeywords = sheets["interestKeywords"] || {}; // 관심 키워드 바텀 상태
+  const brandPLP = sheets["brandPLP"] || {}; // 브랜드 PLP 바텀 상태
 
   const userId = user?.uid!;
 
@@ -66,16 +70,34 @@ const Chat = () => {
       </main>
 
       <ChatRecommendedQuestion />
-      <ChatInput />
+
+      {/* PLP 바텀 최소/최대화일 때 채팅창에 애니메이션 적용 */}
+      <motion.div
+        className="z-[10] w-full"
+        animate={{
+          y: brandPLP.isOpen
+            ? brandPLP.isMinimized
+              ? "0%" // brandPLP가 최소화되었을 때 y축으로 올라옴 (원래 자리)
+              : "100%" // brandPLP 바텀시트가 열렸을 때 y축으로 내려감
+            : "0%", // 기본 상태에서 y축 위치
+        }}
+        initial={false}
+        transition={{ type: "tween", duration: 1 }}
+      >
+        <ChatInput />
+      </motion.div>
 
       {/* 로그인 */}
-      {sheets["login"] && sheets["login"].isOpen && <LoginBottomSheet />}
+      {login.isOpen && <LoginBottomSheet />}
+
       {/* 관심 키워드 */}
-      {sheets["interestKeywords"] && sheets["interestKeywords"].isOpen && (
-        <InterestKeywordsBottomSheet />
-      )}
-      {/* 브랜드 PLP */}
-      {clickedBrand && <BrandPLPBottomSheet brandName={clickedBrand} />}
+      {interestKeywords.isOpen && <InterestKeywordsBottomSheet />}
+
+      {/* PLP */}
+      <div className="z-[8]">
+        {/* 브랜드 PLP */}
+        {clickedBrand && <BrandPLPBottomSheet brandName={clickedBrand} />}
+      </div>
     </div>
   );
 };

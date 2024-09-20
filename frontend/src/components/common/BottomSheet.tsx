@@ -18,6 +18,7 @@ const BottomSheet = (props: BottomSheetProps) => {
 
   const isOpen = sheets[id]?.isOpen || false;
   const isMinimized = sheets[id]?.isMinimized || false;
+  const plp = sheets["brandPLP"]?.isOpen || false;
 
   const dragControls = useDragControls();
 
@@ -72,7 +73,9 @@ const BottomSheet = (props: BottomSheetProps) => {
           {/* 바텀시트 본체 */}
           <motion.div
             initial={{ y: "100%" }} // 초기값
-            animate={{ y: isMinimized ? "97%" : "0%" }}
+            animate={{
+              y: isMinimized ? (plp ? "83%" : "97%") : "0%",
+            }} // PLP 최소화 임시 처리
             exit={{ y: "100%" }}
             transition={{
               type: "spring",
@@ -86,7 +89,7 @@ const BottomSheet = (props: BottomSheetProps) => {
             dragConstraints={{ top: 0, bottom: 0 }} // 드래그 범위
             dragListener={false}
             onDragEnd={handleDragEnd} // 드래그 끝난 후 스냅 애니메이션 적용
-            className="absolute bottom-0 left-0 z-10 flex max-h-[98vh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-custom"
+            className="absolute bottom-0 left-0 flex max-h-[98vh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-custom"
           >
             {/* 드래그 바 */}
             {isDragBar && (
