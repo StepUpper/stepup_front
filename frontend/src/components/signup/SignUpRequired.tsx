@@ -207,6 +207,7 @@ const SignUpRequired = () => {
               <DropDown
                 ref={dropdownRef}
                 className="h-[45px] gap-2 rounded-[6px] border-[#E4E4E7] px-[10px] py-[14px]"
+                menuPlacement="top"
                 placeholder="년"
                 options={birthYearOptions}
                 onChange={(value) => {
@@ -217,6 +218,7 @@ const SignUpRequired = () => {
               <DropDown
                 ref={dropdownRef}
                 className="h-[45px] gap-2 rounded-[6px] border-[#E4E4E7] px-[10px] py-[14px]"
+                menuPlacement="top"
                 placeholder="월"
                 options={birthMonthOptions}
                 onChange={(value) => {
@@ -227,6 +229,7 @@ const SignUpRequired = () => {
               <DropDown
                 ref={dropdownRef}
                 className="h-[45px] gap-2 rounded-[6px] border-[#E4E4E7] px-[10px] py-[14px]"
+                menuPlacement="top"
                 placeholder="일"
                 options={birthDayOptions}
                 onChange={(value) => {
