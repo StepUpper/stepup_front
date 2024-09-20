@@ -1,11 +1,12 @@
 import { TChatResponse } from "@/types/chat";
-import { perfittLogo } from "@assets/assets";
+import { perfittLogo, showBrandProductIcon } from "@assets/assets";
 import ChatBrandCard from "./ChatBrandCard";
 import ChatProductItem from "./ChatProductItem";
 import ReactMarkdown from "react-markdown";
 import ChatShareDislikeBox from "./ChatShareDislikeBox";
 import productAndBrandStore from "@store/productAndBrand.store";
 import { useBottomSheet } from "@store/bottomSheet.store";
+import ChatReqProdItem from "./ChatReqProdItem";
 
 interface ChatMessageProps {
   title: TChatResponse;
@@ -90,6 +91,49 @@ const ChatMessage = (props: ChatMessageProps) => {
             ))}
           </div>
           <ChatShareDislikeBox />
+        </>
+      )}
+
+      {/* 맞춤상품 관련 응답 */}
+      {title.reqProducts && (
+        <>
+          <div className="mb-3 ml-8 h-60 w-56 rounded-md border border-gray-100 bg-white p-2">
+            {/* 제목 */}
+            <p className="mb-2 text-body3 font-label">맞춤 상품 추천</p>
+
+            {/* 추천 상품 리스트 */}
+            <div className="space-y-1.5">
+              {title.reqProducts.slice(0, 3).map((product, index) => (
+                <ChatReqProdItem
+                  key={index}
+                  imgUrl={product.image}
+                  brand={product.brand}
+                  title={product.modelName}
+                  link={product.link}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setClickedProducts(title);
+                    open("productPLP");
+                  }}
+                />
+              ))}
+            </div>
+
+            <div
+              className="flex cursor-pointer items-center justify-center px-4 py-3 text-caption1 text-gray-600"
+              onClick={() => {
+                setClickedProducts(title);
+                open("productPLP");
+              }}
+            >
+              더보기
+              <img
+                src={showBrandProductIcon}
+                alt="showBrandProductIcon"
+                className="ml-2.5 h-2.5 w-1"
+              />
+            </div>
+          </div>
         </>
       )}
     </>

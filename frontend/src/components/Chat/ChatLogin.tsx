@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { perfittLogo } from "@assets/assets";
 import Button from "@common/html/Button";
 import { useBottomSheet } from "@store/bottomSheet.store";
@@ -30,12 +30,12 @@ const ChatLogin = () => {
         </p>
       </div>
       <div className="flex flex-col gap-1.5 pb-4 pl-12 pt-1">
-        <Button
+        {/* <Button
           className="h-8 w-44 rounded-md bg-grey-50 px-4 py-1 text-sm"
           onClick={handleSignUp}
         >
           구글
-        </Button>
+        </Button> */}
         <Button
           className="h-8 w-44 rounded-md bg-grey-50 px-4 py-1 text-sm"
           onClick={handleLogin}

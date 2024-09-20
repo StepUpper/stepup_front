@@ -40,7 +40,7 @@ const FilterBottomSheet = (props: FilterBottomSheetProps) => {
       <BottomSheet id="FilterPanel" isDragBar={false}>
         <BottomSheet.Header isTitleOnly={true}>필터</BottomSheet.Header>
         <BottomSheet.Content className="gap-4">
-          <div className="flex flex-col gap-[0.625rem]">
+          <div className="flex flex-col gap-2.5">
             <label className="pb-1 text-[15px] font-label">성별</label>
             <GenderCategorySelector
               selectedGender={selectedGender}

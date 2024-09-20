@@ -29,7 +29,7 @@ const MAX_KEYWORDS = 5; // 최대 선택 가능 개수
 const InterestKeywordsBottomSheet = () => {
   const navigate = useNavigate();
   const { close } = useBottomSheet();
-  const { addGuestMessage, roomId, addUserMessage } = useChatStore();
+  const { roomId, addUserMessage } = useChatStore();
   const { isLoggedIn, user } = userStore();
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
   const [warningMessage, setWarningMessage] = useState("");
