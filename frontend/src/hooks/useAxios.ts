@@ -16,11 +16,15 @@ const useAxios = <T>(
   const [error, setError] = useState<AxiosError | null>(null);
 
   useEffect(() => {
+    // 사용자가 컴포넌트가 언마운트될 때
+    const source = axios.CancelToken.source(); // 요청 취소를 위한 CancelToken 생성
+
     const fetchData = async () => {
       setLoading(true);
       try {
         const response = await fetchFunction({
           ...requestData,
+          cancelToken: source.token,
         });
         setData(response);
       } catch (err) {
@@ -37,6 +41,10 @@ const useAxios = <T>(
     };
 
     fetchData();
+
+    return () => {
+      source.cancel("Request canceled by component unmount."); // 요청 취소
+    };
   }, [fetchFunction, requestData]);
 
   return { data, loading, error };
