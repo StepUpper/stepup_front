@@ -1,3 +1,4 @@
+import { onBoadingLoader } from "./../router/loaders/onBoading";
 import menuIcon from "@assets/icons/menu-icon.svg";
 import backIcon from "@assets/icons/back-icon.svg";
 import dotIcon from "@assets/icons/kebab-icon.svg";
@@ -33,6 +34,8 @@ import defaultProfilePlusImg from "@assets/images/default-profile-plus-img.svg";
 import footInfoPlaceholder from "@assets/images/foot-loading.webp";
 import aiIconImg from "@assets/images/ai-icon-img.png";
 import shoeHeart from "@assets/images/shoeHeart.svg";
+import onboardingImg1 from "@assets/images/onboarding1.png";
+import onboardingImg2 from "@assets/images/onboarding2.png";
 
 export {
   // ******* ICON
@@ -71,4 +74,6 @@ export {
   footInfoPlaceholder,
   aiIconImg,
   shoeHeart,
+  onboardingImg1,
+  onboardingImg2,
 };
