@@ -1,4 +1,5 @@
 import { showBrandProductIcon } from "@assets/assets";
+import Img from "@common/html/Img";
 
 interface BrandProps {
   brand: string;
@@ -12,7 +13,12 @@ const ChatBrandCard = (props: BrandProps) => {
   return (
     <div className="h-32 w-28 overflow-hidden rounded-md border">
       <div className="flex h-24 items-center justify-center p-4">
-        <img src={thumbnail} alt={brand} className="h-full object-contain" />
+        <Img
+          src={thumbnail}
+          alt={brand}
+          className="h-full object-contain"
+          errorStyle="w-[70%]"
+        />
       </div>
 
       <div className="flex items-center justify-center border-t px-4 py-2 text-caption2 text-gray-600">

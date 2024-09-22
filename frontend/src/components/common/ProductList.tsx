@@ -1,8 +1,9 @@
-import LikeButton, { LikeButtonProps } from "@common/LikeButton";
 import { ReactNode } from "react";
-import ProductLearnMoreButton from "./ProductLearnMoreButton";
 import { useNavigate } from "react-router-dom";
-import { perfittLogo } from "@/assets/assets";
+import LikeButton, { LikeButtonProps } from "@common/LikeButton";
+import ProductLearnMoreButton from "@common/ProductLearnMoreButton";
+import Img from "@common/html/Img";
+import { perfittLogo } from "@assets/assets";
 
 interface ProductItemProps extends LikeButtonProps {
   recSize?: string | null;
@@ -52,7 +53,12 @@ const ProductItem = (props: ProductItemProps) => {
         <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-[0.39rem] bg-grey-50">
           {/* 신발 이미지 */}
           <div className="item-center mt-[-10px] size-full min-h-[136px]">
-            <img src={thumb} alt={productName} width="100%" />
+            <Img
+              src={thumb}
+              alt={productName}
+              width="100%"
+              errorStyle="w-[60%] mt-[10px]"
+            />
           </div>
         </div>
         {/* 사이즈 추천 */}

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { perfittLogo } from "@assets/assets";
+import Img from "@common/html/Img";
 
 const Bridge = () => {
   const location = useLocation();
@@ -27,11 +27,7 @@ const Bridge = () => {
   return (
     <div className="item-center h-screen flex-col gap-9">
       <div className="size-[120px]">
-        <img
-          src={customerImg ? customerImg : perfittLogo}
-          alt={brandName}
-          width="100%"
-        />
+        <Img src={customerImg} alt={brandName} />
       </div>
       <div className="item-center w-full flex-col gap-4">
         <h1 className="text-body1 font-paragraph">
