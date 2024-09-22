@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TBrandPLPResponse, TProduct } from "@types/plp";
+import { TProduct } from "@types/plp";
 import { chatApi } from "@apis/services/chat";
 import useAxios from "@hooks/useAxios";
 import { useBottomSheet } from "@store/bottomSheet.store";
@@ -20,14 +20,10 @@ interface PLPBottomSheetProps {
 
 const PLPBottomSheet = (props: PLPBottomSheetProps) => {
   const { brandName } = props;
-
   const { user } = userStore();
   const userFootSize = user?.footInfo || null;
 
-  const { data, error } = useAxios<TBrandPLPResponse>(
-    brandName ? chatApi.getBrandInfo : null,
-    brandName ? { brandName } : null
-  );
+  const { data, isError } = useAxios(chatApi.getBrandInfo, null, brandName);
 
   const [selectedCategory, setSelectedCategory] =
     useState<GenderCategory>("ALL");
@@ -41,7 +37,7 @@ const PLPBottomSheet = (props: PLPBottomSheetProps) => {
     console.log(selectedCategory);
     // 성별 필터
     const newFilteredProducts =
-      data?.products?.filter((product) => {
+      data?.products?.filter((product: TProduct) => {
         if (selectedCategory === "ALL") return true;
         return product.gender === selectedCategory;
       }) || [];
@@ -112,7 +108,7 @@ const PLPBottomSheet = (props: PLPBottomSheetProps) => {
             />
           </>
         )}
-        {error && (
+        {isError && (
           <div className="h-[calc(100vh-32px)] w-full">
             <Error />
           </div>
