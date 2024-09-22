@@ -5,7 +5,7 @@ interface PLPControlsProps {
   totalItems: number;
 }
 const PLPControls = (props: PLPControlsProps) => {
-  const { totalItems } = props;
+  const { totalItems = 0 } = props;
 
   const { open } = useBottomSheet();
 

@@ -50,7 +50,8 @@ const ChatMessage = (props: ChatMessageProps) => {
                 className="inline-block cursor-pointer"
                 onClick={() => {
                   setClickedBrand(brand.brand);
-                  open("brandPLP"); // 브랜드 PLP 열기
+                  setClickedProducts(null);
+                  open("plp"); // 브랜드 PLP 열기
                 }}
               >
                 <ChatBrandCard
@@ -76,6 +77,7 @@ const ChatMessage = (props: ChatMessageProps) => {
                 className="inline-block cursor-pointer"
                 onClick={() => {
                   setClickedProducts(title);
+                  setClickedBrand(null);
                   open("productPLP");
                 }}
               >
