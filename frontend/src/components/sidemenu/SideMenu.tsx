@@ -2,11 +2,16 @@ import Header from "@common/Header";
 import Button from "@common/html/Button";
 import { plusIcon } from "@/assets/assets";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileImage from "@common/ProfileImage";
 import SideChatListItem from "./SideChatListItem";
 import { motion, AnimatePresence } from "framer-motion";
 import userStore from "@store/auth.store";
+import {
+  createNewChatRoom,
+  getUserChatRooms,
+} from "@/apis/firebase/chatFirestore";
+import useChatStore from "@/store/chat.store";
 
 const SideMenu = ({
   isOpen,
@@ -16,45 +21,13 @@ const SideMenu = ({
   onClose: () => void;
 }) => {
   const { isLoggedIn, user } = userStore();
+  const { setRoomId } = useChatStore();
 
   const navigate = useNavigate();
   const gotoPageHandler = (path: string) => {
     navigate(path);
   };
-
-  const [chats] = useState([
-    {
-      id: 1,
-      title: "장마철에 신기 좋은 레인부츠 브랜드 추천",
-      createdAt: "2024-09-20T12:30:00+09:00",
-    },
-    {
-      id: 2,
-      title: "장마철에 신기 좋은 운동화 추천",
-      createdAt: "2024-09-17T12:30:00+09:00",
-    },
-    {
-      id: 3,
-      title: "아식스에서 제일 유명한 신발",
-      createdAt: "2024-09-16T12:30:00+09:00",
-    },
-    {
-      id: 4,
-      title: "20대 여성이 좋아하는 신발",
-      createdAt: "2024-09-12T12:30:00+09:00",
-    },
-    {
-      id: 5,
-      title: "등산할 때 신기 좋은 가벼운 등산화",
-      createdAt: "2024-09-14T12:30:00+09:00",
-    },
-    { id: 6, title: "채팅6", createdAt: "2024-09-10T12:30:00+09:00" },
-    {
-      id: 7,
-      title: "요즘 유행하는 신발",
-      createdAt: "2024-09-20T15:30:00+09:00",
-    },
-  ]);
+  const [chats, setChats] = useState<any[]>([]);
 
   const today = new Date();
   const checkTodayDate = (date1: Date, date2: Date) => {
@@ -97,6 +70,35 @@ const SideMenu = ({
     setLongPressedItem(null);
   };
 
+  const handleCreateNewChat = async () => {
+    if (isLoggedIn && user) {
+      try {
+        // 새로운 채팅방 만들고 새로운 채팅방의 id를 update
+        const newRoomId = await createNewChatRoom(user.uid!);
+        setRoomId(newRoomId);
+        // 추가된 채팅방 목록들을 가져오기
+        const updatedChats = await getUserChatRooms(user.uid!);
+        setChats(updatedChats);
+        onClose();
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.log("로그인이 필요합니다.");
+    }
+  };
+  useEffect(() => {
+    const fetchUserChatRooms = async () => {
+      if (isLoggedIn && user) {
+        const chatRooms = await getUserChatRooms(user?.uid!);
+        setChats(chatRooms);
+        console.log(chatRooms);
+      }
+    };
+
+    fetchUserChatRooms();
+  }, [isLoggedIn, user]);
+
   return (
     <>
       <AnimatePresence>
@@ -126,7 +128,7 @@ const SideMenu = ({
                   <div className="no-scrollbar relative top-0 overflow-x-auto bg-white px-[16px] py-[17px]">
                     <Button
                       className="flex items-center gap-[8px] rounded-full bg-grey-50 py-[6px] pl-[7px] pr-[10px] text-body2 text-grey-500"
-                      onClick={() => gotoPageHandler("/")}
+                      onClick={handleCreateNewChat}
                     >
                       <img src={plusIcon} className="size-[18px]" />새 채팅
                     </Button>

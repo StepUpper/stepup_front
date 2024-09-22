@@ -26,6 +26,7 @@ import closeIcon from "@assets/icons/close-icon.svg";
 import selectArrowIcon from "@assets/icons/select-arrow-icon.svg";
 import filterIcon from "@assets/icons/filter-icon.svg";
 import interestCheckIcon from "@assets/icons/interest-check-icon.svg";
+import arrowRightIcon from "@assets/icons/arrow-right-icon.svg";
 
 import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import defaultProfilePlusImg from "@assets/images/default-profile-plus-img.svg";
@@ -62,6 +63,7 @@ export {
   selectArrowIcon,
   filterIcon,
   interestCheckIcon,
+  arrowRightIcon,
   // ******* IMAGE
   defaultProfileImg,
   defaultProfilePlusImg,

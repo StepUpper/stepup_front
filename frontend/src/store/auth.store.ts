@@ -5,6 +5,8 @@ import { create } from "zustand";
 interface UserState {
   isLoggedIn: boolean;
   user: TUser | null;
+  // 좋아요한 신발들을 관리하기 위한 상태 추가
+  likeShoes: any[] | null;
   updateUserInfo: () => void;
   setUserInfo: (key: string, value: string | number) => void;
   setIsLoggedIn: (state: boolean) => void;
@@ -13,9 +15,13 @@ interface UserState {
 const userStore = create<UserState>((set) => ({
   isLoggedIn: false,
   user: null,
+  likeShoes: null,
   updateUserInfo: () => {
     getUserData().then((data) => {
-      set({ user: data as TUser });
+      if (data) {
+        const { likeShoes, ...userData } = data;
+        set({ user: userData as TUser, likeShoes: likeShoes || [] });
+      }
     });
   },
   setUserInfo: (key: string, value: string | number) => {

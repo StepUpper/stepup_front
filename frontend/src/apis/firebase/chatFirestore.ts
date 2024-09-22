@@ -116,3 +116,32 @@ export const addMessageToFirestore = async (
     console.error("메시지 추가 중 에러 발생: ", error);
   }
 };
+
+export const createNewChatRoom = async (userId: string) => {
+  const roomsCollectionRef = collection(db, "chatSessions", userId, "rooms");
+
+  try {
+    const newRoomRef = await addDoc(roomsCollectionRef, {
+      roomName: "새로운 채팅방",
+      timestamp: serverTimestamp(),
+    });
+
+    return newRoomRef.id;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getUserChatRooms = async (userId: string) => {
+  const roomsCollection = collection(db, "chatSessions", userId, "rooms");
+  const roomsQuery = query(roomsCollection, orderBy("timestamp", "desc"));
+  const roomsSnapshot = await getDocs(roomsQuery);
+
+  const rooms = roomsSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  return rooms;
+};

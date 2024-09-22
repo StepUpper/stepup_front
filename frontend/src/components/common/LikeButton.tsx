@@ -3,9 +3,9 @@ import LikeIcon from "@assets/icons/like-icon.svg?react";
 import Button from "@common/html/Button";
 
 export type LikeButtonProps = {
-  isLiked: boolean;
+  isLiked?: boolean;
   className?: string;
-  onClick?: () => void;
+  onClick: () => void;
 };
 const LikeButton = (props: LikeButtonProps) => {
   const { isLiked = false, className, onClick } = props;
