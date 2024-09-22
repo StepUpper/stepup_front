@@ -15,9 +15,9 @@ const PLPHeader = (props: PLPHeaderProps) => {
   return (
     <>
       <div className="flex items-center justify-between p-4">
-        <div>{children}</div>
+        <div className="flex w-[70%] items-center gap-2">{children}</div>
         <Button onClick={() => close("plp")}>
-          <img src={closeIcon} alt="닫기 버튼" />
+          <img src={closeIcon} alt="닫기 버튼" className="shrink-0" />
         </Button>
       </div>
     </>

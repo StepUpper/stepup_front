@@ -97,7 +97,12 @@ const Chat = () => {
       {plp.isOpen && (
         <div className="z-[8]">
           {/* 브랜드 PLP */}
-          {clickedBrand && <PLPBottomSheet brandName={clickedBrand} />}
+          {(clickedBrand || clickedProducts) && (
+            <PLPBottomSheet
+              brandName={clickedBrand}
+              products={clickedProducts}
+            />
+          )}
         </div>
       )}
     </div>
