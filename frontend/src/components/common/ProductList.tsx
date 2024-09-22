@@ -49,14 +49,14 @@ const ProductItem = (props: ProductItemProps) => {
 
   return (
     <li
-      className="min-w-[136px] cursor-pointer list-none"
+      className="w-full min-w-[136px] cursor-pointer list-none"
       onClick={handleBridgeNavigation}
     >
       {/* 상단 이미지 영역 */}
       <div className="relative">
-        <div className="h-fit overflow-hidden rounded-[0.39rem]">
+        <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-[0.39rem] bg-grey-50">
           {/* 신발 이미지 */}
-          <div className="item-center mt-[-10px] h-fit w-full bg-grey-50">
+          <div className="item-center mt-[-10px] size-full min-h-[136px]">
             <img src={thumb} alt={productName} width="100%" />
           </div>
         </div>
@@ -79,7 +79,7 @@ const ProductItem = (props: ProductItemProps) => {
         </div>
       </div>
       {/* 하단 신발 정보 */}
-      <div className="flex flex-col gap-2.5 px-1.5 py-2.5 text-body3">
+      <div className="flex flex-col gap-2.5 px-0 py-2.5 text-body3 sm:px-1.5">
         <div className="flex flex-col gap-[3px]">
           <strong className="font-paragraph">{brandName}</strong>
           <h3 className="truncate font-label">{productName}</h3>

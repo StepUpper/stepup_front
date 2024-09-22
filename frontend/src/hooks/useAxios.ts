@@ -29,8 +29,8 @@ const useAxios = <T>(
         });
         if (response) setData(response.data);
       } catch (err) {
-        setData(null)
-        
+        setData(null);
+
         if (axios.isCancel(err)) {
           console.log("Request canceled:", err.message);
         } else if (err && (err as AxiosError).isAxiosError) {

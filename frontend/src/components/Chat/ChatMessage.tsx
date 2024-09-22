@@ -114,7 +114,7 @@ const ChatMessage = (props: ChatMessageProps) => {
                 onClick={() => {
                   setClickedProducts(title);
                   setClickedBrand(null);
-                  open("productPLP");
+                  open("plp");
                 }}
               >
                 <img
@@ -150,7 +150,8 @@ const ChatMessage = (props: ChatMessageProps) => {
                   className="cursor-pointer"
                   onClick={() => {
                     setClickedProducts(title);
-                    open("productPLP");
+                    setClickedBrand(null);
+                    open("plp");
                   }}
                 />
               ))}
@@ -160,7 +161,8 @@ const ChatMessage = (props: ChatMessageProps) => {
               className="flex cursor-pointer items-center justify-center px-4 py-3 text-caption1 text-gray-600"
               onClick={() => {
                 setClickedProducts(title);
-                open("productPLP");
+                setClickedBrand(null);
+                open("plp");
               }}
             >
               더보기
