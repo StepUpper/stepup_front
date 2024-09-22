@@ -16,8 +16,13 @@ import InterestKeywordsBottomSheet from "@components/Chat/InterestKeywordsBottom
 import { useBottomSheet } from "@store/bottomSheet.store";
 
 const Chat = () => {
-  const { guestMessages, userMessages, loadGuestMessages, loadUserMessages } =
-    useChatStore();
+  const {
+    guestMessages,
+    userMessages,
+    loadGuestMessages,
+    loadUserMessages,
+    roomId,
+  } = useChatStore();
   const { clickedProducts, clickedBrand } = productAndBrandStore();
 
   const { isLoggedIn, user } = userStore();
@@ -40,7 +45,7 @@ const Chat = () => {
     } else {
       loadGuestMessages();
     }
-  }, [isLoggedIn, userId]);
+  }, [isLoggedIn, userId, roomId]);
 
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 

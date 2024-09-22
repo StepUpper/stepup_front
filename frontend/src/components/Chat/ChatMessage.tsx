@@ -1,5 +1,9 @@
 import { TChatResponse } from "@/types/chat";
-import { perfittLogo, showBrandProductIcon } from "@assets/assets";
+import {
+  arrowRightIcon,
+  perfittLogo,
+  showBrandProductIcon,
+} from "@assets/assets";
 import ChatBrandCard from "./ChatBrandCard";
 import ChatProductItem from "./ChatProductItem";
 import ReactMarkdown from "react-markdown";
@@ -7,6 +11,7 @@ import ChatShareDislikeBox from "./ChatShareDislikeBox";
 import productAndBrandStore from "@store/productAndBrand.store";
 import { useBottomSheet } from "@store/bottomSheet.store";
 import ChatReqProdItem from "./ChatReqProdItem";
+import userStore from "@/store/auth.store";
 
 interface ChatMessageProps {
   title: TChatResponse;
@@ -14,6 +19,7 @@ interface ChatMessageProps {
 
 const ChatMessage = (props: ChatMessageProps) => {
   const { setClickedProducts, setClickedBrand } = productAndBrandStore();
+  const { likeShoes } = userStore();
   const { title } = props;
 
   const { open } = useBottomSheet();
@@ -25,13 +31,16 @@ const ChatMessage = (props: ChatMessageProps) => {
           <img src={perfittLogo} alt="perfittLogo" className="size-7" />
         </div>
         <ReactMarkdown
-          // 각 태그별 디자인은 무엇인가....... 아래는 임시 디자인
           components={{
             h3: ({ node, ...props }) => (
-              <h3 className="text-lg font-bold" {...props} />
+              <h3 className="text-body2 font-bold" {...props} />
             ),
-            p: ({ node, ...props }) => (
-              <p className="text-paragraph" {...props} />
+            p: ({ node, ...props }) => <p className="font-normal" {...props} />,
+            li: ({ node, ...props }) => (
+              <div className="flex items-start">
+                <span className="mr-2">•</span>
+                <li className="list-none text-caption1" {...props} />
+              </div>
             ),
           }}
           className="ml-2.5 py-2 pr-1 text-sm"
@@ -71,27 +80,53 @@ const ChatMessage = (props: ChatMessageProps) => {
       {title.products && (
         <>
           <div className="no-scrollbar mt-2 flex space-x-4 overflow-x-auto pl-8">
-            {title.products.map((product, index) => (
+            {title.products.map((product) => {
+              const isLiked = likeShoes?.some(
+                (shoe) => shoe.shoeId === product.productId
+              );
+
+              return (
+                <div
+                  key={product.productId}
+                  className="inline-block cursor-pointer"
+                  onClick={() => {
+                    setClickedProducts(title);
+                    open("productPLP");
+                  }}
+                >
+                  <ChatProductItem
+                    brand={product.brand}
+                    title={product.modelName}
+                    imgUrl={product.image}
+                    link={product.link}
+                    modelNo={product.modelNo}
+                    productId={product.productId}
+                    isLiked={isLiked}
+                  />
+                </div>
+              );
+            })}
+
+            {/* 더보기 버튼 */}
+            <div className="flex w-12 min-w-[48px] flex-col items-center justify-center text-[9px]">
               <div
-                key={index}
-                className="inline-block cursor-pointer"
+                className="mb-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-black"
                 onClick={() => {
                   setClickedProducts(title);
                   setClickedBrand(null);
                   open("plp");
                 }}
               >
-                <ChatProductItem
-                  brand={product.brand}
-                  title={product.modelName}
-                  imgUrl={product.image}
-                  link={product.link}
-                  modelNo={product.modelNo}
-                  productId={product.productId}
+                <img
+                  src={arrowRightIcon}
+                  alt="더보기"
+                  className="h-4 w-4 text-white"
                 />
               </div>
-            ))}
+              <span>더보기</span>
+            </div>
           </div>
+
           <ChatShareDislikeBox />
         </>
       )}
