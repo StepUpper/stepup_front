@@ -30,7 +30,7 @@ const Chat = () => {
   const { sheets } = useBottomSheet();
   const login = sheets["login"] || {}; // 로그인/회원가입 바텀 상태
   const interestKeywords = sheets["interestKeywords"] || {}; // 관심 키워드 바텀 상태
-  const brandPLP = sheets["brandPLP"] || {}; // 브랜드 PLP 바텀 상태
+  const plp = sheets["plp"] || {}; // 브랜드 PLP 바텀 상태
 
   const userId = user?.uid!;
 
@@ -80,8 +80,8 @@ const Chat = () => {
       <motion.div
         className="z-10 w-full"
         animate={{
-          y: brandPLP.isOpen
-            ? brandPLP.isMinimized
+          y: plp.isOpen
+            ? plp.isMinimized
               ? "0%" // brandPLP가 최소화되었을 때 y축으로 올라옴 (원래 자리)
               : "100%" // brandPLP 바텀시트가 열렸을 때 y축으로 내려감
             : "0%", // 기본 상태에서 y축 위치
@@ -99,7 +99,7 @@ const Chat = () => {
       {interestKeywords.isOpen && <InterestKeywordsBottomSheet />}
 
       {/* PLP */}
-      {brandPLP.isOpen && (
+      {plp.isOpen && (
         <div className="z-[8]">
           {/* 브랜드 PLP */}
           {clickedBrand && <PLPBottomSheet brandName={clickedBrand} />}

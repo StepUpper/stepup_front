@@ -27,9 +27,10 @@ const useAxios = <T>(
         const response = await fetchFunction(...args, {
           cancelToken: source.token,
         });
-
         if (response) setData(response.data);
       } catch (err) {
+        setData(null)
+        
         if (axios.isCancel(err)) {
           console.log("Request canceled:", err.message);
         } else if (err && (err as AxiosError).isAxiosError) {

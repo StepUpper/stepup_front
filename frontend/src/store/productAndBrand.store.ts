@@ -4,8 +4,8 @@ import { create } from "zustand";
 interface productAndBrandState {
   clickedProducts: TChatResponse | null;
   clickedBrand: string | null;
-  setClickedProducts: (product: TChatResponse) => void;
-  setClickedBrand: (brand: string) => void;
+  setClickedProducts: (product: TChatResponse | null) => void;
+  setClickedBrand: (brand: string | null) => void;
 }
 
 const productAndBrandStore = create<productAndBrandState>((set) => ({

@@ -18,7 +18,7 @@ const BottomSheet = (props: BottomSheetProps) => {
 
   const isOpen = sheets[id]?.isOpen || false;
   const isMinimized = sheets[id]?.isMinimized || false;
-  const plp = sheets["brandPLP"]?.isOpen || false;
+  const plp = sheets["plp"]?.isOpen || false;
 
   const dragControls = useDragControls();
 
