@@ -37,14 +37,9 @@ const ProductItem = (props: ProductItemProps) => {
 
   // 브릿지
   const handleBridgeNavigation = () => {
-    navigate("/bridge", {
-      state: {
-        customerLink,
-        brandName,
-        productName,
-        customerImg,
-      },
-    });
+    navigate(
+      `/bridge?type=brand&brandName=${brandName}&productName=${productName}&customerImg=${customerImg}&customerLink=${customerLink}`
+    );
   };
 
   return (

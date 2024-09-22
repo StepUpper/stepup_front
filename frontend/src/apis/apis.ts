@@ -8,7 +8,7 @@ const api = axios.create({
 // 요청 인터셉터
 api.interceptors.request.use(
   (config) => {
-    console.log("Request started");
+    console.log("🚀 Request started", config.url);
     return config;
   },
   (error) => {
@@ -20,7 +20,7 @@ api.interceptors.request.use(
 // 응답 인터셉터
 api.interceptors.response.use(
   (response) => {
-    console.log("Request successful");
+    console.log("🌟 Request successful", response.config.url);
     return response;
   },
   (error) => {
