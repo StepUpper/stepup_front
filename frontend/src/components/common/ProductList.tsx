@@ -59,13 +59,16 @@ const ProductItem = (props: ProductItemProps) => {
     >
       {/* 상단 이미지 영역 */}
       <div className="relative">
-        <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-[0.39rem] bg-grey-50">
+        <div className="w-full overflow-hidden rounded-[0.39rem] bg-grey-50">
           {/* 신발 이미지 */}
-          <div className="item-center mt-[-10px] size-full min-h-[136px]">
+          <div
+            className="item-center mt-[-10px] size-full min-h-[136px]"
+            style={{ aspectRatio: "1/1" }}
+          >
             <Img
               src={thumb}
               alt={productName}
-              width="100%"
+              className="mt-[20px]"
               errorStyle="w-[60%] mt-[10px]"
             />
           </div>
