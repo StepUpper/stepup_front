@@ -58,9 +58,9 @@ const ChatMessage = (props: ChatMessageProps) => {
                 key={index}
                 className="inline-block cursor-pointer"
                 onClick={() => {
-                  setClickedBrand(brand.brand);
+                  setClickedBrand(brand.brand); // 브랜드 PLP 열기
                   setClickedProducts(null);
-                  open("plp"); // 브랜드 PLP 열기
+                  open("plp");
                 }}
               >
                 <ChatBrandCard
@@ -91,7 +91,8 @@ const ChatMessage = (props: ChatMessageProps) => {
                   className="inline-block cursor-pointer"
                   onClick={() => {
                     setClickedProducts(title);
-                    open("productPLP");
+                    setClickedBrand(null);
+                    open("plp"); // 상품 plp
                   }}
                 >
                   <ChatProductItem
@@ -114,7 +115,7 @@ const ChatMessage = (props: ChatMessageProps) => {
                 onClick={() => {
                   setClickedProducts(title);
                   setClickedBrand(null);
-                  open("plp");
+                  open("plp"); // 상품 plp
                 }}
               >
                 <img
@@ -151,7 +152,7 @@ const ChatMessage = (props: ChatMessageProps) => {
                   onClick={() => {
                     setClickedProducts(title);
                     setClickedBrand(null);
-                    open("plp");
+                    open("plp"); // 상품 plp
                   }}
                 />
               ))}
@@ -162,7 +163,7 @@ const ChatMessage = (props: ChatMessageProps) => {
               onClick={() => {
                 setClickedProducts(title);
                 setClickedBrand(null);
-                open("plp");
+                open("plp"); // 상품 plp
               }}
             >
               더보기
