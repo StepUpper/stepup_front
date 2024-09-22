@@ -1,7 +1,8 @@
-import { addOrRemoveShoeFromLikes } from "@/apis/firebase/likeFirestore";
-import { perfittLogo } from "@/assets/assets";
-import userStore from "@/store/auth.store";
+import { addOrRemoveShoeFromLikes } from "@apis/firebase/likeFirestore";
+import { perfittLogo } from "@assets/assets";
+import userStore from "@store/auth.store";
 import LikeButton from "@common/LikeButton";
+import Img from "@common/html/Img";
 
 interface ProductItemProps {
   brand: string;
@@ -36,8 +37,8 @@ const ChatProductItem = (props: ProductItemProps) => {
   return (
     <div className="w-[166px] overflow-hidden rounded-md border border-grey-50">
       <div className="relative h-[155px]">
-        <div className="h-[146px] overflow-hidden bg-grey-50">
-          <img src={imgUrl} alt={title} className="w-full object-cover" />
+        <div className="flex h-[146px] w-full items-center justify-center overflow-hidden bg-grey-50">
+          <Img src={imgUrl} alt={title} className="w-full object-cover" />
         </div>
         <LikeButton
           className="absolute right-[0.69rem] top-2"

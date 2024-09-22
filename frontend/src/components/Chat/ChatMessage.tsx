@@ -58,8 +58,9 @@ const ChatMessage = (props: ChatMessageProps) => {
                 key={index}
                 className="inline-block cursor-pointer"
                 onClick={() => {
-                  setClickedBrand(brand.brand);
-                  open("brandPLP"); // 브랜드 PLP 열기
+                  setClickedBrand(brand.brand); // 브랜드 PLP 열기
+                  setClickedProducts(null);
+                  open("plp");
                 }}
               >
                 <ChatBrandCard
@@ -90,7 +91,8 @@ const ChatMessage = (props: ChatMessageProps) => {
                   className="inline-block cursor-pointer"
                   onClick={() => {
                     setClickedProducts(title);
-                    open("productPLP");
+                    setClickedBrand(null);
+                    open("plp"); // 상품 plp
                   }}
                 >
                   <ChatProductItem
@@ -112,7 +114,8 @@ const ChatMessage = (props: ChatMessageProps) => {
                 className="mb-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-black"
                 onClick={() => {
                   setClickedProducts(title);
-                  open("productPLP");
+                  setClickedBrand(null);
+                  open("plp"); // 상품 plp
                 }}
               >
                 <img
@@ -148,7 +151,8 @@ const ChatMessage = (props: ChatMessageProps) => {
                   className="cursor-pointer"
                   onClick={() => {
                     setClickedProducts(title);
-                    open("productPLP");
+                    setClickedBrand(null);
+                    open("plp"); // 상품 plp
                   }}
                 />
               ))}
@@ -158,7 +162,8 @@ const ChatMessage = (props: ChatMessageProps) => {
               className="flex cursor-pointer items-center justify-center px-4 py-3 text-caption1 text-gray-600"
               onClick={() => {
                 setClickedProducts(title);
-                open("productPLP");
+                setClickedBrand(null);
+                open("plp"); // 상품 plp
               }}
             >
               더보기

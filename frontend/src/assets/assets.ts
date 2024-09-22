@@ -32,6 +32,8 @@ import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import defaultProfilePlusImg from "@assets/images/default-profile-plus-img.svg";
 import footInfoPlaceholder from "@assets/images/foot-loading.webp";
 import aiIconImg from "@assets/images/ai-icon-img.png";
+import onboardingImg1 from "@assets/images/onboarding1.png";
+import onboardingImg2 from "@assets/images/onboarding2.png";
 
 export {
   // ******* ICON
@@ -69,4 +71,6 @@ export {
   defaultProfilePlusImg,
   footInfoPlaceholder,
   aiIconImg,
+  onboardingImg1,
+  onboardingImg2,
 };

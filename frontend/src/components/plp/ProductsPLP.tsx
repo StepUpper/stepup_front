@@ -10,33 +10,34 @@ import GenderCategorySelector, {
 import PLPProductDisplay from "@components/plp/PLPProductDisplay";
 import FilterBottomSheet from "@components/plp/FilterBottomSheet";
 import Error from "@common/Error";
+import { TChatResponse } from "@types/chat";
+import { perfittLogo } from "@/assets/assets";
 
-interface BrandPLPProps {
-  brandName: string;
+interface ProductsPLPProps {
+  data: TChatResponse; // TODO: API 타입에 따라 수정 예정
 }
 
-const BrandPLP = (props: BrandPLPProps) => {
-  const { brandName } = props;
+// TODO: 채팅 데이터로 임시 처리
+const ProductsPLP = (props: ProductsPLPProps) => {
+  const { data } = props;
+  console.log(data);
 
-  const { data, isError } = useAxios<TBrandPLPResponse>(
-    chatApi.getBrandInfo,
-    null,
-    brandName
-  );
+  // TODO: API 추가되면 교체 예정
+  // const { data, isError } = useAxios<TBrandPLPResponse>();
 
   const [selectedCategory, setSelectedCategory] =
     useState<GenderCategory>("ALL");
-  const [filteredProducts, setFilteredProducts] = useState<TProduct[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState(data.products);
 
   useEffect(() => {
     console.log(selectedCategory);
     // 성별 필터
     const newFilteredProducts =
-      data?.products?.filter((product: TProduct) => {
+      data?.products?.filter((product) => {
         if (selectedCategory === "ALL") return true;
-        return product.gender === selectedCategory;
+        // return product?.gender === selectedCategory;
       }) || [];
-    setFilteredProducts(newFilteredProducts);
+    // setFilteredProducts(newFilteredProducts);
   }, [data, selectedCategory]);
 
   // 필터 적용
@@ -47,32 +48,14 @@ const BrandPLP = (props: BrandPLPProps) => {
   return (
     <>
       <PLPHeader>
-        <h2 className="text-body2 font-label">{brandName}</h2>
+        <img src={perfittLogo} alt="펄핏 로고" className="shrink-0" />
+        <h2 className="w-full truncate text-body2 font-label">
+          {data.message}
+        </h2>
       </PLPHeader>
 
       {data && filteredProducts && (
         <>
-          {/* AD */}
-          <Link to={data.link}>
-            <div
-              className="item-center h-[6.3rem] w-full bg-grey-50 bg-cover bg-center bg-no-repeat"
-              style={{
-                backgroundImage: `url(${data.brandHeaderImage})`,
-              }}
-            >
-              <span className="text-body2 font-label text-white">
-                {data?.description}
-              </span>
-              {/* <img src="" alt={`${"brandInfo.brand"} 로고`} /> */}
-            </div>
-          </Link>
-
-          {/* 성별 카테고리 */}
-          <GenderCategorySelector
-            selectedGender={selectedCategory}
-            onClick={(value) => setSelectedCategory(value)}
-          />
-
           {/* 상품 영역 */}
           <PLPProductDisplay products={filteredProducts} />
 
@@ -84,12 +67,12 @@ const BrandPLP = (props: BrandPLPProps) => {
         </>
       )}
 
-      {isError && (
+      {/* {isError && (
         <div className="h-[calc(100vh-32px)] w-full">
           <Error />
         </div>
-      )}
+      )} */}
     </>
   );
 };
-export default BrandPLP;
+export default ProductsPLP;

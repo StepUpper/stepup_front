@@ -1,8 +1,9 @@
-import LikeButton, { LikeButtonProps } from "@common/LikeButton";
 import { ReactNode } from "react";
-import ProductLearnMoreButton from "./ProductLearnMoreButton";
 import { useNavigate } from "react-router-dom";
-import { perfittLogo } from "@/assets/assets";
+import LikeButton, { LikeButtonProps } from "@common/LikeButton";
+import ProductLearnMoreButton from "@common/ProductLearnMoreButton";
+import Img from "@common/html/Img";
+import { perfittLogo } from "@assets/assets";
 
 interface ProductItemProps extends LikeButtonProps {
   recSize?: string | null;
@@ -37,27 +38,27 @@ const ProductItem = (props: ProductItemProps) => {
 
   // 브릿지
   const handleBridgeNavigation = () => {
-    navigate("/bridge", {
-      state: {
-        customerLink,
-        brandName,
-        productName,
-        customerImg,
-      },
-    });
+    navigate(
+      `/bridge?type=brand&brandName=${brandName}&productName=${productName}&customerImg=${customerImg}&customerLink=${customerLink}`
+    );
   };
 
   return (
     <li
-      className="min-w-[136px] cursor-pointer list-none"
+      className="w-full min-w-[136px] cursor-pointer list-none"
       onClick={handleBridgeNavigation}
     >
       {/* 상단 이미지 영역 */}
       <div className="relative">
-        <div className="h-fit overflow-hidden rounded-[0.39rem]">
+        <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-[0.39rem] bg-grey-50">
           {/* 신발 이미지 */}
-          <div className="item-center mt-[-10px] h-fit w-full bg-grey-50">
-            <img src={thumb} alt={productName} width="100%" />
+          <div className="item-center mt-[-10px] size-full min-h-[136px]">
+            <Img
+              src={thumb}
+              alt={productName}
+              width="100%"
+              errorStyle="w-[60%] mt-[10px]"
+            />
           </div>
         </div>
         {/* 사이즈 추천 */}
@@ -79,7 +80,7 @@ const ProductItem = (props: ProductItemProps) => {
         </div>
       </div>
       {/* 하단 신발 정보 */}
-      <div className="flex flex-col gap-2.5 px-1.5 py-2.5 text-body3">
+      <div className="flex flex-col gap-2.5 px-0 py-2.5 text-body3 sm:px-1.5">
         <div className="flex flex-col gap-[3px]">
           <strong className="font-paragraph">{brandName}</strong>
           <h3 className="truncate font-label">{productName}</h3>
