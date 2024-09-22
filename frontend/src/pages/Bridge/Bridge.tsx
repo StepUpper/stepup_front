@@ -6,20 +6,20 @@ const Bridge = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { customerLink, brandName, productName, customerImage } =
-    location.state || {};
+  const params = Object.fromEntries(new URLSearchParams(location.search));
+  const { brandName, productName, customerImg, customerLink } = params;
 
   useEffect(() => {
     // 고객사 링크가 있으면 3초 후에 해당 링크로 리디렉션
     const timer = setTimeout(() => {
       if (customerLink) {
-        window.open(customerLink, "_blank"); // 새창
-        navigate(-1); // 기존창 완료 후 이전 페이지로 이동
+        window.location.href = customerLink;
+        // window.location.replace(customerLink);
       } else {
         // 고객사 링크가 없으면 다른 페이지로 리디렉션 어디로...?
-        navigate("/", { replace: true });
+        navigate("/");
       }
-    }, 3000); // 3초 후에 리디렉션
+    }, 2000); // 2초 후에 리디렉션
 
     return () => clearTimeout(timer);
   }, [customerLink, navigate]);
@@ -28,7 +28,7 @@ const Bridge = () => {
     <div className="item-center h-screen flex-col gap-9">
       <div className="size-[120px]">
         <img
-          src={customerImage ? customerImage : perfittLogo}
+          src={customerImg ? customerImg : perfittLogo}
           alt={brandName}
           width="100%"
         />

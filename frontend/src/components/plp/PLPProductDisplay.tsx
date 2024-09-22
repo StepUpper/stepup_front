@@ -14,7 +14,7 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
   // TODO: 데이터 확인 필요
   const { user } = userStore();
   const userFootSize = user?.footInfo || null;
-  console.log(user)
+  // console.log(user)
 
   return (
     <>
