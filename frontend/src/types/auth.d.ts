@@ -7,5 +7,4 @@ export type TUser = {
   sizeType?: "EU" | "US" | "mm" | null;
   sneakerSize?: number;
   footInfo?: string | null;
-  interests?: string[] | null;
 };

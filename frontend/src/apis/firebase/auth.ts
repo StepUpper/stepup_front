@@ -7,7 +7,14 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 interface UserTypeforSignup {
   email: string;
@@ -17,9 +24,23 @@ interface UserTypeforSignup {
 const getUserData = async () => {
   const uid = auth.currentUser?.uid;
   if (!uid) return null;
+
   const docRef = doc(db, "users", uid);
   const docSnap = await getDoc(docRef);
-  return { uid: uid, ...docSnap.data() };
+
+  if (!docSnap.exists()) {
+    return null;
+  }
+
+  const likeShoesRef = collection(db, "users", uid, "likeShoes");
+  const likeShoesSnap = await getDocs(likeShoesRef);
+
+  const likeShoes = likeShoesSnap.docs.map((doc) => ({
+    shoeId: doc.id,
+    ...doc.data(),
+  }));
+
+  return { uid: uid, ...docSnap.data(), likeShoes: likeShoes };
 };
 
 const updateUserData = async (key: string, value: string | number) => {
