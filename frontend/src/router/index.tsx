@@ -9,6 +9,7 @@ import MyShopping from "@pages/MyShopping/MyShopping";
 import MyFootInfo from "@pages/MyFootInfo/MyFootInfo";
 import Bridge from "@pages/Bridge/Bridge";
 import Onboarding from "@pages/Onboarding/Onboarding";
+import { onBoardingLoader } from "@router/loaders/onBoarding";
 
 const router = createBrowserRouter(
   [
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
         {
           path: "",
           element: <Chat />,
+          loader: onBoardingLoader,
         },
         {
           path: "/archive",
@@ -47,7 +49,7 @@ const router = createBrowserRouter(
       ],
     },
     {
-      path: "onboarding",
+      path: "/onboarding",
       element: <Onboarding />,
     },
     {
