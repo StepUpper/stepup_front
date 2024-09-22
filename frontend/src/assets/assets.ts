@@ -1,4 +1,3 @@
-import { onBoadingLoader } from "./../router/loaders/onBoading";
 import menuIcon from "@assets/icons/menu-icon.svg";
 import backIcon from "@assets/icons/back-icon.svg";
 import dotIcon from "@assets/icons/kebab-icon.svg";
