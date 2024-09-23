@@ -10,6 +10,7 @@ export const addOrRemoveShoeFromLikes = async (
     link: string;
     modelNo: string;
     productId: string;
+    customerImg?: string;
   }
 ) => {
   try {
@@ -23,7 +24,10 @@ export const addOrRemoveShoeFromLikes = async (
         imgUrl: product.imgUrl,
         modelNo: product.modelNo,
         brand: product.brand,
-        link: product.link,
+        customerLink: product.link,
+        thumb: null,
+        customerImg: null,
+        price: null,
       });
     } else {
       await deleteDoc(shoeRef);

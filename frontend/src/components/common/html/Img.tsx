@@ -21,7 +21,7 @@ const Img = (props: ImgProps) => {
   return (
     <>
       <img
-        src={isError ? fallbackSrc : src}
+        src={isError || !src ? fallbackSrc : src}
         alt={alt}
         onError={() => {
           setIsError(true);
@@ -29,8 +29,8 @@ const Img = (props: ImgProps) => {
         width="100%"
         className={twMerge(
           className,
-          isError ? "w-[60%] opacity-10" : "opacity-100",
-          isError && errorStyle
+          isError || !src ? "w-[60%] opacity-10" : "opacity-100",
+          isError || !src ? errorStyle : ""
         )}
         {...rest}
       />

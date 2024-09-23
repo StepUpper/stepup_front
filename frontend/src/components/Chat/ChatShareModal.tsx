@@ -71,7 +71,7 @@ const ChatShareModal = (props: ModalProps) => {
           }}
           className="mt-4 flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-black py-2 text-white"
         >
-          <img src={linkAngledIcon} alt="linkAngledIcon" className="h-6 w-6" />
+          <img src={linkAngledIcon} alt="linkAngledIcon" className="size-6" />
           링크 복사
         </button>
       </div>
