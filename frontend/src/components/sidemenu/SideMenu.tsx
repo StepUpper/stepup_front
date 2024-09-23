@@ -81,7 +81,7 @@ const SideMenu = ({
     setLongPressedItem(id);
     setSwipedItem(null);
   };
-
+  
   const handleReset = () => {
     setSwipedItem(null);
     setLongPressedItem(null);
