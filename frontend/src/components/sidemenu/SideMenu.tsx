@@ -35,7 +35,6 @@ const SideMenu = ({
   };
 
   const navigate = useNavigate();
-
   const [chats, setChats] = useState<
     {
       id: string;
@@ -71,14 +70,14 @@ const SideMenu = ({
       !checkTodayDate(new Date(chat.timestamp), today)
   );
 
-  const [swipedItem, setSwipedItem] = useState<number | null>(null);
-  const [longPressedItem, setLongPressedItem] = useState<number | null>(null);
+  const [swipedItem, setSwipedItem] = useState<string | null>(null);
+  const [longPressedItem, setLongPressedItem] = useState<string | null>(null);
 
-  const handleSwipe = (id: number) => {
+  const handleSwipe = (id: string) => {
     setSwipedItem(id);
     setLongPressedItem(null);
   };
-  const handleLongPress = (id: number) => {
+  const handleLongPress = (id: string) => {
     setLongPressedItem(id);
     setSwipedItem(null);
   };
