@@ -13,8 +13,8 @@ const Bridge = () => {
     // 고객사 링크가 있으면 3초 후에 해당 링크로 리디렉션
     const timer = setTimeout(() => {
       if (customerLink) {
-        window.location.href = customerLink;
-        // window.location.replace(customerLink);
+        // window.location.href = customerLink;
+        window.location.replace(customerLink);
       } else {
         // 고객사 링크가 없으면 다른 페이지로 리디렉션 어디로...?
         navigate("/");
