@@ -36,9 +36,15 @@ const ChatInput = () => {
       });
 
       if (res.status === 200) {
+        console.log(res.data);
         if (isLoggedIn) {
-          await addMessageToFirestore(userId, roomId!, chatMsg, res.data);
-          addUserMessage({ type: "bot", content: res.data });
+          const docId = await addMessageToFirestore(
+            userId,
+            roomId!,
+            chatMsg,
+            res.data
+          );
+          addUserMessage({ type: "bot", content: res.data, id: docId });
         } else {
           addGuestMessage({ type: "bot", content: res.data });
         }
