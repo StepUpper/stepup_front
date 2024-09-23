@@ -1,7 +1,6 @@
 import { plusIcon } from "@/assets/assets";
 import Button from "@/components/common/html/Button";
 import InputField from "@/components/common/InputField";
-import React from "react";
 
 const SearchShoeButton = () => {
   return (

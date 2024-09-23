@@ -1,5 +1,6 @@
-import Button from "@common/html/Button";
+import { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
+import Button from "@common/html/Button";
 
 interface ReviewOptionSelectorButtonProps {
   isSelected: boolean;
@@ -17,7 +18,7 @@ const ReviewOptionSelectorButton = (
         isSelected ? "bg-white text-black" : "bg-grey-50 text-grey-500"
       )}
       value={value}
-      onClick={(e) => onClick(e)}
+      onClick={onClick}
       {...rest}
     >
       {value}

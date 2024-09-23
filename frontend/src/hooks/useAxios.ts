@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse, CancelToken } from "axios";
 
-type FetchFunction<T> = (...args: any[]) => Promise<AxiosResponse<T>> | null;
+type FetchFunction<T, P extends unknown[]> = (
+  ...args: [...P, { cancelToken: CancelToken }]
+) => Promise<AxiosResponse<T>> | null;
 
 // TODO: api 호출 함수 자체를 props로 줄지.. 정해야함..
-const useAxios = <T>(
-  fetchFunction: FetchFunction<T>, // api 함수
+const useAxios = <T, P extends unknown[]>(
+  fetchFunction: FetchFunction<T, P>, // api 함수
   initialData: T | null, // 초기 데이터
-  ...args: any[] // api 함수 넘겨줄 인자
+  ...args: P // api 함수 넘겨줄 인자
 ) => {
   const [data, setData] = useState<T | null>(initialData);
   const [isLoading, setLoading] = useState(false);
