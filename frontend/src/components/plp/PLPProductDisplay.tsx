@@ -3,7 +3,6 @@ import PLPControls from "@components/plp/PLPControls";
 import ProductList from "@common/ProductList";
 import PLPEmptyList from "@components/plp/PLPEmptyList";
 import userStore from "@store/auth.store";
-import { TChatResponse } from "@type/chat";
 
 interface PLPProductDisplayProps {
   products:

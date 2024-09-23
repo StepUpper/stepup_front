@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import PLPHeader from "@components/plp/PLPHeader";
 import { GenderCategory } from "@components/plp/GenderCategorySelector";
 import PLPProductDisplay from "@components/plp/PLPProductDisplay";
-import FilterBottomSheet from "@components/plp/FilterBottomSheet";
+// import FilterBottomSheet from "@components/plp/FilterBottomSheet";
 // import Error from "@common/Error";
 import { TChatResponse } from "@type/chat";
 import { perfittLogo } from "@assets/assets";
@@ -39,9 +39,9 @@ const ProductsPLP = (props: ProductsPLPProps) => {
   }, [data, selectedCategory]);
 
   // 필터 적용
-  const handleFilters = (selectedGender: GenderCategory) => {
-    setSelectedCategory(selectedGender);
-  };
+  // const handleFilters = (selectedGender: GenderCategory) => {
+  //   setSelectedCategory(selectedGender);
+  // };
 
   return (
     <>
