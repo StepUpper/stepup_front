@@ -12,6 +12,8 @@ import {
   getUserChatRooms,
 } from "@apis/firebase/chatFirestore";
 import useChatStore from "@store/chat.store";
+import Logout from "@common/Logout";
+import { useBottomSheet } from "@store/bottomSheet.store";
 
 const SideMenu = ({
   isOpen,
@@ -23,10 +25,16 @@ const SideMenu = ({
   const { isLoggedIn, user } = userStore();
   const { setRoomId } = useChatStore();
 
-  const navigate = useNavigate();
-  const gotoPageHandler = (path: string) => {
-    navigate(path);
+  const { open } = useBottomSheet();
+
+  const handleLogin = () => {
+    onClose();
+    navigate("#login");
+    open("login");
   };
+
+  const navigate = useNavigate();
+
   const [chats, setChats] = useState<any[]>([]);
 
   const chatDate = (timestamp: { seconds: number; nanoseconds: number }) => {
@@ -191,19 +199,19 @@ const SideMenu = ({
                     <div className="flex flex-col items-start gap-[14px] border-t border-t-[#E4E4E7] py-[17px] text-body2 font-normal">
                       <Button
                         className="bg-white"
-                        onClick={() => gotoPageHandler("/mypage/myshopping")}
+                        onClick={() => navigate("/mypage/myshopping")}
                       >
                         좋아요 | 최근 본
                       </Button>
                       <Button
                         className="bg-white"
-                        onClick={() => gotoPageHandler("/archive")}
+                        onClick={() => navigate("/archive")}
                       >
                         신발장
                       </Button>
                       <Button
                         className="bg-white"
-                        onClick={() => gotoPageHandler("/myfootinfo")}
+                        onClick={() => navigate("/myfootinfo")}
                       >
                         내 발 정보
                       </Button>
@@ -216,18 +224,38 @@ const SideMenu = ({
               {/* 프로필 */}
               <div className="bottom-0 px-[16px]">
                 <div className="border-t border-t-[#E4E4E7] py-[17px]">
-                  <Button
-                    className="flex items-center gap-[8px]"
-                    onClick={() => gotoPageHandler(isLoggedIn ? "/mypage" : "")}
-                  >
-                    <ProfileImage
-                      showCameraIcon={false}
-                      className="size-[30px]"
-                    />
-                    <p className="text-body2 font-semibold text-black">
-                      {isLoggedIn ? user?.username : "로그인이 필요합니다"}
-                    </p>
-                  </Button>
+                  {isLoggedIn ? (
+                    <>
+                      <div className="flex grow justify-between gap-[10px]">
+                        <Button
+                          className="flex items-center gap-[8px]"
+                          onClick={() => navigate("/mypage")}
+                        >
+                          <ProfileImage
+                            showCameraIcon={false}
+                            className="size-[30px]"
+                          />
+                          <p className="text-body2 font-semibold text-black">
+                            {user?.username}
+                          </p>
+                        </Button>
+                        <Logout onClose={onClose} />
+                      </div>
+                    </>
+                  ) : (
+                    <Button
+                      className="flex items-center gap-[8px]"
+                      onClick={handleLogin}
+                    >
+                      <ProfileImage
+                        showCameraIcon={false}
+                        className="size-[30px]"
+                      />
+                      <p className="text-body2 font-semibold text-black underline">
+                        로그인이 필요합니다
+                      </p>
+                    </Button>
+                  )}
                 </div>
               </div>
             </motion.nav>
