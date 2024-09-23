@@ -28,11 +28,16 @@ export default tseslint.config(
     },
     settings: { react: { version: "detect" } },
     rules: {
+      ...reactPlugin.configs["recommended"].rules,
+      ...reactPlugin.configs["jsx-runtime"].rules,
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": [
         "warn",
         { allowConstantExport: true },
       ],
+      "react/prop-types": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-non-null-asserted-optional-chain": "warn",
       "prettier/prettier": "error",
     },
   }
