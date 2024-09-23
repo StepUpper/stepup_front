@@ -39,8 +39,6 @@ import aiIconImg from "@assets/images/ai-icon-img.png";
 import shoeHeart from "@assets/images/shoeHeart.svg";
 import onboardingImg1 from "@assets/images/onboarding1.png";
 import onboardingImg2 from "@assets/images/onboarding2.png";
-import shoeHeart from "@assets/images/shoeHeart.svg";
-
 
 export {
   // ******* ICON
@@ -85,6 +83,4 @@ export {
   shoeHeart,
   onboardingImg1,
   onboardingImg2,
-  shoeHeart,
-
 };

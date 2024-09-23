@@ -41,33 +41,40 @@ const SideMenu = ({
       title?: string;
       timestamp?: Timestamp;
       roomName?: string;
+      createdAt?: string;
     }[]
   >([]);
 
-  const chatDate = (timestamp: { seconds: number; nanoseconds: number }) => {
-    return new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
-  };
-  const today = new Date();
-  const checkTodayDate = (date1: Date, date2: Date) => {
+  const today = Timestamp.now();
+  const checkTodayDate = (timestamp: Timestamp, today: Timestamp) => {
+    const todayDate = new Date(today.seconds * 1000);
+    const chatDate = new Date(timestamp.seconds * 1000);
     return (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
+      todayDate.getFullYear() === chatDate.getFullYear() &&
+      todayDate.getMonth() === chatDate.getMonth() &&
+      todayDate.getDate() === chatDate.getDate()
     );
   };
+
   const todayChats = chats.filter((chat) =>
-    checkTodayDate(new Date(chat.createdAt), today)
+    chat.timestamp ? checkTodayDate(chat.timestamp, today) : false
   );
 
-  const checkWithin7Days = (date: Date) => {
-    const sevenDaysAgo = new Date(today);
-    sevenDaysAgo.setDate(today.getDate() - 7);
-    return date >= sevenDaysAgo && date < today;
+  const checkWithin7Days = (timestamp: Timestamp, today: Timestamp) => {
+    const sevenDaysAgo = new Date(today.seconds * 1000);
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const chatDate = new Date(timestamp.seconds * 1000);
+    return (
+      chatDate >= sevenDaysAgo && chatDate < new Date(today.seconds * 1000)
+    );
   };
+
   const last7DaysChats = chats.filter(
     (chat) =>
-      checkWithin7Days(new Date(chat.timestamp)) &&
-      !checkTodayDate(new Date(chat.timestamp), today)
+      chat.timestamp &&
+      checkWithin7Days(chat.timestamp, today) &&
+      !checkTodayDate(chat.timestamp, today)
   );
 
   const [swipedItem, setSwipedItem] = useState<string | null>(null);
@@ -81,7 +88,7 @@ const SideMenu = ({
     setLongPressedItem(id);
     setSwipedItem(null);
   };
-  
+
   const handleReset = () => {
     setSwipedItem(null);
     setLongPressedItem(null);
@@ -110,13 +117,6 @@ const SideMenu = ({
         const chatRooms = await getUserChatRooms(user?.uid!);
         setChats(chatRooms);
         console.log(chatRooms);
-
-        const formattedChatRooms = chatRooms.map((chat) => ({
-          ...chat,
-          createdAt: chatDate(chat.timestamp),
-        }));
-
-        setChats(formattedChatRooms);
       }
     };
 
@@ -168,7 +168,7 @@ const SideMenu = ({
                           {todayChats.map((chat) => (
                             <SideChatListItem
                               key={chat.id}
-                              title={chat.roomName}
+                              title={chat.roomName || ""}
                               isSwiped={swipedItem === chat.id}
                               isLongPressed={longPressedItem === chat.id}
                               onSwipe={() => handleSwipe(chat.id)}
@@ -188,7 +188,7 @@ const SideMenu = ({
                           {last7DaysChats.map((chat) => (
                             <SideChatListItem
                               key={chat.id}
-                              title={chat.roomName}
+                              title={chat.roomName || ""}
                               isSwiped={swipedItem === chat.id}
                               isLongPressed={longPressedItem === chat.id}
                               onSwipe={() => handleSwipe(chat.id)}
