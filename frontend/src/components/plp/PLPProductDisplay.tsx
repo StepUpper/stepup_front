@@ -1,11 +1,20 @@
-import { TProduct } from "@/types/plp";
+import { TProduct } from "@type/plp";
 import PLPControls from "@components/plp/PLPControls";
 import ProductList from "@common/ProductList";
 import PLPEmptyList from "@components/plp/PLPEmptyList";
 import userStore from "@store/auth.store";
 
 interface PLPProductDisplayProps {
-  products: TProduct[] | [];
+  products:
+    | TProduct[]
+    | {
+        image: string;
+        link: string;
+        modelName: string;
+        brand: string;
+        modelNo: string;
+        productId: string;
+      }[];
 }
 
 const PLPProductDisplay = (props: PLPProductDisplayProps) => {

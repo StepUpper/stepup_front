@@ -15,7 +15,17 @@ const ShoeRegisterInputForm = () => {
   });
 
   const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { name, value } = e.target;
+    const target = e.target as HTMLButtonElement;
+    const { name, value } = target;
+    setReview((rev) => ({
+      ...rev,
+      [name]: value,
+    }));
+  };
+
+  const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const target = e.target as HTMLTextAreaElement;
+    const { name, value } = target;
     setReview((rev) => ({
       ...rev,
       [name]: value,
@@ -101,7 +111,7 @@ const ShoeRegisterInputForm = () => {
           placeholder="이 신발을 신으면서 느꼈던 장점 및 단점을 솔직하게 알려주세요."
           value={review.text}
           name="text"
-          onChange={onClickHandler}
+          onChange={onChangeHandler}
         />
       </InputField>
     </div>

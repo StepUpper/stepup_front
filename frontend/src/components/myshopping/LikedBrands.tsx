@@ -15,8 +15,11 @@ const LikedBrands = (props: LikedBrandsProps) => {
         <div className="justify-items-center gap-[10px] py-[16px]">
           {Array(n)
             .fill(null)
-            .map(() => (
-              <Button className="mb-[10px] flex w-full items-center justify-between gap-[20px] pl-[4px]">
+            .map((index) => (
+              <Button
+                key={index}
+                className="mb-[10px] flex w-full items-center justify-between gap-[20px] pl-[4px]"
+              >
                 {/* 브랜드 로고 이미지 */}
                 <div className="size-[75px] rounded-full bg-grey-50">
                   <img src={brandLogoImg} />

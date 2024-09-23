@@ -3,12 +3,12 @@ import Header from "@common/Header";
 import FootInfoPlaceholder from "@components/myFootInfo/FootInfoPlaceholder";
 import FootInfoDisplay from "@components/myFootInfo/FootInfoDisplay";
 
-interface PerfittSizeConfig {
-  customerId: string; // 유저 로그인 아이디
-  brand?: string; // 신발 브랜드
-  modelNo?: string; // 신발 모델 번호
-  gender?: "f" | "m"; // 성별 ('f'는 여성, 'm'은 남성)
-}
+// interface PerfittSizeConfig {
+//   customerId: string; // 유저 로그인 아이디
+//   brand?: string; // 신발 브랜드
+//   modelNo?: string; // 신발 모델 번호
+//   gender?: "f" | "m"; // 성별 ('f'는 여성, 'm'은 남성)
+// }
 
 declare global {
   interface Window {
@@ -20,7 +20,7 @@ declare global {
 
 const MyFootInfo = () => {
   // TODO: 사용자 내 발 정보 있는지 여부에 따라 처리를 해야하는데...
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   useEffect(() => {
     // window.initializePerfittSize({ customerId: "test" });
