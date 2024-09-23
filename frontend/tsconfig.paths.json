@@ -13,7 +13,7 @@
       "@router/*": ["src/router/*"],
       "@store/*": ["src/store/*"],
       "@styles/*": ["src/styles/*"],
-      "@types/*": ["src/types/*"],
+      "@type/*": ["src/types/*"],
       "@utils/*": ["src/utils/*"]
     }
   }

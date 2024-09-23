@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useBottomSheet } from "@store/bottomSheet.store";
-import { TProduct } from "@types/plp";
+import { TProduct } from "@type/plp";
 import BottomSheet from "@common/BottomSheet";
 import BottomButton from "@common/BottomButton";
 import GenderCategorySelector, {

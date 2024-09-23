@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import Login from "./Login";
+import { useLocation } from "react-router-dom";
 import BottomSheet from "@common/BottomSheet";
-import { useLocation, useNavigate } from "react-router-dom";
-import SignUp from "../signUp/SignUp";
+import Login from "@components/login/Login";
+import SignUp from "@components/signup/SignUp";
 
 const LoginBottomSheet = () => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const [form, setForm] = useState("");
 

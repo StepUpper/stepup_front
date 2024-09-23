@@ -1,6 +1,5 @@
-import React from "react";
-import BottomButton from "@common/BottomButton";
 import { useNavigate } from "react-router-dom";
+import BottomButton from "@common/BottomButton";
 
 const SubmitBottomButton = () => {
   const navigate = useNavigate();
