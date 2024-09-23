@@ -18,7 +18,8 @@ const ChatProductItem = (props: ProductItemProps) => {
   const { isLoggedIn, user, updateUserInfo } = userStore();
   const { brand, title, imgUrl, link, modelNo, productId, isLiked } = props;
 
-  const handleLikeClick = async () => {
+  const handleLikeClick = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (isLoggedIn) {
       await addOrRemoveShoeFromLikes(user?.uid!, {
         brand,

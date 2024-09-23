@@ -67,7 +67,10 @@ const Chat = () => {
             {msg.type === "user" ? (
               <ChatUserMessage title={msg.content as string} />
             ) : (
-              <ChatMessage title={msg.content as TChatResponse} />
+              <ChatMessage
+                title={msg.content as TChatResponse}
+                docId={msg.id}
+              />
             )}
           </div>
         ))}

@@ -5,7 +5,7 @@ import Button from "@common/html/Button";
 export type LikeButtonProps = {
   isLiked?: boolean;
   className?: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 const LikeButton = (props: LikeButtonProps) => {
   const { isLiked = false, className, onClick } = props;
