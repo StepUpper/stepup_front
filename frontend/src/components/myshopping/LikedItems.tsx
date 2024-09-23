@@ -1,7 +1,4 @@
-import { useState } from "react";
 import ProductList from "@common/ProductList";
-import CategorySelector from "@common/CategorySelector";
-import Button from "@common/html/Button";
 
 const LikedItems = () => {
   const n: number = 5;

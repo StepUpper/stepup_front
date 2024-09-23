@@ -1,4 +1,4 @@
-import { TChatResponse } from "@types/chat";
+import { TChatResponse } from "@type/chat";
 import BottomSheet from "@common/BottomSheet";
 import BrandPLP from "@components/plp/BrandPLP";
 import ProductsPLP from "./ProductsPLP";

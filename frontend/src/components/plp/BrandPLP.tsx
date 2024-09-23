@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useAxios from "@hooks/useAxios";
-import { TBrandPLPResponse, TProduct } from "@types/plp";
+import { TBrandPLPResponse, TProduct } from "@type/plp";
 import { chatApi } from "@apis/services/chat";
 import PLPHeader from "@components/plp/PLPHeader";
 import GenderCategorySelector, {
@@ -18,7 +18,7 @@ interface BrandPLPProps {
 const BrandPLP = (props: BrandPLPProps) => {
   const { brandName } = props;
 
-  const { data, isError } = useAxios<TBrandPLPResponse>(
+  const { data, isError } = useAxios<TBrandPLPResponse, [string]>(
     chatApi.getBrandInfo,
     null,
     brandName

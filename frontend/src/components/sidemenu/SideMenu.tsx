@@ -4,7 +4,7 @@ import { plusIcon } from "@/assets/assets";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ProfileImage from "@common/ProfileImage";
-import SideChatListItem from "./SideChatListItem";
+// import SideChatListItem from "./SideChatListItem";
 import { motion, AnimatePresence } from "framer-motion";
 import userStore from "@store/auth.store";
 import {
@@ -31,51 +31,53 @@ const SideMenu = ({
   const [chats, setChats] = useState<
     {
       id: string;
-      timestamp: Timestamp;
-      roomName: string;
+      title?: string;
+      timestamp?: Timestamp;
+      roomName?: string;
     }[]
   >([]);
+  console.log(chats); // 임시처리 제거 바람.
 
-  const today = new Date();
-  const checkTodayDate = (date1: Date, date2: Date) => {
-    return (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
-    );
-  };
-  const todayChats = chats.filter((chat) =>
-    checkTodayDate(new Date(chat.createdAt), today)
-  );
+  // const today = new Date();
+  // const checkTodayDate = (date1: Date, date2: Date) => {
+  //   return (
+  //     date1.getFullYear() === date2.getFullYear() &&
+  //     date1.getMonth() === date2.getMonth() &&
+  //     date1.getDate() === date2.getDate()
+  //   );
+  // };
+  // const todayChats = chats.filter((chat) =>
+  //   checkTodayDate(new Date(chat.timestamp), today)
+  // );
 
-  const checkWithin7Days = (date: Date) => {
-    const sevenDaysAgo = new Date(today);
-    sevenDaysAgo.setDate(today.getDate() - 7);
+  // const checkWithin7Days = (date: Date) => {
+  //   const sevenDaysAgo = new Date(today);
+  //   sevenDaysAgo.setDate(today.getDate() - 7);
 
-    return date >= sevenDaysAgo && date < today;
-  };
-  const last7DaysChats = chats.filter(
-    (chat) =>
-      checkWithin7Days(new Date(chat.createdAt)) &&
-      !checkTodayDate(new Date(chat.createdAt), today)
-  );
+  //   return date >= sevenDaysAgo && date < today;
+  // };
+  // const last7DaysChats = chats.filter(
+  //   (chat) =>
+  //     checkWithin7Days(new Date(chat.timestamp)) &&
+  //     !checkTodayDate(new Date(chat.timestamp), today)
+  // );
 
-  const [swipedItem, setSwipedItem] = useState<number | null>(null);
-  const [longPressedItem, setLongPressedItem] = useState<number | null>(null);
+  // const [swipedItem, setSwipedItem] = useState<number | null>(null);
+  // const [longPressedItem, setLongPressedItem] = useState<number | null>(null);
 
-  const handleSwipe = (id: number) => {
-    setSwipedItem(id);
-    setLongPressedItem(null);
-  };
-  const handleLongPress = (id: number) => {
-    setLongPressedItem(id);
-    setSwipedItem(null);
-  };
+  // const handleSwipe = (id: number) => {
+  //   setSwipedItem(id);
+  //   setLongPressedItem(null);
+  // };
+  // const handleLongPress = (id: number) => {
+  //   setLongPressedItem(id);
+  //   setSwipedItem(null);
+  // };
 
-  const handleReset = () => {
-    setSwipedItem(null);
-    setLongPressedItem(null);
-  };
+  // const handleReset = () => {
+  //   setSwipedItem(null);
+  //   setLongPressedItem(null);
+  // };
 
   const handleCreateNewChat = async () => {
     if (isLoggedIn && user) {
@@ -142,7 +144,7 @@ const SideMenu = ({
                   </div>
                   {/* 채팅 리스트 */}
                   <div className="no-scrollbar flex grow flex-col gap-[25px] overflow-y-auto px-[16px] py-[17px]">
-                    {todayChats.length > 0 && (
+                    {/* {todayChats.length > 0 && (
                       <div className="flex flex-col gap-[8px]">
                         <span className="h-[24px] text-body3 text-grey-500">
                           오늘
@@ -181,7 +183,7 @@ const SideMenu = ({
                           ))}
                         </ul>
                       </div>
-                    )}
+                    )} */}
                   </div>
                   {/* 기타 메뉴 이동 */}
                   <div className="bottom-0 mt-[15px] px-[16px]">
