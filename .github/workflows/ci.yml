@@ -16,6 +16,8 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache
+        working-directory: ./frontend
 
       - name: Check Lint
         run: yarn lint:fix
+        working-directory: ./frontend
