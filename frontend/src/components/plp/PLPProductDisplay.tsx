@@ -20,10 +20,7 @@ interface PLPProductDisplayProps {
 const PLPProductDisplay = (props: PLPProductDisplayProps) => {
   const { products } = props;
 
-  // TODO: 데이터 확인 필요
-  const { user } = userStore();
-  const userFootSize = user?.footInfo || null;
-  // console.log(user)
+  const { likeShoes } = userStore();
 
   return (
     <>
@@ -31,17 +28,26 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
       <div className="overflow-y-auto px-4 pb-6">
         {products.length > 0 ? (
           <ProductList>
-            {products.map((product, index) => (
-              <ProductList.Item
-                key={`${product.modelNo}-${index}`}
-                recSize={userFootSize}
-                thumb={product.image}
-                brandName={product.brand}
-                productName={product.modelName}
-                isLiked={false}
-                customerLink={product.link}
-              />
-            ))}
+            {products.map((product, index) => {
+              const isLiked = likeShoes?.some(
+                (shoe) => shoe.shoeId === product.productId
+              );
+
+              const productKey =
+                product.productId || `${product.modelNo}_${index}`;
+              return (
+                <ProductList.Item
+                  key={productKey}
+                  productId={product.productId || productKey}
+                  modelNo={product.modelNo}
+                  thumb={product.image}
+                  brandName={product.brand}
+                  productName={product.modelName}
+                  isLiked={isLiked}
+                  customerLink={product.link}
+                />
+              );
+            })}
           </ProductList>
         ) : (
           <PLPEmptyList />

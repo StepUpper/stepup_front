@@ -106,19 +106,8 @@ const ChatShareModal = (props: ModalProps) => {
           } py-2`}
           disabled={isCopying || isCopied}
         >
-          <img
-            src={
-              isCopying ? loadingIcon : isCopied ? copyLeftIcon : linkAngledIcon
-            }
-            alt={
-              isCopying
-                ? "loadingIcon"
-                : isCopied
-                  ? "copyLeftIcon"
-                  : "linkAngledIcon"
-            }
-          />
-          {isCopying ? "링크 복사중" : isCopied ? "복사됨" : "링크 복사"}
+          <img src={linkAngledIcon} alt="linkAngledIcon" className="size-6" />
+          링크 복사
         </button>
       </div>
     </div>
