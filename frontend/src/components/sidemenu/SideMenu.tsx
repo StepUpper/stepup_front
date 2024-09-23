@@ -14,6 +14,7 @@ import {
 import useChatStore from "@store/chat.store";
 import Logout from "@common/Logout";
 import { useBottomSheet } from "@store/bottomSheet.store";
+import { Timestamp } from "firebase/firestore";
 
 const SideMenu = ({
   isOpen,
@@ -35,7 +36,13 @@ const SideMenu = ({
 
   const navigate = useNavigate();
 
-  const [chats, setChats] = useState<any[]>([]);
+  const [chats, setChats] = useState<
+    {
+      id: string;
+      timestamp: Timestamp;
+      roomName: string;
+    }[]
+  >([]);
 
   const chatDate = (timestamp: { seconds: number; nanoseconds: number }) => {
     return new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
