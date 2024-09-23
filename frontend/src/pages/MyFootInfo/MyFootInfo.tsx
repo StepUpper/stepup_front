@@ -30,7 +30,7 @@ const MyFootInfo = () => {
   return (
     <>
       <Header type="back">내 발 측정하기</Header>
-      <main className="container-y items-center justify-center pb-9">
+      <main className="container-y items-center justify-center">
         {isLoading ? <FootInfoDisplay /> : <FootInfoPlaceholder />}
       </main>
     </>
