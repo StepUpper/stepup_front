@@ -15,12 +15,13 @@ import userStore from "@/store/auth.store";
 
 interface ChatMessageProps {
   title: TChatResponse;
+  docId?: string | null;
 }
 
 const ChatMessage = (props: ChatMessageProps) => {
   const { setClickedProducts, setClickedBrand } = productAndBrandStore();
   const { likeShoes } = userStore();
-  const { title } = props;
+  const { title, docId } = props;
 
   const { open } = useBottomSheet();
 
@@ -72,7 +73,7 @@ const ChatMessage = (props: ChatMessageProps) => {
               </div>
             ))}
           </div>
-          <ChatShareDislikeBox />
+          <ChatShareDislikeBox docId={docId} />
         </>
       )}
 
@@ -128,7 +129,7 @@ const ChatMessage = (props: ChatMessageProps) => {
             </div>
           </div>
 
-          <ChatShareDislikeBox />
+          <ChatShareDislikeBox docId={docId} />
         </>
       )}
 

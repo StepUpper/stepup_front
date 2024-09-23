@@ -62,9 +62,14 @@ const InterestKeywordsBottomSheet = () => {
 
         if (res.status === 200) {
           if (isLoggedIn) {
-            await addMessageToFirestore(user?.uid!, roomId!, chatMsg, res.data);
+            const docId = await addMessageToFirestore(
+              user?.uid!,
+              roomId!,
+              chatMsg,
+              res.data
+            );
 
-            addUserMessage({ type: "bot", content: res.data });
+            addUserMessage({ type: "bot", content: res.data, id: docId });
           }
         }
       } catch (error) {

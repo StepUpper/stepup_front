@@ -66,8 +66,13 @@ const ChatRecommendedQuestion = () => {
 
       if (res.status === 200) {
         if (isLoggedIn) {
-          await addMessageToFirestore(userId, roomId!, question, res.data);
-          addUserMessage({ type: "bot", content: res.data });
+          const docId = await addMessageToFirestore(
+            userId,
+            roomId!,
+            question,
+            res.data
+          );
+          addUserMessage({ type: "bot", content: res.data, id: docId });
         } else {
           addGuestMessage({ type: "bot", content: res.data });
         }
