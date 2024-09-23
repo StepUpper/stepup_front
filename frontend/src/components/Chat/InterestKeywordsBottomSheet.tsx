@@ -74,7 +74,6 @@ const InterestKeywordsBottomSheet = () => {
           // 호출 실패하면 굳이 firestore에 저장할 필요 없으니 상태 업데이트만 해줌
           addUserMessage({ type: "bot", content: { message: errorMessage } });
         }
-      } finally {
       }
     }
   };

@@ -12,6 +12,7 @@ import {
   getUserChatRooms,
 } from "@/apis/firebase/chatFirestore";
 import useChatStore from "@/store/chat.store";
+import { Timestamp } from "firebase/firestore";
 
 const SideMenu = ({
   isOpen,
@@ -27,7 +28,13 @@ const SideMenu = ({
   const gotoPageHandler = (path: string) => {
     navigate(path);
   };
-  const [chats, setChats] = useState<any[]>([]);
+  const [chats, setChats] = useState<
+    {
+      id: string;
+      timestamp: Timestamp;
+      roomName: string;
+    }[]
+  >([]);
 
   const today = new Date();
   const checkTodayDate = (date1: Date, date2: Date) => {

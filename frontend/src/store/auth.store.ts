@@ -6,7 +6,16 @@ interface UserState {
   isLoggedIn: boolean;
   user: TUser | null;
   // 좋아요한 신발들을 관리하기 위한 상태 추가
-  likeShoes: any[] | null;
+  likeShoes:
+    | {
+        shoeId: string;
+        image?: string;
+        link?: string;
+        modelName?: string;
+        brand?: string;
+        productId?: string;
+      }[]
+    | null;
   updateUserInfo: () => void;
   setUserInfo: (key: string, value: string | number) => void;
   setIsLoggedIn: (state: boolean) => void;
