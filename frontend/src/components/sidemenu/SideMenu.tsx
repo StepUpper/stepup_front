@@ -10,8 +10,8 @@ import userStore from "@store/auth.store";
 import {
   createNewChatRoom,
   getUserChatRooms,
-} from "@/apis/firebase/chatFirestore";
-import useChatStore from "@/store/chat.store";
+} from "@apis/firebase/chatFirestore";
+import useChatStore from "@store/chat.store";
 
 const SideMenu = ({
   isOpen,
@@ -29,6 +29,9 @@ const SideMenu = ({
   };
   const [chats, setChats] = useState<any[]>([]);
 
+  const chatDate = (timestamp: { seconds: number; nanoseconds: number }) => {
+    return new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
+  };
   const today = new Date();
   const checkTodayDate = (date1: Date, date2: Date) => {
     return (
@@ -93,6 +96,13 @@ const SideMenu = ({
         const chatRooms = await getUserChatRooms(user?.uid!);
         setChats(chatRooms);
         console.log(chatRooms);
+
+        const formattedChatRooms = chatRooms.map((chat) => ({
+          ...chat,
+          createdAt: chatDate(chat.timestamp),
+        }));
+
+        setChats(formattedChatRooms);
       }
     };
 
@@ -144,7 +154,7 @@ const SideMenu = ({
                           {todayChats.map((chat) => (
                             <SideChatListItem
                               key={chat.id}
-                              title={chat.title}
+                              title={chat.roomName}
                               isSwiped={swipedItem === chat.id}
                               isLongPressed={longPressedItem === chat.id}
                               onSwipe={() => handleSwipe(chat.id)}
@@ -164,7 +174,7 @@ const SideMenu = ({
                           {last7DaysChats.map((chat) => (
                             <SideChatListItem
                               key={chat.id}
-                              title={chat.title}
+                              title={chat.roomName}
                               isSwiped={swipedItem === chat.id}
                               isLongPressed={longPressedItem === chat.id}
                               onSwipe={() => handleSwipe(chat.id)}
@@ -203,9 +213,7 @@ const SideMenu = ({
               ) : (
                 <div className="flex grow"></div>
               )}
-
               {/* 프로필 */}
-
               <div className="bottom-0 px-[16px]">
                 <div className="border-t border-t-[#E4E4E7] py-[17px]">
                   <Button
