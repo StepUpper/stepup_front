@@ -111,7 +111,7 @@ const ChatMessage = (props: ChatMessageProps) => {
             {/* 더보기 버튼 */}
             <div className="flex w-12 min-w-[48px] flex-col items-center justify-center text-[9px]">
               <div
-                className="mb-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-black"
+                className="mb-1 flex size-6 cursor-pointer items-center justify-center rounded-full bg-black"
                 onClick={() => {
                   setClickedProducts(title);
                   setClickedBrand(null);
@@ -121,7 +121,7 @@ const ChatMessage = (props: ChatMessageProps) => {
                 <img
                   src={arrowRightIcon}
                   alt="더보기"
-                  className="h-4 w-4 text-white"
+                  className="size-4 text-white"
                 />
               </div>
               <span>더보기</span>
