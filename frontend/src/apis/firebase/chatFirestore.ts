@@ -9,6 +9,7 @@ import {
   serverTimestamp,
   doc,
   updateDoc,
+  getDoc,
 } from "firebase/firestore";
 import { TChatResponse } from "@/types/chat";
 
@@ -16,7 +17,11 @@ export const getMessagesFromLatestRoom = async (
   userId: string
 ): Promise<{
   roomId: string;
-  messages: { type: "user" | "bot"; content: string | TChatResponse }[];
+  messages: {
+    type: "user" | "bot";
+    content: string | TChatResponse;
+    id?: string;
+  }[];
 }> => {
   const roomsCollection = collection(db, "chatSessions", userId, "rooms");
   // 이 코드는 userId라는 도큐먼트의 하위 컬렉션 rooms에 접근하여,
@@ -73,6 +78,7 @@ export const getMessagesFromLatestRoom = async (
       result.push({
         type: "bot" as const,
         content: data.bot as TChatResponse,
+        id: doc.id,
       });
     }
 
@@ -87,7 +93,7 @@ export const addMessageToFirestore = async (
   roomId: string,
   userMessage: string,
   botMessage: TChatResponse
-) => {
+): Promise<string | null> => {
   try {
     const messagesCollection = collection(
       db,
@@ -98,8 +104,8 @@ export const addMessageToFirestore = async (
       "messages"
     );
 
-    // 한 번에 user와 bot 메시지를 같은 도큐먼트에 저장
-    await addDoc(messagesCollection, {
+    // 한 번에 user와 bot 메시지를 같은 도큐먼트에 저장하고, 해당 문서 참조를 반환받음
+    const docRef = await addDoc(messagesCollection, {
       user: userMessage,
       bot: botMessage,
       timestamp: serverTimestamp(),
@@ -108,12 +114,23 @@ export const addMessageToFirestore = async (
 
     // 채팅방의 timestamp 업데이트 (가장 최근 메시지 기준)
     const roomRef = doc(db, "chatSessions", userId, "rooms", roomId);
-    await updateDoc(roomRef, {
+
+    // userMessage가 빈 문자열이 아닐 때만 roomName을 업데이트
+    const roomUpdateData: any = {
       timestamp: serverTimestamp(),
-      roomName: userMessage, // roomName을 사용자의 최근 질문으로 업데이트
-    });
+    };
+
+    if (userMessage.trim() !== "") {
+      roomUpdateData.roomName = userMessage; // roomName을 사용자의 최근 질문으로 업데이트
+    }
+
+    await updateDoc(roomRef, roomUpdateData);
+
+    // 성공적으로 메시지가 저장되었으므로 doc.id 반환
+    return docRef.id;
   } catch (error) {
     console.error("메시지 추가 중 에러 발생: ", error);
+    return null; // 에러 발생 시 null 반환
   }
 };
 
@@ -144,4 +161,41 @@ export const getUserChatRooms = async (userId: string) => {
   }));
 
   return rooms;
+};
+
+export const getMessageById = async (
+  userId: string,
+  roomId: string,
+  messageId: string
+) => {
+  try {
+    const messageDocRef = doc(
+      db,
+      "chatSessions",
+      userId,
+      "rooms",
+      roomId,
+      "messages",
+      messageId
+    );
+
+    const messageSnapshot = await getDoc(messageDocRef);
+
+    if (messageSnapshot.exists()) {
+      const messageData = messageSnapshot.data();
+
+      return {
+        id: messageSnapshot.id,
+        userMessage: messageData?.user as string,
+        botMessage: messageData?.bot as TChatResponse,
+        timestamp: messageData?.timestamp?.toDate(),
+        // dislike: messageData?.dislike as boolean,
+      };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
