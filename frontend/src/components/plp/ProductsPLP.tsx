@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import useAxios from "@hooks/useAxios";
-import { TBrandPLPResponse, TProduct } from "@types/plp";
-import { chatApi } from "@apis/services/chat";
+// import { Link } from "react-router-dom";
+// import useAxios from "@hooks/useAxios";
+// import { TBrandPLPResponse, TProduct } from "@types/plp";
+// import { chatApi } from "@apis/services/chat";
 import PLPHeader from "@components/plp/PLPHeader";
-import GenderCategorySelector, {
-  GenderCategory,
-} from "@components/plp/GenderCategorySelector";
+import { GenderCategory } from "@components/plp/GenderCategorySelector";
 import PLPProductDisplay from "@components/plp/PLPProductDisplay";
 import FilterBottomSheet from "@components/plp/FilterBottomSheet";
-import Error from "@common/Error";
-import { TChatResponse } from "@types/chat";
-import { perfittLogo } from "@/assets/assets";
+// import Error from "@common/Error";
+import { TChatResponse } from "@type/chat";
+import { perfittLogo } from "@assets/assets";
 
 interface ProductsPLPProps {
   data: TChatResponse; // TODO: API 타입에 따라 수정 예정
@@ -33,11 +31,11 @@ const ProductsPLP = (props: ProductsPLPProps) => {
     console.log(selectedCategory);
     // 성별 필터
     const newFilteredProducts =
-      data?.products?.filter((product) => {
+      data?.products?.filter(() => {
         if (selectedCategory === "ALL") return true;
         // return product?.gender === selectedCategory;
       }) || [];
-    // setFilteredProducts(newFilteredProducts);
+    setFilteredProducts(newFilteredProducts);
   }, [data, selectedCategory]);
 
   // 필터 적용
@@ -60,10 +58,10 @@ const ProductsPLP = (props: ProductsPLPProps) => {
           <PLPProductDisplay products={filteredProducts} />
 
           {/* 필터 바텀 */}
-          <FilterBottomSheet
+          {/* <FilterBottomSheet
             products={filteredProducts}
             applyFilters={handleFilters}
-          />
+          /> */}
         </>
       )}
 

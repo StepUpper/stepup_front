@@ -13,15 +13,8 @@ type sideChatListItemProps = {
 };
 
 const SideChatListItem = (props: sideChatListItemProps) => {
-  const {
-    title,
-    isSwiped,
-    isLongpressed,
-    onSwipe,
-    onLongPress,
-    onReset,
-    ...rest
-  } = props;
+  const { title, isSwiped, isLongPressed, onSwipe, onLongPress, onReset } =
+    props;
 
   const itemRef = useRef<HTMLLIElement>(null);
 
@@ -90,7 +83,7 @@ const SideChatListItem = (props: sideChatListItemProps) => {
         onMouseUp={handleMouseUp}
       >
         <div
-          className={`flex items-center transition-transform ${isSwiped || isLongpressed ? "translate-x-[-92px]" : ""}`}
+          className={`flex items-center transition-transform ${isSwiped || isLongPressed ? "translate-x-[-92px]" : ""}`}
         >
           <Button
             className="flex gap-[8px]"
