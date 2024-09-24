@@ -111,6 +111,11 @@ const SideMenu = ({
       console.log("로그인이 필요합니다.");
     }
   };
+
+  const handleRemoveChatRoom = (deleteid: string) => {
+    setChats((prevChats) => prevChats.filter((chat) => chat.id !== deleteid));
+  };
+
   useEffect(() => {
     const fetchUserChatRooms = async () => {
       if (isLoggedIn && user) {
@@ -122,10 +127,16 @@ const SideMenu = ({
     fetchUserChatRooms();
   }, [isLoggedIn, user]);
 
+  const [isClickedRoom, setIsClickedRoom] = useState<string>();
+
   const handleChatRoom = (userId: string, roomId: string) => {
     getMessagesByRoomId(userId, roomId);
+    console.log("getroom", roomId);
+    setIsClickedRoom(roomId);
+    console.log("clickedroom ", isClickedRoom);
     onClose();
   };
+
   return (
     <>
       <AnimatePresence>
@@ -145,9 +156,9 @@ const SideMenu = ({
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.5 }}
             >
-              <Button onClick={onClose}>
+              <div onClick={onClose}>
                 <Header type="menu" />
-              </Button>
+              </div>
 
               {isLoggedIn ? (
                 <>
@@ -180,6 +191,8 @@ const SideMenu = ({
                               onClick={() =>
                                 handleChatRoom(user?.uid!, chat.id)
                               }
+                              onDelete={() => handleRemoveChatRoom(chat.id)}
+                              isClicked={isClickedRoom === chat.id}
                             />
                           ))}
                         </ul>
@@ -203,6 +216,8 @@ const SideMenu = ({
                               onClick={() =>
                                 handleChatRoom(user?.uid!, chat.id)
                               }
+                              onDelete={() => handleRemoveChatRoom(chat.id)}
+                              isClicked={isClickedRoom === chat.id}
                             />
                           ))}
                         </ul>
