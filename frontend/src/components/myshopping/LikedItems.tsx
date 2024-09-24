@@ -8,7 +8,9 @@ const LikedItems = () => {
   return (
     <>
       <div className="px-[16px]">
-        <p className="text-body3 font-bold"> 총 {likeShoes?.length || 0} 개</p>
+        <p className="pb-[16px] text-body3 font-bold">
+          총 {likeShoes?.length || 0} 개
+        </p>
 
         {likeShoes && likeShoes.length > 0 ? (
           <>
@@ -24,7 +26,7 @@ const LikedItems = () => {
                     productName={product.title}
                     isLiked={true}
                     customerLink={product.customerLink}
-                    customerImg={product.customerLink}
+                    customerImg={product.customerImg || undefined}
                   />
                 ))}
             </ProductList>

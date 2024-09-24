@@ -1,10 +1,15 @@
 import ProductList from "@common/ProductList";
 import { useState, useEffect } from "react";
-import { TRecentProduct, getRecentProducts } from "@utils/storeRecentProducts";
+import {
+  TRecentProductItem,
+  getRecentProducts,
+} from "@utils/storeRecentProducts";
 import { shoeEye } from "@assets/assets";
 
 const RecentProducts = () => {
-  const [recentProducts, setRecentProducts] = useState<TRecentProduct[]>([]);
+  const [recentProducts, setRecentProducts] = useState<TRecentProductItem[]>(
+    []
+  );
 
   useEffect(() => {
     const products = getRecentProducts();
@@ -23,15 +28,15 @@ const RecentProducts = () => {
               {recentProducts &&
                 recentProducts.map((product) => (
                   <ProductList.Item
-                    //key={product.shoeId}
-                    //productId={product.shoeId}
-                    //modelNo={product.modelNo}
-                    //thumb={product.imgUrl}
-                    brandName={product.brandName}
-                    productName={product.productName}
+                    key={product.shoeId}
+                    productId={product.shoeId}
+                    modelNo={product.modelNo}
+                    thumb={product.imgUrl}
+                    brandName={product.brand}
+                    productName={product.title}
                     isLiked={true}
                     customerLink={product.customerLink}
-                    customerImg={product.customerLink}
+                    customerImg={product.customerLink || undefined}
                   />
                 ))}
             </ProductList>
