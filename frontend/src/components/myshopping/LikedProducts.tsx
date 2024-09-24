@@ -2,7 +2,7 @@ import userStore from "@store/auth.store";
 import ProductList from "@common/ProductList";
 import { shoeHeart } from "@assets/assets";
 
-const LikedItems = () => {
+const LikedProducts = () => {
   const { likeShoes } = userStore();
 
   return (
@@ -47,4 +47,4 @@ const LikedItems = () => {
     </>
   );
 };
-export default LikedItems;
+export default LikedProducts;
