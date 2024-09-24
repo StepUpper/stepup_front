@@ -69,7 +69,7 @@ const ChatShareModal = (props: ModalProps) => {
     setTimeout(() => {
       setIsCopying(false);
       setIsCopied(true);
-    }, 700);
+    }, 500);
   };
 
   return (

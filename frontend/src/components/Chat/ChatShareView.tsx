@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TChatResponse } from "@/types/chat";
 import { getSharedMessageById } from "@/apis/firebase/chatFirestore";
 import { chatCircleIcon } from "@/assets/assets";
@@ -12,6 +12,7 @@ interface SeparatedMessage {
 }
 
 const ChatShareView = () => {
+  const navigate = useNavigate();
   const { messageId } = useParams();
   const [message, setMessage] = useState<SeparatedMessage[]>([]);
   const [formattedDate, setFormattedDate] = useState("");
@@ -75,7 +76,10 @@ const ChatShareView = () => {
         ))}
       </main>
       <div className="flex justify-center p-4">
-        <button className="h-14 w-full max-w-md rounded-lg bg-black text-white">
+        <button
+          className="h-14 w-full max-w-md rounded-lg bg-black text-white"
+          onClick={() => navigate("/onboarding")}
+        >
           핏톡 시작하기
         </button>
       </div>
