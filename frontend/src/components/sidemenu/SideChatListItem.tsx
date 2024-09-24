@@ -10,11 +10,19 @@ type sideChatListItemProps = {
   onSwipe: () => void;
   onLongPress: () => void;
   onReset: () => void;
+  onClick: () => void;
 };
 
 const SideChatListItem = (props: sideChatListItemProps) => {
-  const { title, isSwiped, isLongPressed, onSwipe, onLongPress, onReset } =
-    props;
+  const {
+    title,
+    isSwiped,
+    isLongPressed,
+    onSwipe,
+    onLongPress,
+    onReset,
+    onClick,
+  } = props;
 
   const itemRef = useRef<HTMLLIElement>(null);
 
@@ -81,6 +89,10 @@ const SideChatListItem = (props: sideChatListItemProps) => {
         onTouchEnd={handleSwipeEnd}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
+        onClick={(e) => {
+          e.preventDefault();
+          onClick(); // userId와 roomId는 부모 컴포넌트에서 전달되므로, onClick 함수는 여기서 실행
+        }}
       >
         <div
           className={`flex items-center transition-transform ${isSwiped || isLongPressed ? "translate-x-[-92px]" : ""}`}

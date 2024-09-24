@@ -24,7 +24,7 @@ const SideMenu = ({
   onClose: () => void;
 }) => {
   const { isLoggedIn, user } = userStore();
-  const { setRoomId } = useChatStore();
+  const { setRoomId, getMessagesByRoomId } = useChatStore();
 
   const { open } = useBottomSheet();
 
@@ -116,13 +116,16 @@ const SideMenu = ({
       if (isLoggedIn && user) {
         const chatRooms = await getUserChatRooms(user?.uid!);
         setChats(chatRooms);
-        console.log(chatRooms);
       }
     };
 
     fetchUserChatRooms();
   }, [isLoggedIn, user]);
 
+  const handleChatRoom = (userId: string, roomId: string) => {
+    getMessagesByRoomId(userId, roomId);
+    onClose();
+  };
   return (
     <>
       <AnimatePresence>
@@ -174,6 +177,9 @@ const SideMenu = ({
                               onSwipe={() => handleSwipe(chat.id)}
                               onLongPress={() => handleLongPress(chat.id)}
                               onReset={handleReset}
+                              onClick={() =>
+                                handleChatRoom(user?.uid!, chat.id)
+                              }
                             />
                           ))}
                         </ul>
@@ -194,6 +200,9 @@ const SideMenu = ({
                               onSwipe={() => handleSwipe(chat.id)}
                               onLongPress={() => handleLongPress(chat.id)}
                               onReset={handleReset}
+                              onClick={() =>
+                                handleChatRoom(user?.uid!, chat.id)
+                              }
                             />
                           ))}
                         </ul>
