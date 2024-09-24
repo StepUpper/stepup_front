@@ -1,6 +1,14 @@
-import { chatCircleIcon, closeIcon, linkAngledIcon } from "@/assets/assets";
+import { saveMessageToShareMessages } from "@/apis/firebase/chatFirestore";
+import {
+  chatCircleIcon,
+  closeIcon,
+  copyLeftIcon,
+  linkAngledIcon,
+  loadingIcon,
+} from "@/assets/assets";
 import { TChatResponse } from "@/types/chat";
-import { useEffect, useRef } from "react";
+import { Timestamp } from "firebase/firestore";
+import { useEffect, useRef, useState } from "react";
 
 interface ModalProps {
   onClose: () => void;
@@ -9,7 +17,7 @@ interface ModalProps {
         id: string;
         userMessage: string;
         botMessage: TChatResponse;
-        timestamp: any; // Firebase Timestamp
+        timestamp: Timestamp;
       }
     | undefined;
 }
@@ -17,6 +25,9 @@ interface ModalProps {
 const ChatShareModal = (props: ModalProps) => {
   const { onClose, message } = props;
   const modalRef = useRef<HTMLDivElement>(null);
+
+  const [isCopying, setIsCopying] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -28,17 +39,38 @@ const ChatShareModal = (props: ModalProps) => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    console.log(message?.timestamp);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [modalRef, onClose]);
 
   const formattedDate = message?.timestamp
-    ? message.timestamp.toDate
-      ? message.timestamp.toDate().toLocaleString()
-      : new Date(message.timestamp).toLocaleString()
+    ? message.timestamp instanceof Date
+      ? message.timestamp.toLocaleDateString("ko-KR", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : message.timestamp.toDate().toLocaleDateString("ko-KR", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
     : "Invalid date";
+
+  const generateShareableLink = async () => {
+    setIsCopying(true);
+    saveMessageToShareMessages(message!);
+    const baseUrl = `${window.location.origin}/stepup_front`;
+    const shareUrl = `${baseUrl}/share/${message?.id}`;
+
+    await navigator.clipboard.writeText(shareUrl);
+
+    setTimeout(() => {
+      setIsCopying(false);
+      setIsCopied(true);
+    }, 700);
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -66,13 +98,27 @@ const ChatShareModal = (props: ModalProps) => {
         </div>
 
         <button
-          onClick={() => {
-            navigator.clipboard.writeText("복사된 링크");
-          }}
-          className="mt-4 flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-black py-2 text-white"
+          onClick={generateShareableLink}
+          className={`mt-4 flex h-11 w-full items-center justify-center gap-2 rounded-lg ${
+            isCopying || isCopied
+              ? "bg-gray-100 text-gray-500"
+              : "bg-black text-white"
+          } py-2`}
+          disabled={isCopying || isCopied}
         >
-          <img src={linkAngledIcon} alt="linkAngledIcon" className="size-6" />
-          링크 복사
+          <img
+            src={
+              isCopying ? loadingIcon : isCopied ? copyLeftIcon : linkAngledIcon
+            }
+            alt={
+              isCopying
+                ? "loadingIcon"
+                : isCopied
+                  ? "copyLeftIcon"
+                  : "linkAngledIcon"
+            }
+          />
+          {isCopying ? "링크 복사중" : isCopied ? "복사됨" : "링크 복사"}
         </button>
       </div>
     </div>
