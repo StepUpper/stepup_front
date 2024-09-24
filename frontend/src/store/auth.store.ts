@@ -5,7 +5,7 @@ import { create } from "zustand";
 type likeShoes =
   | {
       shoeId: string;
-      title: string;
+      productName: string;
       imgUrl: string;
       modelNo: string;
       brand: string;
