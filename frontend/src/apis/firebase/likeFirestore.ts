@@ -23,7 +23,9 @@ export const addOrRemoveShoeFromLikes = async (
         imgUrl: product.imgUrl,
         modelNo: product.modelNo,
         brand: product.brand,
-        link: product.link,
+        customerLink: product.link,
+        customerImg: null,
+        price: null,
       });
     } else {
       await deleteDoc(shoeRef);

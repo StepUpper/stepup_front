@@ -10,6 +10,8 @@ import {
   doc,
   updateDoc,
   getDoc,
+  Timestamp,
+  setDoc,
 } from "firebase/firestore";
 import { TChatResponse } from "@/types/chat";
 
@@ -197,5 +199,47 @@ export const getMessageById = async (
   } catch (error) {
     console.error(error);
     throw error;
+  }
+};
+
+export const saveMessageToShareMessages = async (message: {
+  id: string;
+  userMessage: string;
+  botMessage: TChatResponse;
+  timestamp: Timestamp;
+}) => {
+  try {
+    const messageDocRef = doc(db, "shareMessages", message.id); // 해당 messageId의 문서 참조
+    const docSnapshot = await getDoc(messageDocRef); // 문서 존재 여부 확인
+
+    if (docSnapshot.exists()) {
+      return; // 이미 존재하면 return
+    }
+
+    // 문서가 존재하지 않으면 새로 저장
+    await setDoc(messageDocRef, {
+      user: message.userMessage,
+      bot: message.botMessage,
+      timestamp: message.timestamp,
+      dislike: false,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getSharedMessageById = async (messageId: string) => {
+  try {
+    const sharedMessageRef = doc(db, "shareMessages", messageId);
+    const sharedMessageSnap = await getDoc(sharedMessageRef);
+
+    if (sharedMessageSnap.exists()) {
+      return sharedMessageSnap.data();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching shared message document: ", error);
+    return null;
   }
 };

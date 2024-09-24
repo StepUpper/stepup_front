@@ -3,6 +3,7 @@ import { perfittLogo } from "@assets/assets";
 import userStore from "@store/auth.store";
 import LikeButton from "@common/LikeButton";
 import Img from "@common/html/Img";
+import { useParams } from "react-router-dom";
 
 interface ProductItemProps {
   brand: string;
@@ -17,6 +18,8 @@ interface ProductItemProps {
 const ChatProductItem = (props: ProductItemProps) => {
   const { isLoggedIn, user, updateUserInfo } = userStore();
   const { brand, title, imgUrl, link, modelNo, productId, isLiked } = props;
+  const { messageId } = useParams();
+  const isSharePage = Boolean(messageId);
 
   const handleLikeClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -41,11 +44,13 @@ const ChatProductItem = (props: ProductItemProps) => {
         <div className="flex h-[146px] w-full items-center justify-center overflow-hidden bg-grey-50">
           <Img src={imgUrl} alt={title} className="w-full object-cover" />
         </div>
-        <LikeButton
-          className="absolute right-[0.69rem] top-2"
-          onClick={handleLikeClick}
-          isLiked={isLiked}
-        />
+        {!isSharePage && (
+          <LikeButton
+            className="absolute right-[0.69rem] top-2"
+            onClick={handleLikeClick}
+            isLiked={isLiked}
+          />
+        )}
         <div className="absolute bottom-0.5 right-1.5 size-6 rounded-full bg-grey-400">
           <img src={perfittLogo} alt="임시 로고" />
         </div>
