@@ -11,7 +11,6 @@ const LikedItems = () => {
         <p className="pb-[16px] text-body3 font-bold">
           총 {likeShoes?.length || 0} 개
         </p>
-
         {likeShoes && likeShoes.length > 0 ? (
           <>
             <ProductList>

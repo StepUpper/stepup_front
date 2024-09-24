@@ -42,6 +42,7 @@ import onboardingImg2 from "@assets/images/onboarding2.png";
 import shoeImg from "@assets/images/shoe-img.png";
 import shoeEye from "@assets/images/shoeEye.svg";
 
+
 export {
   // ******* ICON
   menuIcon,
