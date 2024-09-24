@@ -84,9 +84,9 @@ const ChatMessage = (props: ChatMessageProps) => {
       {title.products && (
         <>
           <div className="no-scrollbar mt-2 flex space-x-4 overflow-x-auto pl-8">
-            {title.products.map((product, index) => {
+            {title.products.slice(0, 5).map((product, index) => {
               const isLiked = likeShoes?.some(
-                (shoe) => shoe.shoeId === product.productId
+                (shoe) => shoe.shoeId === product.brand + product.modelNo
               );
 
               return (
