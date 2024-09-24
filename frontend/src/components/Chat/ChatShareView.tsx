@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { TChatResponse } from "@/types/chat";
 import { getSharedMessageById } from "@/apis/firebase/chatFirestore";
-import { chatCircleIcon } from "@/assets/assets";
+import { chatListIcon } from "@/assets/assets";
 import ChatUserMessage from "./ChatUserMessage";
 import ChatMessage from "./ChatMessage";
 
@@ -60,7 +60,7 @@ const ChatShareView = () => {
   return (
     <div className="flex h-screen flex-col">
       <header className="h-36 border-b p-4">
-        <img src={chatCircleIcon} alt="chatCircleIcon" className="mb-2" />
+        <img src={chatListIcon} alt="chatCircleIcon" className="mb-2" />
         <p className="mb-2 text-heading font-semibold">{title}</p>
         <p className="font-[#52525B] text-body3">{formattedDate}</p>
       </header>

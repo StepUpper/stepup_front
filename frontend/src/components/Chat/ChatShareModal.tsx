@@ -1,6 +1,6 @@
 import { saveMessageToShareMessages } from "@/apis/firebase/chatFirestore";
 import {
-  chatCircleIcon,
+  chatListIcon,
   closeIcon,
   copyLeftIcon,
   linkAngledIcon,
@@ -90,7 +90,7 @@ const ChatShareModal = (props: ModalProps) => {
         </p>
 
         <div className="mt-4 rounded-lg bg-gray-100 p-4">
-          <img src={chatCircleIcon} alt="chatCircleIcon" />
+          <img src={chatListIcon} alt="chatCircleIcon" />
           <div className="text-md mt-2 font-semibold">
             {message?.userMessage}
           </div>
@@ -119,7 +119,6 @@ const ChatShareModal = (props: ModalProps) => {
             }
           />
           {isCopying ? "링크 복사중" : isCopied ? "복사됨" : "링크 복사"}
-
         </button>
       </div>
     </div>
