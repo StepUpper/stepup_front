@@ -243,3 +243,59 @@ export const getSharedMessageById = async (messageId: string) => {
     return null;
   }
 };
+
+// 사이드바의 채팅방 목록에서 호출하는 함수
+export const getMessagesByUserIdAndRoomId = async (
+  userId: string,
+  roomId: string
+): Promise<{
+  roomId: string;
+  messages: {
+    type: "user" | "bot";
+    content: string | TChatResponse;
+    id?: string;
+  }[];
+}> => {
+  try {
+    const messagesCollection = collection(
+      db,
+      "chatSessions",
+      userId,
+      "rooms",
+      roomId,
+      "messages"
+    );
+    const messagesQuery = query(
+      messagesCollection,
+      orderBy("timestamp", "asc")
+    );
+    const messagesSnapshot = await getDocs(messagesQuery);
+
+    const messages = messagesSnapshot.docs.flatMap((doc) => {
+      const data = doc.data();
+      const result = [];
+
+      if (data.user && data.user.trim() !== "") {
+        result.push({
+          type: "user" as const,
+          content: data.user as string,
+        });
+      }
+
+      if (data.bot) {
+        result.push({
+          type: "bot" as const,
+          content: data.bot as TChatResponse,
+          id: doc.id,
+        });
+      }
+
+      return result;
+    });
+
+    return { roomId, messages };
+  } catch (error) {
+    console.error(error);
+    return { roomId, messages: [] };
+  }
+};
