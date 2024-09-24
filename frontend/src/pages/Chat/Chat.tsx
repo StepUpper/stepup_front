@@ -26,6 +26,7 @@ const Chat = () => {
   const login = sheets["login"] || {}; // 로그인/회원가입 바텀 상태
   const interestKeywords = sheets["interestKeywords"] || {}; // 관심 키워드 바텀 상태
   const plp = sheets["plp"] || {}; // 브랜드 PLP 바텀 상태
+  const isAllSheetsOpen = Object.values(sheets).some((sheet) => sheet.isOpen);
 
   const userId = user?.uid!;
 
@@ -45,10 +46,13 @@ const Chat = () => {
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   // 스크롤을 항상 하단에 위치시키기
-  useLayoutEffect(() => {
-    setTimeout(() => {
-      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 0);
+  useLayoutEffect(() => { 
+      // 바텀 오픈 X 일 경우
+    if (!isAllSheetsOpen) {
+      setTimeout(() => {
+        messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 0);
+    }
   }, [isLoggedIn ? userMessages.length : guestMessages.length]);
 
   return (
