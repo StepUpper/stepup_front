@@ -9,11 +9,13 @@ interface UserState {
   likeShoes:
     | {
         shoeId: string;
-        image?: string;
-        link?: string;
-        modelName?: string;
+        title?: string;
+        imgUrl?: string;
+        modelNo?: string;
         brand?: string;
-        productId?: string;
+        customerLink?: string;
+        customerImg?: string | null;
+        price?: number | null;
       }[]
     | null;
   updateUserInfo: () => void;

@@ -10,6 +10,7 @@ import MyFootInfo from "@pages/MyFootInfo/MyFootInfo";
 import Bridge from "@pages/Bridge/Bridge";
 import Onboarding from "@pages/Onboarding/Onboarding";
 import { onBoardingLoader } from "@router/loaders/onBoarding";
+import ChatShareView from "@/components/Chat/ChatShareView";
 
 const router = createBrowserRouter(
   [
@@ -45,6 +46,10 @@ const router = createBrowserRouter(
         {
           path: "/bridge",
           element: <Bridge />,
+        },
+        {
+          path: "/share/:messageId",
+          element: <ChatShareView />,
         },
       ],
     },

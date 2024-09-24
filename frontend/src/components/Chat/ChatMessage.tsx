@@ -12,6 +12,7 @@ import productAndBrandStore from "@store/productAndBrand.store";
 import { useBottomSheet } from "@store/bottomSheet.store";
 import ChatReqProdItem from "./ChatReqProdItem";
 import userStore from "@/store/auth.store";
+import { useParams } from "react-router-dom";
 
 interface ChatMessageProps {
   title: TChatResponse;
@@ -22,9 +23,11 @@ const ChatMessage = (props: ChatMessageProps) => {
   const { setClickedProducts, setClickedBrand } = productAndBrandStore();
   const { likeShoes } = userStore();
   const { title, docId } = props;
-
+  const { messageId } = useParams();
   const { open } = useBottomSheet();
 
+  // 현재 페이지가 공유 페이지인지에 따라 조건부 렌더링을 위한 변수
+  const isSharePage = Boolean(messageId);
   return (
     <>
       <div className="flex items-start bg-white p-4">
@@ -73,7 +76,7 @@ const ChatMessage = (props: ChatMessageProps) => {
               </div>
             ))}
           </div>
-          <ChatShareDislikeBox docId={docId} />
+          {!isSharePage && <ChatShareDislikeBox docId={docId} />}
         </>
       )}
 
@@ -81,14 +84,14 @@ const ChatMessage = (props: ChatMessageProps) => {
       {title.products && (
         <>
           <div className="no-scrollbar mt-2 flex space-x-4 overflow-x-auto pl-8">
-            {title.products.map((product) => {
+            {title.products.map((product, index) => {
               const isLiked = likeShoes?.some(
                 (shoe) => shoe.shoeId === product.productId
               );
 
               return (
                 <div
-                  key={product.productId}
+                  key={index}
                   className="inline-block cursor-pointer"
                   onClick={() => {
                     setClickedProducts(title);
@@ -110,26 +113,28 @@ const ChatMessage = (props: ChatMessageProps) => {
             })}
 
             {/* 더보기 버튼 */}
-            <div className="flex w-12 min-w-[48px] flex-col items-center justify-center text-[9px]">
-              <div
-                className="mb-1 flex size-6 cursor-pointer items-center justify-center rounded-full bg-black"
-                onClick={() => {
-                  setClickedProducts(title);
-                  setClickedBrand(null);
-                  open("plp"); // 상품 plp
-                }}
-              >
-                <img
-                  src={arrowRightIcon}
-                  alt="더보기"
-                  className="size-4 text-white"
-                />
+            {!isSharePage && (
+              <div className="flex w-12 min-w-[48px] flex-col items-center justify-center text-[9px]">
+                <div
+                  className="mb-1 flex size-6 cursor-pointer items-center justify-center rounded-full bg-black"
+                  onClick={() => {
+                    setClickedProducts(title);
+                    setClickedBrand(null);
+                    open("plp"); // 상품 plp
+                  }}
+                >
+                  <img
+                    src={arrowRightIcon}
+                    alt="더보기"
+                    className="size-4 text-white"
+                  />
+                </div>
+                <span>더보기</span>
               </div>
-              <span>더보기</span>
-            </div>
+            )}
           </div>
 
-          <ChatShareDislikeBox docId={docId} />
+          {!isSharePage && <ChatShareDislikeBox docId={docId} />}
         </>
       )}
 
