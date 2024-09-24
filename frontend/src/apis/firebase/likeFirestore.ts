@@ -10,6 +10,7 @@ export const addOrRemoveShoeFromLikes = async (
     link: string;
     modelNo: string;
     productId: string;
+    customerImg?: string;
   }
 ) => {
   try {

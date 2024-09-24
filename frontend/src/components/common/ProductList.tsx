@@ -3,10 +3,14 @@ import { useNavigate } from "react-router-dom";
 import LikeButton, { LikeButtonProps } from "@common/LikeButton";
 import ProductLearnMoreButton from "@common/ProductLearnMoreButton";
 import Img from "@common/html/Img";
-import { perfittLogo } from "@assets/assets";
+import { shoeImg } from "@assets/assets";
+import userStore from "@store/auth.store";
+import { addOrRemoveShoeFromLikes } from "@apis/firebase/likeFirestore";
+import { useSizeConversion } from "@hooks/useSizeConversion";
 
 interface ProductItemProps extends LikeButtonProps {
-  recSize?: string | null;
+  productId: string;
+  modelNo: string;
   thumb: string;
   brandName: string;
   productName: string;
@@ -24,7 +28,8 @@ export default ProductList;
 
 const ProductItem = (props: ProductItemProps) => {
   const {
-    recSize,
+    productId,
+    modelNo,
     thumb,
     brandName,
     productName,
@@ -36,11 +41,40 @@ const ProductItem = (props: ProductItemProps) => {
 
   const navigate = useNavigate();
 
+  const { isLoggedIn, user, updateUserInfo } = userStore();
+  const sizeType = user?.sizeType ?? "mm";
+  const sneakerSize = user?.sneakerSize ?? 0;
+
+  // 신발 사이즈 변환
+  const convertedSneakerSize = useSizeConversion(sizeType, sneakerSize);
+
   // 브릿지
   const handleBridgeNavigation = () => {
     navigate(
       `/bridge?type=brand&brandName=${brandName}&productName=${productName}&customerImg=${customerImg}&customerLink=${customerLink}`
     );
+  };
+
+  // 좋아요
+  const handleLikeClick = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    console.log(productId);
+
+    if (isLoggedIn) {
+      await addOrRemoveShoeFromLikes(user?.uid!, {
+        brand: brandName,
+        title: productName,
+        imgUrl: thumb,
+        link: customerLink,
+        modelNo: modelNo,
+        productId: productId,
+        customerImg: customerImg,
+      });
+      updateUserInfo();
+    } else {
+      console.log("로그인이 필요합니다.");
+      // 여기서 로그인하라는 채팅을 띄워주면 좋을 듯 하다. 일단 나중에 ..
+    }
   };
 
   return (
@@ -50,22 +84,26 @@ const ProductItem = (props: ProductItemProps) => {
     >
       {/* 상단 이미지 영역 */}
       <div className="relative">
-        <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-[0.39rem] bg-grey-50">
+        <div className="w-full overflow-hidden rounded-[0.39rem] bg-grey-50">
           {/* 신발 이미지 */}
-          <div className="item-center mt-[-10px] size-full min-h-[136px]">
+          <div
+            className="item-center mt-[-10px] size-full min-h-[136px]"
+            style={{ aspectRatio: "1/1" }}
+          >
             <Img
               src={thumb}
               alt={productName}
-              width="100%"
-              errorStyle="w-[60%] mt-[10px]"
+              fallbackSrc={shoeImg}
+              className="mt-[20px]"
+              errorStyle="w-[60%] mt-[10px] opacity-100"
             />
           </div>
         </div>
         {/* 사이즈 추천 */}
-        {recSize && (
+        {convertedSneakerSize && (
           <span className="absolute left-2.5 top-2 flex rounded bg-gradient-to-r from-[#e8f4fe] to-[#ffecfe] p-[0.31rem]">
             <strong className="bg-gradient-to-r from-[#12C2E9] via-[#C471ED] to-[#F64F59] bg-clip-text text-caption1 font-label leading-4 text-transparent">
-              {recSize} 추천
+              {convertedSneakerSize}mm 추천
             </strong>
           </span>
         )}
@@ -73,10 +111,15 @@ const ProductItem = (props: ProductItemProps) => {
         <LikeButton
           className="absolute right-[0.69rem] top-2"
           isLiked={isLiked}
+          onClick={handleLikeClick}
         />
         {/* 판매처 이미지 */}
         <div className="absolute -bottom-3 right-1.5 size-6 rounded-full bg-grey-400">
-          <img src={customerImg ? customerImg : perfittLogo} alt={brandName} />
+          <Img
+            src={customerImg}
+            alt={brandName}
+            errorStyle="w-full opacity-40"
+          />
         </div>
       </div>
       {/* 하단 신발 정보 */}

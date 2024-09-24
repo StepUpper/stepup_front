@@ -1,33 +1,35 @@
+import userStore from "@store/auth.store";
 import ProductList from "@common/ProductList";
 import { shoeHeart } from "@assets/assets";
-import userStore from "@store/auth.store";
 
 const LikedItems = () => {
-  const { likeShoes } = userStore((state) => ({
-    likeShoes: state.likeShoes,
-  }));
+  const { likeShoes } = userStore();
 
   return (
     <>
       <div className="px-[16px]">
-        <p className="text-body3 font-bold"> 총 {likeShoes?.length} 개</p>
+        <p className="text-body3 font-bold"> 총 {likeShoes?.length || 0} 개</p>
+
         {likeShoes && likeShoes.length > 0 ? (
-          <div className="justify-items-center gap-[11px] py-[16px]">
+          <>
             <ProductList>
-              {likeShoes.map((shoe, index) => (
-                <ProductList.Item
-                  key={index}
-                  recSize=""
-                  thumb={shoe.imgUrl}
-                  brandName={shoe.brand}
-                  productName={shoe.title}
-                  customerImg=""
-                  customerLink={shoe.link}
-                  isLiked={shoe.isLiked}
-                />
-              ))}
+              {likeShoes &&
+                likeShoes.map((product) => (
+                  <ProductList.Item
+                    key={product.shoeId}
+                    productId={product.shoeId}
+                    modelNo={product.modelNo}
+                    thumb={product.imgUrl}
+                    brandName={product.brand}
+                    productName={product.title}
+                    isLiked={true}
+                    customerLink={product.customerLink}
+                    customerImg={product.customerLink}
+                  />
+                ))}
             </ProductList>
-          </div>
+            <div className="mx-auto grid grid-cols-2 justify-items-center gap-[11px] py-[16px]"></div>
+          </>
         ) : (
           <div className="item-center left-1/2 h-[50vh] flex-col gap-4">
             <img src={shoeHeart} />

@@ -4,7 +4,7 @@ import BottomButton from "@common/BottomButton";
 const FootInfoPlaceholder = () => {
   return (
     <>
-      <div className="flex h-[calc(100vh-148px)] flex-col items-center justify-center">
+      <div className="flex h-[calc(100vh-178px)] flex-col items-center justify-center">
         <div className="w-80">
           <img
             src={footInfoPlaceholder}

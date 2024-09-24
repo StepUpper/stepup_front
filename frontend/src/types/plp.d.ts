@@ -1,6 +1,7 @@
 export type TProduct = {
+  productId?: string;
   brand: string;
-  gender: MM | WW;
+  gender?: MM | WW;
   image: string;
   link: string;
   modelName: string;
