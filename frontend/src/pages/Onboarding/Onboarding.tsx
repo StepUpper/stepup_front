@@ -1,4 +1,4 @@
-import { onboardingImg1 } from "@/assets/assets";
+import { onboardingImg1, onboardingImg2 } from "@/assets/assets";
 import OnboardingContent from "@/components/onboarding/OnboardingContent";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +22,7 @@ const Onboarding = () => {
       {step === 2 && (
         <OnboardingContent
           buttonTitle="시작하기"
-          onboardingImg={onboardingImg1}
+          onboardingImg={onboardingImg2}
           onClick={() => navigate("/")}
         >
           발촬영하면 원하는 신발의
