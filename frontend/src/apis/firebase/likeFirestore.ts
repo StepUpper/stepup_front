@@ -5,9 +5,9 @@ export const addOrRemoveShoeFromLikes = async (
   userId: string,
   product: {
     brand: string;
-    title: string;
+    productName: string;
     imgUrl: string;
-    link: string;
+    customerLink: string;
     modelNo: string;
     productId: string;
     customerImg?: string;
@@ -28,9 +28,9 @@ export const addOrRemoveShoeFromLikes = async (
     if (!shoeDoc.exists()) {
       await setDoc(shoeRef, {
         brand: product.brand,
-        title: product.title,
+        productName: product.productName,
         imgUrl: product.imgUrl,
-        customerLink: product.link,
+        customerLink: product.customerLink,
         modelNo: product.modelNo,
         customerImg: null,
         price: null,

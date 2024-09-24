@@ -7,21 +7,24 @@ import { shoeImg } from "@assets/assets";
 import userStore from "@store/auth.store";
 import { addOrRemoveShoeFromLikes } from "@apis/firebase/likeFirestore";
 import { useSizeConversion } from "@hooks/useSizeConversion";
+import { addRecentProduct } from "@/utils/storeRecentProducts";
 
 interface ProductItemProps extends LikeButtonProps {
   productId: string;
   modelNo: string;
-  thumb: string;
-  brandName: string;
+  imgUrl: string;
+  brand: string;
   productName: string;
-  price?: number;
+  price?: number | undefined | null;
   customerLink: string;
   customerImg?: string;
 }
 
 const ProductList = ({ children }: { children: ReactNode }) => {
   return (
-    <ul className="grid w-full grid-cols-2 gap-3 md:grid-cols-4">{children}</ul>
+    <ul className="grid w-full grid-cols-2 gap-3 overflow-y-auto md:grid-cols-4">
+      {children}
+    </ul>
   );
 };
 export default ProductList;
@@ -30,8 +33,8 @@ const ProductItem = (props: ProductItemProps) => {
   const {
     productId,
     modelNo,
-    thumb,
-    brandName,
+    imgUrl,
+    brand,
     productName,
     price,
     customerLink,
@@ -50,8 +53,19 @@ const ProductItem = (props: ProductItemProps) => {
 
   // 브릿지
   const handleBridgeNavigation = () => {
+    const recentProducts = {
+      productId,
+      productName,
+      imgUrl,
+      modelNo,
+      brand,
+      customerLink,
+      customerImg,
+    };
+    addRecentProduct(recentProducts);
+
     navigate(
-      `/bridge?type=brand&brandName=${brandName}&productName=${productName}&customerImg=${customerImg}&customerLink=${customerLink}`
+      `/bridge?type=brand&brandName=${brand}&productName=${productName}&customerImg=${customerImg}&customerLink=${customerLink}`
     );
   };
 
@@ -62,13 +76,13 @@ const ProductItem = (props: ProductItemProps) => {
 
     if (isLoggedIn) {
       await addOrRemoveShoeFromLikes(user?.uid!, {
-        brand: brandName,
-        title: productName,
-        imgUrl: thumb,
-        link: customerLink,
-        modelNo: modelNo,
-        productId: productId,
-        customerImg: customerImg,
+        brand,
+        productName,
+        imgUrl,
+        customerLink,
+        modelNo,
+        productId,
+        customerImg,
       });
       updateUserInfo();
     } else {
@@ -91,7 +105,7 @@ const ProductItem = (props: ProductItemProps) => {
             style={{ aspectRatio: "1/1" }}
           >
             <Img
-              src={thumb}
+              src={imgUrl}
               alt={productName}
               fallbackSrc={shoeImg}
               className="mt-[20px]"
@@ -115,17 +129,13 @@ const ProductItem = (props: ProductItemProps) => {
         />
         {/* 판매처 이미지 */}
         <div className="absolute -bottom-3 right-1.5 size-6 rounded-full bg-grey-400">
-          <Img
-            src={customerImg}
-            alt={brandName}
-            errorStyle="w-full opacity-40"
-          />
+          <Img src={customerImg} alt={brand} errorStyle="w-full opacity-40" />
         </div>
       </div>
       {/* 하단 신발 정보 */}
       <div className="flex flex-col gap-2.5 px-0 py-2.5 text-body3 sm:px-1.5">
         <div className="flex flex-col gap-[3px]">
-          <strong className="font-paragraph">{brandName}</strong>
+          <strong className="font-paragraph">{brand}</strong>
           <h3 className="truncate font-label">{productName}</h3>
         </div>
         {price && <p className="font-label">{price}</p>}

@@ -8,25 +8,32 @@ const LikedItems = () => {
   return (
     <>
       <div className="px-[16px]">
-        <p className="text-body3 font-bold"> 총 {likeShoes?.length || 0} 개</p>
-
+        <p className="pb-[16px] text-body3 font-bold">
+          총 {likeShoes?.length || 0} 개
+        </p>
         {likeShoes && likeShoes.length > 0 ? (
           <>
             <ProductList>
               {likeShoes &&
-                likeShoes.map((product) => (
-                  <ProductList.Item
-                    key={product.shoeId}
-                    productId={product.shoeId}
-                    modelNo={product.modelNo}
-                    thumb={product.imgUrl}
-                    brandName={product.brand}
-                    productName={product.title}
-                    isLiked={true}
-                    customerLink={product.customerLink}
-                    customerImg={product.customerLink}
-                  />
-                ))}
+                likeShoes.map((product, index) => {
+                  const isLiked = likeShoes?.some(
+                    (shoe) => shoe.shoeId === product.brand + product.modelNo
+                  );
+                  return (
+                    <ProductList.Item
+                      key={index}
+                      productId={product.shoeId}
+                      modelNo={product.modelNo}
+                      imgUrl={product.imgUrl}
+                      brand={product.brand}
+                      productName={product.productName}
+                      price={product.price}
+                      customerLink={product.customerLink}
+                      customerImg={product.customerImg || undefined}
+                      isLiked={isLiked}
+                    />
+                  );
+                })}
             </ProductList>
             <div className="mx-auto grid grid-cols-2 justify-items-center gap-[11px] py-[16px]"></div>
           </>

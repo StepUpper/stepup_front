@@ -119,6 +119,7 @@ const ChatShareModal = (props: ModalProps) => {
             }
           />
           {isCopying ? "링크 복사중" : isCopied ? "복사됨" : "링크 복사"}
+
         </button>
       </div>
     </div>
