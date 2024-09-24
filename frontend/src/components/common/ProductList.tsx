@@ -4,6 +4,7 @@ import LikeButton, { LikeButtonProps } from "@common/LikeButton";
 import ProductLearnMoreButton from "@common/ProductLearnMoreButton";
 import Img from "@common/html/Img";
 import { perfittLogo } from "@assets/assets";
+import { addRecentProduct, TRecentProduct } from "@/utils/storeRecentProducts";
 
 interface ProductItemProps extends LikeButtonProps {
   recSize?: string | null;
@@ -38,6 +39,14 @@ const ProductItem = (props: ProductItemProps) => {
 
   // 브릿지
   const handleBridgeNavigation = () => {
+    const recentProducts: TRecentProduct = {
+      brandName,
+      productName,
+      customerImg,
+      customerLink,
+    };
+    addRecentProduct(recentProducts);
+
     navigate(
       `/bridge?type=brand&brandName=${brandName}&productName=${productName}&customerImg=${customerImg}&customerLink=${customerLink}`
     );
