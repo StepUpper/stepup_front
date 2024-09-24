@@ -11,6 +11,7 @@ export const addOrRemoveShoeFromLikes = async (
     modelNo: string;
     productId: string;
     customerImg?: string;
+    price?: null;
   }
 ) => {
   try {
@@ -30,7 +31,7 @@ export const addOrRemoveShoeFromLikes = async (
         title: product.title,
         imgUrl: product.imgUrl,
         customerLink: product.link,
-        thumb: null,
+        modelNo: product.modelNo,
         customerImg: null,
         price: null,
       });
