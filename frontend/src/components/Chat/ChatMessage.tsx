@@ -101,9 +101,9 @@ const ChatMessage = (props: ChatMessageProps) => {
                 >
                   <ChatProductItem
                     brand={product.brand}
-                    title={product.modelName}
+                    productName={product.modelName}
                     imgUrl={product.image}
-                    link={product.link}
+                    customerLink={product.link}
                     modelNo={product.modelNo}
                     productId={product.productId}
                     isLiked={isLiked}
