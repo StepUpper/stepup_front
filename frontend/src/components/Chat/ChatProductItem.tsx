@@ -7,9 +7,9 @@ import { useParams } from "react-router-dom";
 
 interface ProductItemProps {
   brand: string;
-  title: string;
+  productName: string;
   imgUrl: string;
-  link: string;
+  customerLink: string;
   modelNo: string;
   productId: string;
   isLiked: boolean | undefined;
@@ -17,7 +17,15 @@ interface ProductItemProps {
 
 const ChatProductItem = (props: ProductItemProps) => {
   const { isLoggedIn, user, updateUserInfo } = userStore();
-  const { brand, title, imgUrl, link, modelNo, productId, isLiked } = props;
+  const {
+    brand,
+    productName,
+    imgUrl,
+    customerLink,
+    modelNo,
+    productId,
+    isLiked,
+  } = props;
   const { messageId } = useParams();
   const isSharePage = Boolean(messageId);
 
@@ -26,9 +34,9 @@ const ChatProductItem = (props: ProductItemProps) => {
     if (isLoggedIn) {
       await addOrRemoveShoeFromLikes(user?.uid!, {
         brand,
-        title,
+        productName,
         imgUrl,
-        link,
+        customerLink,
         modelNo,
         productId,
       });
@@ -42,7 +50,7 @@ const ChatProductItem = (props: ProductItemProps) => {
     <div className="w-[166px] overflow-hidden rounded-md border border-grey-50">
       <div className="relative h-[155px]">
         <div className="flex h-[146px] w-full items-center justify-center overflow-hidden bg-grey-50">
-          <Img src={imgUrl} alt={title} className="w-full object-cover" />
+          <Img src={imgUrl} alt={productName} className="w-full object-cover" />
         </div>
         {!isSharePage && (
           <LikeButton
@@ -58,7 +66,7 @@ const ChatProductItem = (props: ProductItemProps) => {
       <div className="flex flex-col gap-2.5 px-1.5 py-2.5 text-body3">
         <div className="flex flex-col gap-[3px]">
           <strong className="text-caption1 font-paragraph">{brand}</strong>
-          <h3 className="truncate font-label">{title}</h3>
+          <h3 className="truncate font-label">{productName}</h3>
         </div>
       </div>
     </div>
