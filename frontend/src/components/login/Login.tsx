@@ -68,9 +68,11 @@ const Login = () => {
 
     //값 확인용
     if (isLoginValid) {
-      signInWithCredential(loginData).then(updateUserInfo);
-      closeAll();
-      navigate("/");
+      await signInWithCredential(loginData).then(() => {
+        updateUserInfo();
+        closeAll();
+        navigate("/");
+      });
 
       // 여기서 왜 isLoggedIn이 false 일까..
       // 루트 경로로 보냈으니 Layout 컴포넌트에서 로그인 상태 변경 해줘야 하는거 아닌가??

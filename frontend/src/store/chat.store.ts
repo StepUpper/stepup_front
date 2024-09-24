@@ -60,6 +60,7 @@ const useChatStore = create<ChatState>((set) => ({
   loadUserMessages: async (userId: string) => {
     const { roomId, messages } = await getMessagesFromLatestRoom(userId);
 
+    // 어디서부터 꼬인건지.. 일단 여기서 이렇게 해줘야 에러가 안나긴 한다. 나중에 찾아보자..
     const formattedMessages = messages.map((msg) => {
       if (msg.type === "bot") {
         return {
