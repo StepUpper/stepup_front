@@ -7,6 +7,8 @@ import { shoeImg } from "@assets/assets";
 import userStore from "@store/auth.store";
 import { addOrRemoveShoeFromLikes } from "@apis/firebase/likeFirestore";
 import { useSizeConversion } from "@hooks/useSizeConversion";
+import { addRecentProduct } from "@/utils/storeRecentProducts";
+
 
 interface ProductItemProps extends LikeButtonProps {
   productId: string;
@@ -21,7 +23,9 @@ interface ProductItemProps extends LikeButtonProps {
 
 const ProductList = ({ children }: { children: ReactNode }) => {
   return (
-    <ul className="grid w-full grid-cols-2 gap-3 md:grid-cols-4">{children}</ul>
+    <ul className="grid w-full grid-cols-2 gap-3 overflow-y-auto md:grid-cols-4">
+      {children}
+    </ul>
   );
 };
 export default ProductList;
@@ -50,6 +54,17 @@ const ProductItem = (props: ProductItemProps) => {
 
   // 브릿지
   const handleBridgeNavigation = () => {
+    const recentProducts = {
+      shoeId: productId,
+      title: productName,
+      imgUrl: thumb,
+      modelNo: modelNo,
+      brand: brandName,
+      customerLink: customerLink,
+      customerImg: customerImg,
+    };
+    addRecentProduct(recentProducts);
+
     navigate(
       `/bridge?type=brand&brandName=${brandName}&productName=${productName}&customerImg=${customerImg}&customerLink=${customerLink}`
     );

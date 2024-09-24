@@ -1,21 +1,32 @@
-import userStore from "@store/auth.store";
 import ProductList from "@common/ProductList";
-import { shoeHeart } from "@assets/assets";
+import { useState, useEffect } from "react";
+import {
+  TRecentProductItem,
+  getRecentProducts,
+} from "@utils/storeRecentProducts";
+import { shoeEye } from "@assets/assets";
 
-const LikedItems = () => {
-  const { likeShoes } = userStore();
+const RecentProducts = () => {
+  const [recentProducts, setRecentProducts] = useState<TRecentProductItem[]>(
+    []
+  );
+
+  useEffect(() => {
+    const products = getRecentProducts();
+    setRecentProducts(products);
+  }, []);
 
   return (
     <>
       <div className="px-[16px]">
-        <p className="pb-[16px] text-body3 font-bold">
-          총 {likeShoes?.length || 0} 개
+        <p className="py-[16px] text-body3 font-bold">
+          총 {recentProducts?.length} 개
         </p>
-        {likeShoes && likeShoes.length > 0 ? (
+        {recentProducts && recentProducts.length > 0 ? (
           <>
             <ProductList>
-              {likeShoes &&
-                likeShoes.map((product) => (
+              {recentProducts &&
+                recentProducts.map((product) => (
                   <ProductList.Item
                     key={product.shoeId}
                     productId={product.shoeId}
@@ -25,7 +36,7 @@ const LikedItems = () => {
                     productName={product.title}
                     isLiked={true}
                     customerLink={product.customerLink}
-                    customerImg={product.customerImg || undefined}
+                    customerImg={product.customerLink || undefined}
                   />
                 ))}
             </ProductList>
@@ -33,12 +44,12 @@ const LikedItems = () => {
           </>
         ) : (
           <div className="item-center left-1/2 h-[50vh] flex-col gap-4">
-            <img src={shoeHeart} />
-            <p className="font-semibold"> 좋아요한 상품이 없습니다.</p>
+            <img src={shoeEye} />
+            <p className="font-semibold"> 최근 본 상품이 없습니다.</p>
           </div>
         )}
       </div>
     </>
   );
 };
-export default LikedItems;
+export default RecentProducts;

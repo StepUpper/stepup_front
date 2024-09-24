@@ -1,4 +1,4 @@
-import RecentItems from "@/components/myshopping/RecentItems";
+import RecentProducts from "@/components/myshopping/RecentProducts";
 import Header from "@common/Header";
 import Button from "@common/html/Button";
 import LikedItems from "@components/myshopping/LikedItems";
@@ -16,7 +16,7 @@ const MyShopping = () => {
       case "likedBrands":
         return <LikedBrands />;
       case "recentItems":
-        return <RecentItems />;
+        return <RecentProducts />;
       default:
         return <LikedItems />;
     }
