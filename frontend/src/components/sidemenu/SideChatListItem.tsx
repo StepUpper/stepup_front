@@ -41,7 +41,7 @@ const SideChatListItem = (props: sideChatListItemProps) => {
   const handleMouseDown = () => {
     holdTimeRef.current = window.setTimeout(() => {
       onLongPress();
-    }, 2000);
+    }, 1000);
   };
   const handleMouseUp = () => {
     if (holdTimeRef.current) {
