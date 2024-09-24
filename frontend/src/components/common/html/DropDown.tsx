@@ -18,6 +18,7 @@ type DropDownProps = {
 
 export type DropDownRef = {
   getSelectedOption: () => string;
+  focus: () => void;
 };
 
 const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
@@ -32,6 +33,8 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLDivElement>(null);
+  const firstOptionRef = useRef<HTMLLIElement>(null);
 
   const optionClickHandler = (value: string) => {
     setSelectedOption(value);
@@ -60,17 +63,24 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     getSelectedOption: () => selectedOption,
+    focus: () => {
+      // 드롭다운이 포커스를 받을 때 드롭다운을 열도록 설정
+      setIsOpen(true);
+      inputRef.current?.focus();
+    },
   }));
 
   return (
     <>
       <div className="relative min-w-0 grow" ref={dropdownRef}>
         <div
+          ref={inputRef}
           className={twMerge(
             "flex items-center justify-between border text-body2",
             className
           )}
           onClick={() => setIsOpen(!isOpen)}
+          tabIndex={0}
         >
           <input
             className={twMerge(
@@ -91,9 +101,10 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
               menuPlacement === "top" ? "bottom-full mb-1" : "top-full mt-1"
             )}
           >
-            {options.map((option) => (
+            {options.map((option, index) => (
               <li
                 key={option.value}
+                ref={index === 0 ? firstOptionRef : null}
                 className={twMerge("px-4 py-2 hover:bg-gray-200", className)}
                 onClick={() => optionClickHandler(option.value)}
               >

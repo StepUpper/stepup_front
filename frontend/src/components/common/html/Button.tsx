@@ -1,15 +1,18 @@
-import { ComponentPropsWithoutRef } from "react";
+import { forwardRef } from "react";
+import { ComponentPropsWithRef } from "react";
 
-type ButtonProps = ComponentPropsWithoutRef<"button">;
+type ButtonProps = ComponentPropsWithRef<"button">;
 
-const Button = (props: ButtonProps) => {
-  const { children, className, ...rest } = props;
-  return (
-    <>
-      <button className={className} {...rest}>
-        {children}
-      </button>
-    </>
-  );
-};
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children, className, ...rest }, ref) => {
+    return (
+      <>
+        <button ref={ref} className={className} {...rest}>
+          {children}
+        </button>
+      </>
+    );
+  }
+);
+
 export default Button;
