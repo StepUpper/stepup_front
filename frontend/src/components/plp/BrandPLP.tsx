@@ -10,6 +10,7 @@ import GenderCategorySelector, {
 import PLPProductDisplay from "@components/plp/PLPProductDisplay";
 import FilterBottomSheet from "@components/plp/FilterBottomSheet";
 import Error from "@common/Error";
+import PLPLoading from "@components/plp/PLPLoading";
 
 interface BrandPLPProps {
   brandName: string;
@@ -18,7 +19,7 @@ interface BrandPLPProps {
 const BrandPLP = (props: BrandPLPProps) => {
   const { brandName } = props;
 
-  const { data, isError } = useAxios<TBrandPLPResponse, [string]>(
+  const { data, isLoading, isError } = useAxios<TBrandPLPResponse, [string]>(
     chatApi.getBrandInfo,
     null,
     brandName
@@ -83,6 +84,7 @@ const BrandPLP = (props: BrandPLPProps) => {
           />
         </>
       )}
+      {isLoading && <PLPLoading type="brand" />}
 
       {isError && (
         <div className="h-[calc(100vh-32px)] w-full">
