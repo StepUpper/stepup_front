@@ -3,11 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://StepUpper.github.io/stepup_front",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "preview": "vite preview",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d dist",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
@@ -24,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
+    "@types/gh-pages": "^6",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -35,6 +39,7 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "eslint-plugin-tailwindcss": "^3.17.4",
+    "gh-pages": "^6.1.1",
     "globals": "^15.9.0",
     "postcss": "^8.4.45",
     "prettier": "^3.3.3",
@@ -51,6 +56,5 @@
     "prettier@3.3.3": {
       "unplugged": true
     }
-  },
-  "homepage": "https://StepUpper.github.io/stepup_front"
+  }
 }
