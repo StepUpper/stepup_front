@@ -4,7 +4,7 @@ import Input from "@common/html/Input";
 import BottomButton from "@common/BottomButton";
 import DropDown, { DropDownRef } from "@common/html/DropDown";
 import { useInput } from "@hooks/useInput";
-import userStore from "@store/auth.store";
+// import userStore from "@store/auth.store";
 import { auth } from "@/firebase";
 import OptionSelectorButton from "@common/OptionSelectorButton";
 // import { useNavigate } from "react-router-dom";
