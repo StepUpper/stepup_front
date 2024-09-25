@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useAxios from "@hooks/useAxios";
-import { TBrandPLPResponse, TProduct } from "@type/plp";
+import { TBrandPLPResponse, TProductResponse } from "@type/product";
 import { chatApi } from "@apis/services/chat";
 import PLPHeader from "@components/plp/PLPHeader";
 import GenderCategorySelector, {
@@ -10,6 +10,7 @@ import GenderCategorySelector, {
 import PLPProductDisplay from "@components/plp/PLPProductDisplay";
 import FilterBottomSheet from "@components/plp/FilterBottomSheet";
 import Error from "@common/Error";
+import PLPLoading from "@components/plp/PLPLoading";
 
 interface BrandPLPProps {
   brandName: string;
@@ -18,7 +19,7 @@ interface BrandPLPProps {
 const BrandPLP = (props: BrandPLPProps) => {
   const { brandName } = props;
 
-  const { data, isError } = useAxios<TBrandPLPResponse, [string]>(
+  const { data, isLoading, isError } = useAxios<TBrandPLPResponse, [string]>(
     chatApi.getBrandInfo,
     null,
     brandName
@@ -26,17 +27,20 @@ const BrandPLP = (props: BrandPLPProps) => {
 
   const [selectedCategory, setSelectedCategory] =
     useState<GenderCategory>("ALL");
-  const [filteredProducts, setFilteredProducts] = useState<TProduct[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<TProductResponse[]>(
+    []
+  );
 
   useEffect(() => {
-    console.log(selectedCategory);
     // 성별 필터
     const newFilteredProducts =
-      data?.products?.filter((product: TProduct) => {
+      data?.products?.filter((product: TProductResponse) => {
         if (selectedCategory === "ALL") return true;
         return product.gender === selectedCategory;
       }) || [];
     setFilteredProducts(newFilteredProducts);
+
+    console.log(filteredProducts);
   }, [data, selectedCategory]);
 
   // 필터 적용
@@ -51,7 +55,7 @@ const BrandPLP = (props: BrandPLPProps) => {
       </PLPHeader>
 
       {data && filteredProducts && (
-        <>
+        <div className="flex flex-col gap-4">
           {/* AD */}
           <Link to={data.link}>
             <div
@@ -81,8 +85,9 @@ const BrandPLP = (props: BrandPLPProps) => {
             products={filteredProducts}
             applyFilters={handleFilters}
           />
-        </>
+        </div>
       )}
+      {isLoading && <PLPLoading type="brand" />}
 
       {isError && (
         <div className="h-[calc(100vh-32px)] w-full">

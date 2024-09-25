@@ -1,14 +1,14 @@
 export const RECENT_PRODUCTS_KEY = "recentProducts";
 
 export type TRecentProductItem = {
-  productId: string;
+  shoeId: string;
   modelNo: string;
   imgUrl: string;
   brand: string;
   productName: string;
-  price?: number | undefined | null;
   customerLink: string;
   customerImg?: string;
+  price?: number | undefined | null;
 };
 
 // 최근 본 상품을 로컬 스토리지에 저장
@@ -23,7 +23,7 @@ export const addRecentProduct = (newProduct: TRecentProductItem) => {
   // 중복 제거 및 새로운 아이템 추가
   const updatedProducts = [
     newProduct,
-    ...products.filter((product) => product.productId !== newProduct.productId),
+    ...products.filter((product) => product.shoeId !== newProduct.shoeId),
   ];
 
   localStorage.setItem(RECENT_PRODUCTS_KEY, JSON.stringify(updatedProducts));

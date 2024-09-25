@@ -11,7 +11,7 @@ interface GenderCategorySelectorProps {
 const GenderCategorySelector = (props: GenderCategorySelectorProps) => {
   const { selectedGender, onClick } = props;
   return (
-    <div className="w-full p-4">
+    <div className="w-full px-4">
       <CategorySelector>
         {GENDER_CATEGORIES.map((category) => (
           <CategorySelector.Item
