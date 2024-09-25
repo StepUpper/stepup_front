@@ -1,5 +1,4 @@
 import { addOrRemoveShoeFromLikes } from "@apis/firebase/likeFirestore";
-import { perfittLogo } from "@assets/assets";
 import userStore from "@store/auth.store";
 import LikeButton from "@common/LikeButton";
 import Img from "@common/html/Img";
@@ -9,9 +8,9 @@ interface ProductItemProps {
   brand: string;
   productName: string;
   imgUrl: string;
-  customerLink: string;
   modelNo: string;
-  productId: string;
+  customerLink: string;
+  customerImg?: string;
   isLiked: boolean | undefined;
 }
 
@@ -21,9 +20,9 @@ const ChatProductItem = (props: ProductItemProps) => {
     brand,
     productName,
     imgUrl,
-    customerLink,
     modelNo,
-    productId,
+    customerLink,
+    customerImg,
     isLiked,
   } = props;
   const { messageId } = useParams();
@@ -36,9 +35,9 @@ const ChatProductItem = (props: ProductItemProps) => {
         brand,
         productName,
         imgUrl,
-        customerLink,
         modelNo,
-        productId,
+        customerLink,
+        customerImg,
       });
       updateUserInfo();
     } else {
@@ -59,8 +58,8 @@ const ChatProductItem = (props: ProductItemProps) => {
             isLiked={isLiked}
           />
         )}
-        <div className="absolute bottom-0.5 right-1.5 size-6 rounded-full bg-grey-400">
-          <img src={perfittLogo} alt="임시 로고" />
+        <div className="bg-grey-300 absolute bottom-0.5 right-1.5 size-6 rounded-full">
+          <Img src={customerImg} alt={brand} errorStyle="w-full opacity-40" />
         </div>
       </div>
       <div className="flex flex-col gap-2.5 px-1.5 py-2.5 text-body3">

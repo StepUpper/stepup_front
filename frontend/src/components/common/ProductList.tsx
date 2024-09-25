@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { ReactNode, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import LikeButton, { LikeButtonProps } from "@common/LikeButton";
 import ProductLearnMoreButton from "@common/ProductLearnMoreButton";
 import Img from "@common/html/Img";
@@ -7,18 +7,10 @@ import { shoeImg } from "@assets/assets";
 import userStore from "@store/auth.store";
 import { addOrRemoveShoeFromLikes } from "@apis/firebase/likeFirestore";
 import { useSizeConversion } from "@hooks/useSizeConversion";
-import { addRecentProduct } from "@/utils/storeRecentProducts";
+import { addRecentProduct } from "@utils/storeRecentProducts";
+import { TProduct } from "@type/product";
 
-interface ProductItemProps extends LikeButtonProps {
-  productId: string;
-  modelNo: string;
-  imgUrl: string;
-  brand: string;
-  productName: string;
-  price?: number | undefined | null;
-  customerLink: string;
-  customerImg?: string;
-}
+interface ProductItemProps extends TProduct, LikeButtonProps {}
 
 const ProductList = ({ children }: { children: ReactNode }) => {
   return (
@@ -31,18 +23,21 @@ export default ProductList;
 
 const ProductItem = (props: ProductItemProps) => {
   const {
-    productId,
-    modelNo,
-    imgUrl,
-    brand,
+    shoeId,
     productName,
-    price,
+    imgUrl,
+    modelNo,
+    brand,
     customerLink,
     customerImg,
+    price,
     isLiked,
   } = props;
 
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const [type, setType] = useState("");
 
   const { isLoggedIn, user, updateUserInfo } = userStore();
   const sizeType = user?.sizeType ?? "mm";
@@ -51,38 +46,42 @@ const ProductItem = (props: ProductItemProps) => {
   // 신발 사이즈 변환
   const convertedSneakerSize = useSizeConversion(sizeType, sneakerSize);
 
+  useEffect(() => {
+    setType(location.hash.slice(1));
+  }, [location]);
+
   // 브릿지
   const handleBridgeNavigation = () => {
     const recentProducts = {
-      productId,
+      shoeId,
       productName,
       imgUrl,
       modelNo,
       brand,
       customerLink,
       customerImg,
+      price,
     };
     addRecentProduct(recentProducts);
 
     navigate(
-      `/bridge?type=brand&brandName=${brand}&productName=${productName}&customerImg=${customerImg}&customerLink=${customerLink}`
+      `/bridge?type=${type}&brandName=${brand}&productName=${productName}&customerImg=${customerImg}&customerLink=${customerLink}`
     );
   };
 
   // 좋아요
   const handleLikeClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log(productId);
 
     if (isLoggedIn) {
       await addOrRemoveShoeFromLikes(user?.uid!, {
         brand,
         productName,
         imgUrl,
-        customerLink,
         modelNo,
-        productId,
         customerImg,
+        customerLink,
+        price,
       });
       updateUserInfo();
     } else {
@@ -128,7 +127,7 @@ const ProductItem = (props: ProductItemProps) => {
           onClick={handleLikeClick}
         />
         {/* 판매처 이미지 */}
-        <div className="absolute -bottom-3 right-1.5 size-6 rounded-full bg-grey-400">
+        <div className="bg-grey-300 absolute -bottom-3 right-1.5 size-6 rounded-full">
           <Img src={customerImg} alt={brand} errorStyle="w-full opacity-40" />
         </div>
       </div>

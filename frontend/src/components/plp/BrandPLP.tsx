@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useAxios from "@hooks/useAxios";
-import { TBrandPLPResponse, TProduct } from "@type/plp";
+import { TBrandPLPResponse, TProductResponse } from "@type/product";
 import { chatApi } from "@apis/services/chat";
 import PLPHeader from "@components/plp/PLPHeader";
 import GenderCategorySelector, {
@@ -27,17 +27,20 @@ const BrandPLP = (props: BrandPLPProps) => {
 
   const [selectedCategory, setSelectedCategory] =
     useState<GenderCategory>("ALL");
-  const [filteredProducts, setFilteredProducts] = useState<TProduct[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<TProductResponse[]>(
+    []
+  );
 
   useEffect(() => {
-    console.log(selectedCategory);
     // 성별 필터
     const newFilteredProducts =
-      data?.products?.filter((product: TProduct) => {
+      data?.products?.filter((product: TProductResponse) => {
         if (selectedCategory === "ALL") return true;
         return product.gender === selectedCategory;
       }) || [];
     setFilteredProducts(newFilteredProducts);
+
+    console.log(filteredProducts);
   }, [data, selectedCategory]);
 
   // 필터 적용
@@ -52,7 +55,7 @@ const BrandPLP = (props: BrandPLPProps) => {
       </PLPHeader>
 
       {data && filteredProducts && (
-        <>
+        <div className="flex flex-col gap-4">
           {/* AD */}
           <Link to={data.link}>
             <div
@@ -82,7 +85,7 @@ const BrandPLP = (props: BrandPLPProps) => {
             products={filteredProducts}
             applyFilters={handleFilters}
           />
-        </>
+        </div>
       )}
       {isLoading && <PLPLoading type="brand" />}
 

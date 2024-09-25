@@ -1,20 +1,11 @@
-import { TProduct } from "@type/plp";
 import PLPControls from "@components/plp/PLPControls";
 import ProductList from "@common/ProductList";
 import PLPEmptyList from "@components/plp/PLPEmptyList";
 import userStore from "@store/auth.store";
+import { TProductResponse } from "@/types/product";
 
 interface PLPProductDisplayProps {
-  products:
-    | TProduct[]
-    | {
-        image: string;
-        link: string;
-        modelName: string;
-        brand: string;
-        modelNo: string;
-        productId: string;
-      }[];
+  products: TProductResponse[];
 }
 
 const PLPProductDisplay = (props: PLPProductDisplayProps) => {
@@ -28,23 +19,22 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
       <div className="overflow-y-auto px-4 pb-6">
         {products.length > 0 ? (
           <ProductList>
-            {products.map((product, index) => {
+            {products.map((product) => {
               const isLiked = likeShoes?.some(
-                (shoe) => shoe.shoeId === product.productId
+                (shoe) => shoe.shoeId === product.brand + product.modelNo
               );
+              const shoeId = product.brand + product.modelNo;
 
-              const productKey =
-                product.productId || `${product.modelNo}_${index}`;
               return (
                 <ProductList.Item
-                  key={productKey}
-                  productId={product.productId || productKey}
-                  modelNo={product.modelNo}
-                  thumb={product.image}
-                  brandName={product.brand}
+                  key={shoeId}
+                  shoeId={shoeId}
                   productName={product.modelName}
-                  isLiked={isLiked}
+                  imgUrl={product.image}
+                  modelNo={product.modelNo}
+                  brand={product.brand}
                   customerLink={product.link}
+                  isLiked={isLiked}
                 />
               );
             })}

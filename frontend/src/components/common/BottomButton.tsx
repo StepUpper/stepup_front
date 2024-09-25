@@ -21,4 +21,6 @@ const BottomButton = forwardRef<HTMLButtonElement, BottomButtonProps>(
     );
   }
 );
+
+BottomButton.displayName = "BottomButtong";
 export default BottomButton;

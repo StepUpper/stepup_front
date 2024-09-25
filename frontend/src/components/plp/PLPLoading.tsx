@@ -11,7 +11,7 @@ const PLPLoading = (props: PLPLoadingProps) => {
       {type === "brand" && (
         <>
           {/* AD */}
-          <Skeleton className="h-[260px] sm:h-[8rem]" />
+          <Skeleton className="h-[260px] sm:h-32" />
 
           {/* 성별 카테고리 */}
           <div className="p-4">

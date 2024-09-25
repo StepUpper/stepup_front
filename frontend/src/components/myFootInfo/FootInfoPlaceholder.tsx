@@ -4,7 +4,7 @@ import BottomButton from "@common/BottomButton";
 const FootInfoPlaceholder = () => {
   return (
     <>
-      <div className="flex h-[calc(100vh-178px)] flex-col items-center justify-center">
+      <div className="flex h-[calc(100vh-176px)] flex-col items-center justify-center">
         <div className="w-80">
           <img
             src={footInfoPlaceholder}
@@ -21,7 +21,9 @@ const FootInfoPlaceholder = () => {
           </span>
         </div>
       </div>
-      <BottomButton title="내 발 측정하기" id="perfitt_size_button" />
+      <div className="w-full px-4">
+        <BottomButton title="내 발 측정하기" id="perfitt_size_button" />
+      </div>
     </>
   );
 };

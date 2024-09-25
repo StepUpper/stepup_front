@@ -19,7 +19,6 @@ interface ProductsPLPProps {
 // TODO: 채팅 데이터로 임시 처리
 const ProductsPLP = (props: ProductsPLPProps) => {
   const { data } = props;
-  console.log(data);
 
   // TODO: API 추가되면 교체 예정
   // const { data, isError } = useAxios<TBrandPLPResponse>();
