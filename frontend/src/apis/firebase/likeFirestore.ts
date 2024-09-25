@@ -5,25 +5,34 @@ export const addOrRemoveShoeFromLikes = async (
   userId: string,
   product: {
     brand: string;
-    title: string;
+    productName: string;
     imgUrl: string;
-    link: string;
     modelNo: string;
-    productId: string;
+    customerLink: string;
+    customerImg?: string;
+    price?: number | null;
   }
 ) => {
   try {
-    const shoeRef = doc(db, "users", userId, "likeShoes", product.productId);
+    const shoeRef = doc(
+      db,
+      "users",
+      userId,
+      "likeShoes",
+      product.brand + product.modelNo
+    );
 
     const shoeDoc = await getDoc(shoeRef);
 
     if (!shoeDoc.exists()) {
       await setDoc(shoeRef, {
-        title: product.title,
+        brand: product.brand,
+        productName: product.productName,
         imgUrl: product.imgUrl,
         modelNo: product.modelNo,
-        brand: product.brand,
-        link: product.link,
+        customerLink: product.customerLink,
+        customerImg: null,
+        price: null,
       });
     } else {
       await deleteDoc(shoeRef);

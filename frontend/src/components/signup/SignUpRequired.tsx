@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import InputField from "@common/InputField";
 import Input from "@common/html/Input";
 import BottomButton from "@common/BottomButton";
@@ -7,6 +7,7 @@ import { signUpWithCredential, updateUserData } from "@apis/firebase/auth";
 import { useInput } from "@hooks/useInput";
 import userStore from "@store/auth.store";
 import { auth } from "@/firebase";
+import useFocus from "@hooks/useFocus";
 
 const SignUpRequired = () => {
   const user = auth.currentUser;
@@ -27,7 +28,17 @@ const SignUpRequired = () => {
   const [genderError, setGenderError] = useState("");
   const [birthDateError, setBirthDateError] = useState("");
 
-  const dropdownRef = useRef<DropDownRef>(null);
+  // 포커스 처리.. 드롭다운은.. 다음에 키보드 컨트롤까지 해서 해야할 듯..
+  const [emailRef, focusEmail, handleEmailPress] =
+    useFocus<HTMLInputElement>(true);
+  const [passwordRef, focusPassword, handlePasswordPress] =
+    useFocus<HTMLInputElement>();
+  const [userNameRef, focusUserName, handleUserNamePress] =
+    useFocus<HTMLInputElement>();
+  const [genderRef, focusGender] = useFocus<DropDownRef>();
+  const [birthYearRef, focusBirthYear] = useFocus<DropDownRef>();
+  const [birthMonthRef, focusBirthMonth] = useFocus<DropDownRef>();
+  const [birthDayRef, focusBirthDay] = useFocus<DropDownRef>();
 
   const genderOptions: { value: string; label: string }[] = [
     { value: "남성", label: "남성" },
@@ -88,6 +99,7 @@ const SignUpRequired = () => {
     const validateEmail = (email: string) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
+        focusEmail(); // 이메일 필드 자동 포커스
         setEmailError("이메일 형식을 확인해주세요");
         isSignUpRequiredValid = false;
         return false;
@@ -101,6 +113,8 @@ const SignUpRequired = () => {
 
     if (!signUpRequired.email) {
       //아이디 비어있을 때
+      if (isSignUpRequiredValid) focusEmail(); // 이메일 필드 자동 포커스
+
       setEmailError("아이디를 입력하세요");
       isSignUpRequiredValid = false;
     } else if (validateEmail(signUpRequired.email)) {
@@ -109,23 +123,40 @@ const SignUpRequired = () => {
 
     if (!signUpRequired.password) {
       //비밀번호 비어있을 때
+      if (isSignUpRequiredValid) focusPassword(); // 비밀번호 필드 자동 포커스
+
       setPasswordError("비밀번호를 입력하세요");
       isSignUpRequiredValid = false;
     }
 
     if (!signUpRequired.username) {
+      if (isSignUpRequiredValid) focusUserName(); // 이름 필드 자동 포커스
+
       setnameError("이름을 입력하세요");
       isSignUpRequiredValid = false;
     }
 
     if (!signUpRequired.gender) {
+      if (isSignUpRequiredValid) focusGender(); // 성별 필드 자동 포커스
+
       setGenderError("성별을 입력하세요");
       isSignUpRequiredValid = false;
     }
 
     if (!signUpRequired.birthDate) {
-      setBirthDateError("생년월일을 입력하세요");
-      isSignUpRequiredValid = false;
+      if (!birthYear) {
+        focusBirthYear(); // 년도 필드에 포커스
+        setBirthDateError("년도를 선택하세요");
+        isSignUpRequiredValid = false;
+      } else if (!birthMonth) {
+        focusBirthMonth(); // 월 필드에 포커스
+        setBirthDateError("월을 선택하세요");
+        isSignUpRequiredValid = false;
+      } else if (!birthDay) {
+        focusBirthDay(); // 일 필드에 포커스
+        setBirthDateError("일을 선택하세요");
+        isSignUpRequiredValid = false;
+      }
     }
 
     //값 확인용
@@ -154,6 +185,7 @@ const SignUpRequired = () => {
           {/*아이디 입력 필드*/}
           <InputField title="아이디" error={emailError}>
             <Input
+              ref={emailRef}
               type="email"
               name="email"
               placeholder={user?.email || "이메일을 입력해주세요"}
@@ -161,11 +193,13 @@ const SignUpRequired = () => {
               value={user?.email ? "" : signUpRequired.email}
               onChange={handleInputChange}
               disabled={user?.email ? true : false}
+              onKeyDown={(e) => handleEmailPress(e, focusPassword)} // 다음 패스워드 포커스
             />
           </InputField>
           {/*패스워드 입력 필드*/}
           <InputField title="비밀번호" error={passwordError}>
             <Input
+              ref={passwordRef}
               type="password"
               name="password"
               placeholder={
@@ -177,11 +211,13 @@ const SignUpRequired = () => {
               value={user?.email ? "" : signUpRequired.password}
               onChange={handleInputChange}
               disabled={user?.email ? true : false}
+              onKeyDown={(e) => handlePasswordPress(e, focusUserName)} // 다음 이름 포커스
             />
           </InputField>
           {/*이름 입력 필드*/}
           <InputField title="이름" error={nameError}>
             <Input
+              ref={userNameRef}
               type="text"
               name="username"
               placeholder={user?.displayName || "이름을 입력해주세요"}
@@ -189,12 +225,13 @@ const SignUpRequired = () => {
               value={user?.displayName ? "" : signUpRequired.username}
               onChange={handleInputChange}
               disabled={user?.displayName ? true : false}
+              onKeyDown={(e) => handleUserNamePress(e, focusGender)} // 다음 성별 포커스
             />
           </InputField>
           {/*성별 선택 필드*/}
           <InputField title="성별" error={genderError}>
             <DropDown
-              ref={dropdownRef}
+              ref={genderRef}
               className="gap-2 rounded-[4px] border-[#E4E4E7] px-4 py-[14px]"
               placeholder="성별을 선택해 주세요"
               options={genderOptions}
@@ -205,7 +242,7 @@ const SignUpRequired = () => {
           <InputField title="생년월일" error={birthDateError}>
             <div className="flex w-full justify-between space-x-1">
               <DropDown
-                ref={dropdownRef}
+                ref={birthYearRef}
                 className="h-[45px] gap-2 rounded-[6px] border-[#E4E4E7] px-[10px] py-[14px]"
                 menuPlacement="top"
                 placeholder="년"
@@ -216,7 +253,7 @@ const SignUpRequired = () => {
                 }}
               />
               <DropDown
-                ref={dropdownRef}
+                ref={birthMonthRef}
                 className="h-[45px] gap-2 rounded-[6px] border-[#E4E4E7] px-[10px] py-[14px]"
                 menuPlacement="top"
                 placeholder="월"
@@ -227,7 +264,7 @@ const SignUpRequired = () => {
                 }}
               />
               <DropDown
-                ref={dropdownRef}
+                ref={birthDayRef}
                 className="h-[45px] gap-2 rounded-[6px] border-[#E4E4E7] px-[10px] py-[14px]"
                 menuPlacement="top"
                 placeholder="일"

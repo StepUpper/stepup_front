@@ -1,29 +1,17 @@
-import { TProduct } from "@type/plp";
 import PLPControls from "@components/plp/PLPControls";
 import ProductList from "@common/ProductList";
 import PLPEmptyList from "@components/plp/PLPEmptyList";
 import userStore from "@store/auth.store";
+import { TProductResponse } from "@/types/product";
 
 interface PLPProductDisplayProps {
-  products:
-    | TProduct[]
-    | {
-        image: string;
-        link: string;
-        modelName: string;
-        brand: string;
-        modelNo: string;
-        productId: string;
-      }[];
+  products: TProductResponse[];
 }
 
 const PLPProductDisplay = (props: PLPProductDisplayProps) => {
   const { products } = props;
 
-  // TODO: 데이터 확인 필요
-  const { user } = userStore();
-  const userFootSize = user?.footInfo || null;
-  // console.log(user)
+  const { likeShoes } = userStore();
 
   return (
     <>
@@ -31,17 +19,25 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
       <div className="overflow-y-auto px-4 pb-6">
         {products.length > 0 ? (
           <ProductList>
-            {products.map((product, index) => (
-              <ProductList.Item
-                key={`${product.modelNo}-${index}`}
-                recSize={userFootSize}
-                thumb={product.image}
-                brandName={product.brand}
-                productName={product.modelName}
-                isLiked={false}
-                customerLink={product.link}
-              />
-            ))}
+            {products.map((product) => {
+              const isLiked = likeShoes?.some(
+                (shoe) => shoe.shoeId === product.brand + product.modelNo
+              );
+              const shoeId = product.brand + product.modelNo;
+
+              return (
+                <ProductList.Item
+                  key={shoeId}
+                  shoeId={shoeId}
+                  productName={product.modelName}
+                  imgUrl={product.image}
+                  modelNo={product.modelNo}
+                  brand={product.brand}
+                  customerLink={product.link}
+                  isLiked={isLiked}
+                />
+              );
+            })}
           </ProductList>
         ) : (
           <PLPEmptyList />

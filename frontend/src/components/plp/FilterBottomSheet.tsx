@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useBottomSheet } from "@store/bottomSheet.store";
-import { TProduct } from "@type/plp";
+import { TProductResponse } from "@type/product";
 import BottomSheet from "@common/BottomSheet";
 import BottomButton from "@common/BottomButton";
 import GenderCategorySelector, {
@@ -8,7 +8,7 @@ import GenderCategorySelector, {
 } from "@components/plp/GenderCategorySelector";
 
 interface FilterBottomSheetProps {
-  products: TProduct[];
+  products: TProductResponse[];
   applyFilters: (gender: GenderCategory) => void;
 }
 
@@ -41,16 +41,18 @@ const FilterBottomSheet = (props: FilterBottomSheetProps) => {
         <BottomSheet.Header isTitleOnly={true}>필터</BottomSheet.Header>
         <BottomSheet.Content className="gap-4">
           <div className="flex flex-col gap-2.5">
-            <label className="pb-1 text-[15px] font-label">성별</label>
+            <label className="px-4 pb-1 text-[15px] font-label">성별</label>
             <GenderCategorySelector
               selectedGender={selectedGender}
               onClick={(value) => setSelectedGender(value)}
             />
           </div>
-          <BottomButton
-            title={`${filteredCount}개의 상품보기`}
-            onClick={handleApplyFilters}
-          ></BottomButton>
+          <div className="px-4">
+            <BottomButton
+              title={`${filteredCount}개의 상품보기`}
+              onClick={handleApplyFilters}
+            />
+          </div>
         </BottomSheet.Content>
       </BottomSheet>
     </>

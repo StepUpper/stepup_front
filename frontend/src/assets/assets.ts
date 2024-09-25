@@ -27,13 +27,20 @@ import selectArrowIcon from "@assets/icons/select-arrow-icon.svg";
 import filterIcon from "@assets/icons/filter-icon.svg";
 import interestCheckIcon from "@assets/icons/interest-check-icon.svg";
 import arrowRightIcon from "@assets/icons/arrow-right-icon.svg";
+import linkAngledIcon from "@assets/icons/link-angled-icon.svg";
+import loadingIcon from "@assets/icons/loading-icon.svg";
+import copyLeftIcon from "@assets/icons/copy-left-icon.svg";
+import chatFilledIcon from "@assets/icons/chat-filled-icon.svg";
 
 import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import defaultProfilePlusImg from "@assets/images/default-profile-plus-img.svg";
 import footInfoPlaceholder from "@assets/images/foot-loading.webp";
 import aiIconImg from "@assets/images/ai-icon-img.png";
+import shoeHeart from "@assets/images/shoeHeart.svg";
 import onboardingImg1 from "@assets/images/onboarding1.png";
 import onboardingImg2 from "@assets/images/onboarding2.png";
+import shoeImg from "@assets/images/shoe-img.png";
+import shoeEye from "@assets/images/shoeEye.svg";
 
 export {
   // ******* ICON
@@ -66,11 +73,18 @@ export {
   filterIcon,
   interestCheckIcon,
   arrowRightIcon,
+  linkAngledIcon,
+  loadingIcon,
+  copyLeftIcon,
+  chatFilledIcon,
   // ******* IMAGE
   defaultProfileImg,
   defaultProfilePlusImg,
   footInfoPlaceholder,
   aiIconImg,
+  shoeHeart,
   onboardingImg1,
   onboardingImg2,
+  shoeImg,
+  shoeEye,
 };

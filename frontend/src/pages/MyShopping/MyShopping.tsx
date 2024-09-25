@@ -1,24 +1,24 @@
-import RecentItems from "@/components/myshopping/RecentItems";
+import RecentProducts from "@/components/myshopping/RecentProducts";
 import Header from "@common/Header";
 import Button from "@common/html/Button";
-import LikedItems from "@components/myshopping/LikedItems";
+import LikedProducts from "@components/myshopping/LikedProducts";
 import { useState } from "react";
 import CategorySelector from "@common/CategorySelector";
 import LikedBrands from "@components/myshopping/LikedBrands";
 
 const MyShopping = () => {
-  const [activeCompoenet, setActiveComponent] = useState("likedItems");
+  const [activeCompoenet, setActiveComponent] = useState("likedproducts");
 
   const showComponent = () => {
     switch (activeCompoenet) {
-      case "likedItems":
-        return <LikedItems />;
+      case "likedproducts":
+        return <LikedProducts />;
       case "likedBrands":
         return <LikedBrands />;
       case "recentItems":
-        return <RecentItems />;
+        return <RecentProducts />;
       default:
-        return <LikedItems />;
+        return <LikedProducts />;
     }
   };
 
@@ -28,8 +28,8 @@ const MyShopping = () => {
       <div>
         <div className="flex w-screen justify-between">
           <Button
-            className={`h-[40px] grow px-[16px] py-[8px] text-body2 ${activeCompoenet === "likedItems" || activeCompoenet === "likedBrands" ? "border-b-2 border-black font-bold" : "border-b border-[#E5E7EB] font-normal text-grey-600"}`}
-            onClick={() => setActiveComponent("likedItems")}
+            className={`h-[40px] grow px-[16px] py-[8px] text-body2 ${activeCompoenet === "likedproducts" || activeCompoenet === "likedBrands" ? "border-b-2 border-black font-bold" : "border-b border-[#E5E7EB] font-normal text-grey-600"}`}
+            onClick={() => setActiveComponent("likedproducts")}
           >
             좋아요
           </Button>
@@ -41,12 +41,12 @@ const MyShopping = () => {
           </Button>
         </div>
         {/* 좋아요 탭 카테고리 셀렉터 */}
-        {(activeCompoenet === "likedItems" ||
+        {(activeCompoenet === "likedproducts" ||
           activeCompoenet === "likedBrands") && (
           <div className="flex gap-[5px] px-[16px] py-[17px]">
             <CategorySelector.Item
-              isClicked={activeCompoenet === "likedItems"}
-              onClick={() => setActiveComponent("likedItems")}
+              isClicked={activeCompoenet === "likedproducts"}
+              onClick={() => setActiveComponent("likedproducts")}
             >
               상품
             </CategorySelector.Item>
