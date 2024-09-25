@@ -1,9 +1,8 @@
+import { useEffect } from "react";
 import { TChatResponse } from "@type/chat";
 import BottomSheet from "@common/BottomSheet";
 import BrandPLP from "@components/plp/BrandPLP";
-import ProductsPLP from "./ProductsPLP";
-import { useEffect } from "react";
-import { useBottomSheet } from "@/store/bottomSheet.store";
+import ProductsPLP from "@components/plp/ProductsPLP";
 
 interface PLPBottomSheetProps {
   brandName: string | null;
@@ -12,8 +11,6 @@ interface PLPBottomSheetProps {
 
 const PLPBottomSheet = (props: PLPBottomSheetProps) => {
   const { brandName, products } = props;
-
-  const { sheets } = useBottomSheet();
 
   useEffect(() => {
     console.log(products, brandName);

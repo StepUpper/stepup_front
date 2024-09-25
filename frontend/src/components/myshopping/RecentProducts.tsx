@@ -37,7 +37,7 @@ const RecentProducts = () => {
                   return (
                     <ProductList.Item
                       key={index}
-                      productId={product.shoeId}
+                      shoeId={product.shoeId}
                       modelNo={product.modelNo}
                       imgUrl={product.imgUrl}
                       brand={product.brand}

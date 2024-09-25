@@ -7,10 +7,10 @@ import { useInput } from "@hooks/useInput";
 import userStore from "@store/auth.store";
 import { auth } from "@/firebase";
 import OptionSelectorButton from "@common/OptionSelectorButton";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const EditUserInfo = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const { value: size, setValue: setSize } = useInput({
     sizeType: "",
@@ -18,9 +18,9 @@ const EditUserInfo = () => {
   });
 
   const user = auth.currentUser;
-  const { updateUserInfo } = userStore((store) => ({
-    updateUserInfo: store.updateUserInfo,
-  }));
+  // const { updateUserInfo } = userStore((store) => ({
+  //   updateUserInfo: store.updateUserInfo,
+  // }));
   const { value: editUserInfo, setValue: setEditUserInfo } = useInput({
     username: user?.displayName || "",
     gender: "",
@@ -119,22 +119,22 @@ const EditUserInfo = () => {
   const submitHandle = (e: React.FormEvent) => {
     e.preventDefault();
 
-    let isEditUserInfoValid = true;
+    // let isEditUserInfoValid = true;
 
-    if (!editUserInfo.username) {
-      setnameError("이름을 입력하세요");
-      isEditUserInfoValid = false;
-    }
+    // if (!editUserInfo.username) {
+    //   setnameError("이름을 입력하세요");
+    //   isEditUserInfoValid = false;
+    // }
 
-    if (!editUserInfo.gender) {
-      setGenderError("성별을 입력하세요");
-      isEditUserInfoValid = false;
-    }
+    // if (!editUserInfo.gender) {
+    //   setGenderError("성별을 입력하세요");
+    //   isEditUserInfoValid = false;
+    // }
 
-    if (!editUserInfo.birthDate) {
-      setBirthDateError("생년월일을 입력하세요");
-      isEditUserInfoValid = false;
-    }
+    // if (!editUserInfo.birthDate) {
+    //   setBirthDateError("생년월일을 입력하세요");
+    //   isEditUserInfoValid = false;
+    // }
   };
 
   return (

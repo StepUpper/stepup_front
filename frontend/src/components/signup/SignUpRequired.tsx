@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import InputField from "@common/InputField";
 import Input from "@common/html/Input";
 import BottomButton from "@common/BottomButton";

@@ -1,4 +1,3 @@
-import Button from "@common/html/Button";
 import LikeButton from "@common/LikeButton";
 import { shoeHeart } from "@/assets/assets";
 import userStore from "@/store/auth.store";
