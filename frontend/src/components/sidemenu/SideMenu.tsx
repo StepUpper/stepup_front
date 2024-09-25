@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import userStore from "@store/auth.store";
 import {
   createNewChatRoom,
+  deleteChatRoom,
   getUserChatRooms,
 } from "@apis/firebase/chatFirestore";
 import useChatStore from "@store/chat.store";
@@ -24,7 +25,8 @@ const SideMenu = ({
   onClose: () => void;
 }) => {
   const { isLoggedIn, user } = userStore();
-  const { setRoomId, getMessagesByRoomId } = useChatStore();
+  const { setRoomId, getMessagesByRoomId, roomId, loadUserMessages } =
+    useChatStore();
 
   const { open } = useBottomSheet();
 
@@ -113,8 +115,14 @@ const SideMenu = ({
     }
   };
 
-  const handleRemoveChatRoom = (deleteid: string) => {
-    setChats((prevChats) => prevChats.filter((chat) => chat.id !== deleteid));
+  const handleRemoveChatRoom = async (userId: string, deleteId: string) => {
+    await deleteChatRoom(userId, deleteId);
+    const updatedChats = await getUserChatRooms(user?.uid!);
+    setChats(updatedChats);
+    // 지우려는 방이 현재 속한 방이라면 채팅방의 내용을 가장 최신 채팅으로 업데이트
+    if (deleteId === roomId) {
+      loadUserMessages(userId);
+    }
   };
 
   useEffect(() => {
@@ -128,13 +136,9 @@ const SideMenu = ({
     fetchUserChatRooms();
   }, [isLoggedIn, user]);
 
-  const [isClickedRoom, setIsClickedRoom] = useState<string>();
-
   const handleChatRoom = (userId: string, roomId: string) => {
     getMessagesByRoomId(userId, roomId);
     console.log("getroom", roomId);
-    setIsClickedRoom(roomId);
-    console.log("clickedroom ", isClickedRoom);
     onClose();
   };
 
@@ -192,8 +196,10 @@ const SideMenu = ({
                               onClick={() =>
                                 handleChatRoom(user?.uid!, chat.id)
                               }
-                              onDelete={() => handleRemoveChatRoom(chat.id)}
-                              isClicked={isClickedRoom === chat.id}
+                              onDelete={() =>
+                                handleRemoveChatRoom(user?.uid!, chat.id)
+                              }
+                              isClicked={roomId === chat.id}
                             />
                           ))}
                         </ul>
@@ -217,8 +223,10 @@ const SideMenu = ({
                               onClick={() =>
                                 handleChatRoom(user?.uid!, chat.id)
                               }
-                              onDelete={() => handleRemoveChatRoom(chat.id)}
-                              isClicked={isClickedRoom === chat.id}
+                              onDelete={() =>
+                                handleRemoveChatRoom(user?.uid!, chat.id)
+                              }
+                              isClicked={roomId === chat.id}
                             />
                           ))}
                         </ul>
