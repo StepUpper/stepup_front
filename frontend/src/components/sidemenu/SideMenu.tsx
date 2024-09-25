@@ -100,6 +100,7 @@ const SideMenu = ({
         // 새로운 채팅방 만들고 새로운 채팅방의 id를 update
         const newRoomId = await createNewChatRoom(user.uid!);
         setRoomId(newRoomId);
+        getMessagesByRoomId(user?.uid!, newRoomId);
         // 추가된 채팅방 목록들을 가져오기
         const updatedChats = await getUserChatRooms(user.uid!);
         setChats(updatedChats);

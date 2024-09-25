@@ -37,13 +37,15 @@ const ChatMessage = (props: ChatMessageProps) => {
         <ReactMarkdown
           components={{
             h3: ({ node, ...props }) => (
-              <h3 className="text-body2 font-bold" {...props} />
+              <h3 className="mt-2 text-body2 font-bold leading-6" {...props} />
             ),
-            p: ({ node, ...props }) => <p className="font-normal" {...props} />,
+            p: ({ node, ...props }) => (
+              <p className="font-normal leading-6" {...props} />
+            ),
             li: ({ node, ...props }) => (
               <div className="flex items-start">
                 <span className="mr-2">•</span>
-                <li className="list-none text-caption1" {...props} />
+                <li className="list-none text-caption1 leading-6" {...props} />
               </div>
             ),
           }}
