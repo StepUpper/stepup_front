@@ -1,4 +1,4 @@
-import { perfittLogo } from "@/assets/assets";
+import { perfittLogo } from "@assets/assets";
 import { ComponentPropsWithoutRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 

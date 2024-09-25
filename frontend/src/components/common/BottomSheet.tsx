@@ -66,7 +66,14 @@ const BottomSheet = (props: BottomSheetProps) => {
               animate={{ opacity: 0.1 }}
               exit={{ opacity: 0 }}
               className="absolute inset-0 bg-white"
-              onClick={() => (isOverlayClose ? close(id) : undefined)}
+              onClick={() => {
+                history.replaceState(
+                  null,
+                  "",
+                  window.location.pathname + window.location.search
+                );
+                if (isOverlayClose) close(id);
+              }}
             ></motion.div>
           )}
 

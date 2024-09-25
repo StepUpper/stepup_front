@@ -105,7 +105,6 @@ const ChatMessage = (props: ChatMessageProps) => {
                     imgUrl={product.image}
                     customerLink={product.link}
                     modelNo={product.modelNo}
-                    productId={product.productId}
                     isLiked={isLiked}
                   />
                 </div>
@@ -156,7 +155,10 @@ const ChatMessage = (props: ChatMessageProps) => {
                   link={product.link}
                   className="cursor-pointer"
                   onClick={() => {
-                    setClickedProducts(title);
+                    setClickedProducts({
+                      message: "맞춤 상품 추천",
+                      products: title.reqProducts,
+                    });
                     setClickedBrand(null);
                     open("plp"); // 상품 plp
                   }}
@@ -167,7 +169,10 @@ const ChatMessage = (props: ChatMessageProps) => {
             <div
               className="flex cursor-pointer items-center justify-center px-4 py-3 text-caption1 text-gray-600"
               onClick={() => {
-                setClickedProducts(title);
+                setClickedProducts({
+                  message: "맞춤 상품 추천",
+                  products: title.reqProducts,
+                });
                 setClickedBrand(null);
                 open("plp"); // 상품 plp
               }}

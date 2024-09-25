@@ -8,8 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { useBottomSheet } from "@/store/bottomSheet.store";
 import useChatStore from "@/store/chat.store";
 import { chatApi } from "@/apis/services/chat";
-import { addMessageToFirestore } from "@/apis/firebase/chatFirestore";
-import { TChatResponse } from "@/types/chat";
+import { addMessageToFirestore } from "@apis/firebase/chatFirestore";
+import { TChatResponse } from "@type/chat";
+import useFocus from "@hooks/useFocus";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,6 +24,13 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState("");
 
   const { closeAll } = useBottomSheet();
+
+  // 자동 포커스
+  const [emailRef, focusEmail, handleEmailKeyPress] =
+    useFocus<HTMLInputElement>(true);
+  const [passwordRef, focusPassword, handlePasswordPress] =
+    useFocus<HTMLInputElement>();
+  const [formButtonRef, focusFormButton] = useFocus<HTMLButtonElement>();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -41,6 +49,7 @@ const Login = () => {
     const validateEmail = (email: string) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
+        focusEmail();
         setEmailError("이메일 형식을 확인해주세요");
         isLoginValid = false;
         return false;
@@ -54,6 +63,8 @@ const Login = () => {
 
     if (!loginData.email) {
       //아이디 비어있을 때
+      if (isLoginValid) focusEmail(); // 이메일 필드 자동 포커스
+
       setEmailError("아이디를 입력하세요");
       isLoginValid = false;
     } else if (validateEmail(loginData.email)) {
@@ -62,6 +73,8 @@ const Login = () => {
 
     if (!loginData.password) {
       //비밀번호 비어있을 때
+      if (isLoginValid) focusPassword(); // 비밀번호 필드 자동 포커스
+
       setPasswordError("비밀번호를 입력하세요");
       isLoginValid = false;
     }
@@ -116,29 +129,33 @@ const Login = () => {
           {/*아이디 입력 필드*/}
           <InputField title="아이디" error={emailError}>
             <Input
+              ref={emailRef}
               type="email"
               name="email"
               placeholder="이메일을 입력해주세요"
               className="h-[48px] w-full rounded-[4px] px-4 py-[14px]"
               value={loginData.email}
               onChange={handleInputChange}
+              onKeyDown={(e) => handleEmailKeyPress(e, focusPassword)}
             />
           </InputField>
           {/*패스워드 입력 필드*/}
           <InputField title="비밀번호" error={passwordError}>
             <Input
+              ref={passwordRef}
               type="password"
               name="password"
               placeholder="비밀번호를 입력해주세요"
               className="h-[48px] w-full rounded-[4px] px-4 py-[14px]"
               value={loginData.password}
               onChange={handleInputChange}
+              onKeyDown={(e) => handlePasswordPress(e, focusFormButton)}
             />
           </InputField>
         </div>
         <div className="mt-4 px-5">
           {/*로그인 폼 제출 버튼*/}
-          <BottomButton title="로그인" type="submit" />
+          <BottomButton ref={formButtonRef} title="로그인" type="submit" />
         </div>
       </form>
     </>

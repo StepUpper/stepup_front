@@ -12,6 +12,7 @@ import {
   getDoc,
   Timestamp,
   setDoc,
+  FieldValue,
 } from "firebase/firestore";
 import { TChatResponse } from "@/types/chat";
 
@@ -118,7 +119,7 @@ export const addMessageToFirestore = async (
     const roomRef = doc(db, "chatSessions", userId, "rooms", roomId);
 
     // userMessage가 빈 문자열이 아닐 때만 roomName을 업데이트
-    const roomUpdateData: any = {
+    const roomUpdateData: { timestamp: FieldValue; roomName?: string } = {
       timestamp: serverTimestamp(),
     };
 
