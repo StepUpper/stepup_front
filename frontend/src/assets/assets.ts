@@ -28,9 +28,9 @@ import filterIcon from "@assets/icons/filter-icon.svg";
 import interestCheckIcon from "@assets/icons/interest-check-icon.svg";
 import arrowRightIcon from "@assets/icons/arrow-right-icon.svg";
 import linkAngledIcon from "@assets/icons/link-angled-icon.svg";
-import chatCircleIcon from "@assets/icons/chat-circle-icon.svg";
 import loadingIcon from "@assets/icons/loading-icon.svg";
 import copyLeftIcon from "@assets/icons/copy-left-icon.svg";
+import chatFilledIcon from "@assets/icons/chat-filled-icon.svg";
 
 import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import defaultProfilePlusImg from "@assets/images/default-profile-plus-img.svg";
@@ -74,9 +74,9 @@ export {
   interestCheckIcon,
   arrowRightIcon,
   linkAngledIcon,
-  chatCircleIcon,
   loadingIcon,
   copyLeftIcon,
+  chatFilledIcon,
   // ******* IMAGE
   defaultProfileImg,
   defaultProfilePlusImg,

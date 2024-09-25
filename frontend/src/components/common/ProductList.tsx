@@ -14,7 +14,7 @@ interface ProductItemProps extends TProduct, LikeButtonProps {}
 
 const ProductList = ({ children }: { children: ReactNode }) => {
   return (
-    <ul className="grid w-full grid-cols-2 gap-3 overflow-y-auto md:grid-cols-4">
+    <ul className="no-scrollbar grid h-[calc(100vh-200px)] w-full grid-cols-2 gap-3 overflow-y-auto md:grid-cols-4">
       {children}
     </ul>
   );

@@ -10,7 +10,9 @@ import MyFootInfo from "@pages/MyFootInfo/MyFootInfo";
 import Bridge from "@pages/Bridge/Bridge";
 import Onboarding from "@pages/Onboarding/Onboarding";
 import { onBoardingLoader } from "@router/loaders/onBoarding";
-import ChatShareView from "@/components/Chat/ChatShareView";
+import ChatShareView from "@components/Chat/ChatShareView";
+import EditUserInfoPage from "@pages/EditUserInfo/EditUserInfoPage";
+import ChangePasswordPage from "@pages/ChangePassword/ChangePasswordPage";
 
 const router = createBrowserRouter(
   [
@@ -38,6 +40,14 @@ const router = createBrowserRouter(
         {
           path: "/mypage/myshopping",
           element: <MyShopping />,
+        },
+        {
+          path: "/mypage/edituserinfo",
+          element: <EditUserInfoPage />,
+        },
+        {
+          path: "/mypage/changepassword",
+          element: <ChangePasswordPage />,
         },
         {
           path: "/myfootinfo",

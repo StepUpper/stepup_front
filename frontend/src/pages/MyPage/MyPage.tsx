@@ -9,9 +9,6 @@ const MyPage = () => {
   const { user } = userStore();
 
   const navigate = useNavigate();
-  const gotoPageHandler = (path: string) => {
-    navigate(path);
-  };
 
   const genderLabel =
     user?.gender === "male" ? "남성" : user?.gender === "female" ? "여성" : "-";
@@ -36,14 +33,14 @@ const MyPage = () => {
         <div className="mt-[6px] flex items-center justify-between space-x-0.5">
           <Button
             className="flex h-[60px] grow place-content-center items-center gap-[10px] bg-white p-[10px]"
-            onClick={() => gotoPageHandler("/mypage/myshopping")}
+            onClick={() => navigate("/mypage/myshopping")}
           >
             <img src={likeStrokeIcon} className="w-[14px]" />
             <span className="text-body3 font-medium"> 좋아요 </span>
           </Button>
           <Button
             className="flex h-[60px] grow place-content-center items-center gap-[10px] bg-white p-[10px]"
-            onClick={() => gotoPageHandler("/archive")}
+            onClick={() => navigate("/archive")}
           >
             <img src={smileIcon} className="w-[14px]" />
             <span className="text-body3 font-medium"> 신발장 </span>
@@ -89,11 +86,17 @@ const MyPage = () => {
         {/* */}
         <div className="mt-[6px] bg-white pt-[25px]">
           <div className="space-y-0.5 bg-gray-200">
-            <Button className="flex h-[49px] w-full grow items-center justify-between bg-white p-4 text-body3 font-medium">
+            <Button
+              className="flex h-[49px] w-full grow items-center justify-between bg-white p-4 text-body3 font-medium"
+              onClick={() => navigate("/mypage/edituserinfo")}
+            >
               내 정보 수정
               <img src={chevRightIcon} className="h-[6px] w-[3px]" />
             </Button>
-            <Button className="flex h-[49px] w-full grow items-center justify-between bg-white p-4 text-body3 font-medium">
+            <Button
+              className="flex h-[49px] w-full grow items-center justify-between bg-white p-4 text-body3 font-medium"
+              onClick={() => navigate("/mypage/changepassword")}
+            >
               비밀번호 변경
               <img src={chevRightIcon} className="h-[6px] w-[3px]" />
             </Button>
