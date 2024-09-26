@@ -91,18 +91,27 @@ const MyPage = () => {
               onClick={() => navigate("/mypage/edituserinfo")}
             >
               내 정보 수정
-              <img src={chevRightIcon} className="h-[6px] w-[3px]" />
+              <img
+                src={chevRightIcon}
+                className="h-[6px] w-[3px] object-none"
+              />
             </Button>
             <Button
               className="flex h-[49px] w-full grow items-center justify-between bg-white p-4 text-body3 font-medium"
               onClick={() => navigate("/mypage/changepassword")}
             >
               비밀번호 변경
-              <img src={chevRightIcon} className="h-[6px] w-[3px]" />
+              <img
+                src={chevRightIcon}
+                className="h-[6px] w-[3px] object-none"
+              />
             </Button>
             <Button className="flex h-[49px] w-full grow items-center justify-between bg-white p-4 text-body3 font-medium">
               고객센터
-              <img src={chevRightIcon} className="h-[6px] w-[3px]" />
+              <img
+                src={chevRightIcon}
+                className="h-[6px] w-[3px] object-none"
+              />
             </Button>
           </div>
           <div className="flex justify-between space-x-5 px-[120px] py-[39px] text-body3 font-normal text-gray-400">

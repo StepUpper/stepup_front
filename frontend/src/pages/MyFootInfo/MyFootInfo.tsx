@@ -28,12 +28,12 @@ const MyFootInfo = () => {
   }, []);
 
   return (
-    <>
+    <div className="h-real-screen">
       <Header type="back">내 발 측정하기</Header>
       <main className="container-y items-center justify-center">
         {isLoading ? <FootInfoDisplay /> : <FootInfoPlaceholder />}
       </main>
-    </>
+    </div>
   );
 };
 export default MyFootInfo;

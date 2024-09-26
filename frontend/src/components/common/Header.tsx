@@ -28,7 +28,7 @@ const Header = (props: HeaderProps) => {
 
   return (
     <>
-      <header className="relative flex w-full items-center justify-between p-1.5 text-body1 font-label">
+      <header className="flex w-full items-center justify-between bg-white p-1.5 text-body1 font-label">
         <Button
           className="border-none"
           onClick={type === "menu" ? toggleSideMenu : handleBack}

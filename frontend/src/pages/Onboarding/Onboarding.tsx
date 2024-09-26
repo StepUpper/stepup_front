@@ -1,18 +1,20 @@
 import { onboardingImg1, onboardingImg2 } from "@/assets/assets";
 import OnboardingContent from "@/components/onboarding/OnboardingContent";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Onboarding = () => {
-  const [step, setStep] = useState(1);
+  const { stepId } = useParams();
   const navigate = useNavigate();
+
+  const step = parseInt(stepId ?? "1", 10);
+
   return (
     <>
       {step === 1 && (
         <OnboardingContent
           buttonTitle="다음"
           onboardingImg={onboardingImg1}
-          onClick={() => setStep(2)}
+          onClick={() => navigate("/onboarding/2")}
         >
           AI에게 질문만으로
           <br />

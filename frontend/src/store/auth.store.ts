@@ -34,6 +34,8 @@ const userStore = create<UserState>((set) => ({
       if (data) {
         const { likeShoes, ...userData } = data;
         set({ user: userData as TUser, likeShoes: likeShoes as likeShoes });
+      } else {
+        set({ user: null });
       }
     });
   },
