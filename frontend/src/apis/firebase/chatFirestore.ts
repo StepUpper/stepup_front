@@ -13,6 +13,7 @@ import {
   Timestamp,
   setDoc,
   FieldValue,
+  writeBatch,
 } from "firebase/firestore";
 import { TChatResponse } from "@/types/chat";
 
@@ -298,5 +299,34 @@ export const getMessagesByUserIdAndRoomId = async (
   } catch (error) {
     console.error(error);
     return { roomId, messages: [] };
+  }
+};
+
+// 사이드바에서 채팅방 삭제하는 함수
+export const deleteChatRoom = async (userId: string, roomId: string) => {
+  const roomRef = doc(db, "chatSessions", userId, "rooms", roomId);
+  const messagesRef = collection(
+    db,
+    "chatSessions",
+    userId,
+    "rooms",
+    roomId,
+    "messages"
+  );
+  const batch = writeBatch(db);
+
+  try {
+    const messagesSnapshot = await getDocs(messagesRef);
+
+    messagesSnapshot.forEach((messageDoc) => {
+      batch.delete(messageDoc.ref);
+    });
+
+    batch.delete(roomRef);
+
+    await batch.commit();
+    console.log("채팅방 삭제 완료");
+  } catch (error) {
+    console.error(error);
   }
 };
