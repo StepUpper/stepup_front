@@ -114,7 +114,7 @@ const Chat = () => {
               : "100%" // brandPLP 바텀시트가 열렸을 때 y축으로 내려감
             : "0%", // 기본 상태에서 y축 위치
         }}
-        initial={false}
+        initial={{ y: "100%" }}
         transition={{ type: "tween", duration: 1 }}
       >
         <ChatInput />

@@ -16,9 +16,13 @@ const useFocus = <T extends HTMLElement | DropDownRef>(
 
   // 컴포넌트 마운트 시 자동으로 포커스
   useEffect(() => {
-    if (autoFocus) {
-      setFocus();
-    }
+    const focusTimeout = setTimeout(() => {
+      if (autoFocus) {
+        setFocus();
+      }
+    }, 1000);
+
+    return () => clearTimeout(focusTimeout);
   }, [autoFocus, setFocus]);
 
   // Enter 키를 누르면 다음 필드로 포커스 이동
