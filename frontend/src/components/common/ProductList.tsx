@@ -41,7 +41,7 @@ const ProductItem = (props: ProductItemProps) => {
 
   const { isLoggedIn, user, updateUserInfo } = userStore();
   const sizeType = user?.sizeType ?? "mm";
-  const sneakerSize = user?.sneakerSize ?? 0;
+  const sneakerSize = user?.sneakerSize ?? null;
 
   // 신발 사이즈 변환
   const convertedSneakerSize = useSizeConversion(sizeType, sneakerSize);

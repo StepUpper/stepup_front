@@ -146,16 +146,16 @@ const SideMenu = ({
     <>
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-50 flex h-screen w-full overflow-hidden">
+          <div className="h-real-screen absolute inset-0 z-50 flex w-full overflow-hidden">
             {/* 어두운 영역 */}
             <Button
-              className="visible absolute right-1/2 top-0 -z-30 h-screen w-full translate-x-1/2 cursor-default bg-black/50 p-0"
+              className="h-real-screen visible absolute right-1/2 top-0 -z-30 w-full translate-x-1/2 cursor-default bg-black/50 p-0"
               onClick={onClose}
             />
             {/* 사이드메뉴 영역 */}
             <motion.nav
               key="side-menu"
-              className="absolute flex h-screen w-[290px] flex-col rounded-r-[8px] border bg-white"
+              className="h-real-screen absolute flex w-[290px] flex-col rounded-r-[8px] border bg-white"
               initial={{ x: "-100%" }}
               animate={{ x: "0%" }}
               exit={{ x: "-100%" }}

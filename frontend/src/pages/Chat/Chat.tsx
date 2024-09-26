@@ -82,7 +82,7 @@ const Chat = () => {
   }, [isLoggedIn ? userMessages.length : guestMessages.length]);
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="h-real-screen relative flex flex-col">
       <Header type="menu" />
       <main className="no-scrollbar flex-1 overflow-y-auto">
         {!isLoggedIn && <ChatLogin />}

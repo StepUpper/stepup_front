@@ -12,7 +12,7 @@ const BottomButton = forwardRef<HTMLButtonElement, BottomButtonProps>(
       <>
         <Button
           ref={ref}
-          className="my-6 w-full rounded bg-black px-3.5 py-6 text-white"
+          className="my-6 w-full rounded bg-black px-3.5 py-[1.125rem] text-white"
           {...rest}
         >
           {title}

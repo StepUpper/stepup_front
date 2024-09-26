@@ -19,7 +19,7 @@ const ShoeListComponent = ({ list }: { list: IProduct[] }) => {
           <img src={sortIcon} className={`${sort || "rotate-180"}`} />
         </Button>
       </div>
-      <div className="grid w-full grid-cols-3 gap-1">
+      <div className="grid w-full grid-cols-3 grid-rows-3 gap-1">
         <AddShoeButton />
         {list.map((prod, idx) => (
           <ShoeComponent key={`shoe+${idx}`} id={idx} prod={prod} />
