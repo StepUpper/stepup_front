@@ -81,7 +81,7 @@ const BottomSheet = (props: BottomSheetProps) => {
           <motion.div
             initial={{ y: "100%" }} // 초기값
             animate={{
-              y: isMinimized ? (plp ? "83%" : "97%") : "0%",
+              y: isMinimized ? (plp ? "79%" : "97%") : "0%",
             }} // PLP 최소화 임시 처리
             exit={{ y: "100%" }}
             transition={{
@@ -96,7 +96,7 @@ const BottomSheet = (props: BottomSheetProps) => {
             dragConstraints={{ top: 0, bottom: 0 }} // 드래그 범위
             dragListener={false}
             onDragEnd={handleDragEnd} // 드래그 끝난 후 스냅 애니메이션 적용
-            className="absolute bottom-0 left-0 flex max-h-[98vh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-custom"
+            className="absolute bottom-0 left-0 flex max-h-[98dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-custom"
           >
             {/* 드래그 바 */}
             {isDragBar && (

@@ -16,7 +16,7 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
   return (
     <>
       <PLPControls totalItems={products.length} />
-      <div className="overflow-y-auto px-4 pb-6">
+      <div className="px-4 pb-6">
         {products.length > 0 ? (
           <ProductList>
             {products.map((product) => {
