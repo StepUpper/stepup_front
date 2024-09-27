@@ -58,7 +58,7 @@ const ChatShareView = () => {
   const title = message[0]?.content as string;
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="h-real-screen flex flex-col">
       <header className="h-36 border-b p-4">
         <img src={chatListIcon} alt="chatCircleIcon" className="mb-2" />
         <p className="mb-2 text-heading font-semibold">{title}</p>
