@@ -78,7 +78,7 @@ const ChatShareView = () => {
       <div className="flex justify-center p-4">
         <button
           className="h-14 w-full max-w-md rounded-lg bg-black text-white"
-          onClick={() => navigate("/onboarding")}
+          onClick={() => navigate("/onboarding/1")}
         >
           핏톡 시작하기
         </button>
