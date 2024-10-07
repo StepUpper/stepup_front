@@ -14,6 +14,7 @@ import useChatStore from "@store/chat.store";
 import productAndBrandStore from "@store/productAndBrand.store";
 import InterestKeywordsBottomSheet from "@components/Chat/InterestKeywordsBottomSheet";
 import { useBottomSheet } from "@store/bottomSheet.store";
+import ChatSampleQuestions from "@components/Chat/ChatSampleQuestions";
 
 const Chat = () => {
   const { guestMessages, userMessages, loadGuestMessages, loadUserMessages } =
@@ -84,22 +85,28 @@ const Chat = () => {
   return (
     <div className="h-real-screen relative flex flex-col">
       <Header type="menu" />
-      <main className="no-scrollbar flex-1 overflow-y-auto">
-        {!isLoggedIn && <ChatLogin />}
 
-        {(isLoggedIn ? userMessages : guestMessages).map((msg, index) => (
-          <div key={index}>
-            {msg.type === "user" ? (
-              <ChatUserMessage title={msg.content as string} />
-            ) : (
-              <ChatMessage
-                title={msg.content as TChatResponse}
-                docId={msg.id}
-              />
-            )}
-          </div>
-        ))}
-        <div ref={messageEndRef} />
+      <main className="no-scrollbar flex-1 overflow-y-auto">
+        {/* 현재 질문 가능한 목록 */}
+        <ChatSampleQuestions />
+
+        <div className="pt-[53px]">
+          {!isLoggedIn && <ChatLogin />}
+
+          {(isLoggedIn ? userMessages : guestMessages).map((msg, index) => (
+            <div key={index}>
+              {msg.type === "user" ? (
+                <ChatUserMessage title={msg.content as string} />
+              ) : (
+                <ChatMessage
+                  title={msg.content as TChatResponse}
+                  docId={msg.id}
+                />
+              )}
+            </div>
+          ))}
+          <div ref={messageEndRef} />
+        </div>
       </main>
 
       <ChatRecommendedQuestion />

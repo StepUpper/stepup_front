@@ -31,6 +31,7 @@ import linkAngledIcon from "@assets/icons/link-angled-icon.svg";
 import loadingIcon from "@assets/icons/loading-icon.svg";
 import copyLeftIcon from "@assets/icons/copy-left-icon.svg";
 import chatFilledIcon from "@assets/icons/chat-filled-icon.svg";
+import noticeIcon from "@assets/icons/notice-icon.png";
 
 import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import defaultProfilePlusImg from "@assets/images/default-profile-plus-img.svg";
@@ -77,6 +78,7 @@ export {
   loadingIcon,
   copyLeftIcon,
   chatFilledIcon,
+  noticeIcon,
   // ******* IMAGE
   defaultProfileImg,
   defaultProfilePlusImg,
