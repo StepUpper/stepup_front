@@ -34,4 +34,14 @@
     padding: 0 1rem; /* 16px */
     overflow-y: auto;
   }
+
+  .h-real-screen {
+    height: 100vh; /* 기본적으로 vh 사용 */
+  }
+
+  @supports (height: 100dvh) {
+    .h-real-screen {
+      height: 100dvh; /* dvh를 지원하는 경우 dvh 사용 */
+    }
+  }
 }

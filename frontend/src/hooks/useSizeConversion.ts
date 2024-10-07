@@ -45,9 +45,9 @@ const sizeMappings: Record<SizeType, SizeMapping> = {
 // 사이즈 변환 훅
 export const useSizeConversion = (
   sizeType: SizeType | null,
-  sneakerSize?: number
+  sneakerSize?: number | null
 ) => {
-  const [convertedSize, setConvertedSize] = useState<number | undefined>(
+  const [convertedSize, setConvertedSize] = useState<number | null | undefined>(
     sneakerSize
   );
 

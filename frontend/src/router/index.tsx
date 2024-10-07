@@ -61,11 +61,11 @@ const router = createBrowserRouter(
           path: "/share/:messageId",
           element: <ChatShareView />,
         },
+        {
+          path: "/onboarding/:stepId",
+          element: <Onboarding />,
+        },
       ],
-    },
-    {
-      path: "/onboarding",
-      element: <Onboarding />,
     },
     {
       path: "*",

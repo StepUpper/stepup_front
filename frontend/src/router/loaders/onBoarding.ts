@@ -6,6 +6,6 @@ export const onBoardingLoader = () => {
   if (!state || state === "on") {
     localStorage.setItem("setOnboardingPage", "off");
 
-    return redirect("/onBoarding");
+    return redirect("/onBoarding/1");
   } else return null;
 };
