@@ -19,11 +19,10 @@ interface BrandPLPProps {
 const BrandPLP = (props: BrandPLPProps) => {
   const { brandName } = props;
 
-  const { data, isLoading, isError } = useAxios<TBrandPLPResponse, [string]>(
-    chatApi.getBrandInfo,
-    null,
-    brandName
-  );
+  const { data, isLoading, isError } = useAxios<
+    TBrandPLPResponse,
+    BrandPLPProps
+  >(chatApi.getBrandInfo, null, { brandName });
 
   const [selectedCategory, setSelectedCategory] =
     useState<GenderCategory>("ALL");
