@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react";
-import axios, { AxiosError, AxiosResponse, CancelToken } from "axios";
+import { useState, useEffect, useMemo } from "react";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
-type FetchFunction<T, P extends unknown[]> = (
-  ...args: [...P, { cancelToken: CancelToken }]
-) => Promise<AxiosResponse<T>> | null;
+type ApiFunc<T, Args = void> = (args: Args) => Promise<AxiosResponse<T>>;
 
 // TODO: api 호출 함수 자체를 props로 줄지.. 정해야함..
-const useAxios = <T, P extends unknown[]>(
-  fetchFunction: FetchFunction<T, P>, // api 함수
+const useAxios = <T, Args = undefined>(
+  apiFunc: ApiFunc<T, Args>, // 호출 함수
   initialData: T | null, // 초기 데이터
-  ...args: P // api 함수 넘겨줄 인자
+  args?: Args // api 함수에 넘겨줄 인자
 ) => {
   const [data, setData] = useState<T | null>(initialData);
   const [isLoading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState<AxiosError | null>(null);
+
+  const memoizedArgs = useMemo(() => ({ ...args }), [JSON.stringify(args)]);
 
   useEffect(() => {
     // 사용자가 컴포넌트가 언마운트될 때
@@ -26,7 +26,8 @@ const useAxios = <T, P extends unknown[]>(
       setError(null);
 
       try {
-        const response = await fetchFunction(...args, {
+        const response = await apiFunc({
+          ...(memoizedArgs as Args),
           cancelToken: source.token,
         });
         if (response) setData(response.data);
@@ -52,7 +53,7 @@ const useAxios = <T, P extends unknown[]>(
     return () => {
       source.cancel("Request canceled by component unmount."); // 요청 취소
     };
-  }, [fetchFunction, ...args]);
+  }, [apiFunc, memoizedArgs]);
 
   return { data, isLoading, isError, error };
 };

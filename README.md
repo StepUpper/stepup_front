@@ -1,7 +1,7 @@
 # Perfitt Finder - AI 신발 추천 도우미 웹 어플리케이션 개발
 
-- StepUp팀 노션 : https://www.notion.so/step-up-react/31d872cef31f4fd8881537ecc01576d3
-- Perfitt Finder 배포 주소 : https://stepupper.github.io/stepup_front/
+- StepUp팀 노션 : [TEAM 스텝업](https://www.notion.so/step-up-react/31d872cef31f4fd8881537ecc01576d3)
+- Perfitt Finder 배포 주소 : [Perfitt Finder](https://stepupper.github.io/stepup_front/) 
 
 <br />
 
