@@ -15,11 +15,30 @@ type likeShoes =
     }[]
   | null;
 
+type shoeCloset =
+  | {
+      shoeId: string;
+      image: string;
+      brand: string;
+      modelName: string;
+      rating: number;
+      len: string;
+      width: string;
+      height: string;
+      soft: string;
+      weight: string;
+      recommendSize: string;
+      text: string;
+    }[]
+  | null;
+
 interface UserState {
   isLoggedIn: boolean;
   user: TUser | null;
-  // 좋아요한 신발들을 관리하기 위한 상태 추가
+  // 좋아요한 신발들을 관리하기 위한 상태
   likeShoes: likeShoes;
+  // 신발장의 신발들 관리하는 상태
+  shoeCloset: shoeCloset;
   updateUserInfo: () => void;
   setUserInfo: (key: string, value: string | number) => void;
   setIsLoggedIn: (state: boolean) => void;
@@ -29,11 +48,16 @@ const userStore = create<UserState>((set) => ({
   isLoggedIn: false,
   user: null,
   likeShoes: null,
+  shoeCloset: null,
   updateUserInfo: () => {
     getUserData().then((data) => {
       if (data) {
-        const { likeShoes, ...userData } = data;
-        set({ user: userData as TUser, likeShoes: likeShoes as likeShoes });
+        const { likeShoes, shoeCloset, ...userData } = data;
+        set({
+          user: userData as TUser,
+          likeShoes: likeShoes as likeShoes,
+          shoeCloset: shoeCloset as shoeCloset,
+        });
       } else {
         set({ user: null });
       }

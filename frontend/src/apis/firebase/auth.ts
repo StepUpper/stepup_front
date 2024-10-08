@@ -34,13 +34,24 @@ const getUserData = async () => {
 
   const likeShoesRef = collection(db, "users", uid, "likeShoes");
   const likeShoesSnap = await getDocs(likeShoesRef);
-
   const likeShoes = likeShoesSnap.docs.map((doc) => ({
     shoeId: doc.id,
     ...doc.data(),
   }));
 
-  return { uid: uid, ...docSnap.data(), likeShoes: likeShoes };
+  const shoeClosetRef = collection(db, "users", uid, "shoeCloset");
+  const shoeClosetSnap = await getDocs(shoeClosetRef);
+  const shoeCloset = shoeClosetSnap.docs.map((doc) => ({
+    shoeId: doc.id,
+    ...doc.data(),
+  }));
+
+  return {
+    uid,
+    ...docSnap.data(),
+    likeShoes,
+    shoeCloset,
+  };
 };
 
 const updateUserData = async (key: string, value: string | number) => {
