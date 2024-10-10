@@ -70,23 +70,29 @@ const Chat = () => {
     }
   }, [isLoggedIn, userId]);
 
-  const messageEndRef = useRef<HTMLDivElement | null>(null);
+  const mainRef = useRef<HTMLDivElement | null>(null);
 
   // 스크롤을 항상 하단에 위치시키기
   useLayoutEffect(() => {
     // 바텀 오픈 X 일 경우
     if (!isAllSheetsOpen) {
       setTimeout(() => {
-        messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        mainRef.current?.scrollTo({
+          top: mainRef.current.scrollHeight,
+          behavior: "smooth",
+        });
       }, 0);
     }
-  }, [isLoggedIn ? userMessages.length : guestMessages.length]);
+  }, [
+    isLoggedIn ? userMessages.length : guestMessages.length,
+    isAllSheetsOpen,
+  ]);
 
   return (
-    <div className="h-real-screen relative flex flex-col">
+    <div className="h-real-screen relative flex flex-col overflow-hidden">
       <Header type="menu" />
 
-      <main className="no-scrollbar flex-1 overflow-y-auto">
+      <main ref={mainRef} className="no-scrollbar flex-1 overflow-y-auto">
         {/* 현재 질문 가능한 목록 */}
         <ChatSampleQuestions />
 
@@ -105,7 +111,7 @@ const Chat = () => {
               )}
             </div>
           ))}
-          <div ref={messageEndRef} />
+          {/* <div ref={messageEndRef} /> */}
         </div>
       </main>
 

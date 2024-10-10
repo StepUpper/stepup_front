@@ -19,7 +19,7 @@ const ChatSampleQuestions = () => {
   };
 
   return (
-    <div className="absolute w-full px-4">
+    <div className="absolute z-[8] w-full px-4">
       <div
         className={twMerge(
           "flex flex-col overflow-hidden rounded-lg bg-white p-4 shadow transition-[max-height] duration-500 ease-in-out",
