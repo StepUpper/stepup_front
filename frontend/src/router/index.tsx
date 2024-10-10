@@ -13,6 +13,7 @@ import { onBoardingLoader } from "@router/loaders/onBoarding";
 import ChatShareView from "@components/Chat/ChatShareView";
 import EditUserInfoPage from "@pages/EditUserInfo/EditUserInfoPage";
 import ChangePasswordPage from "@pages/ChangePassword/ChangePasswordPage";
+import SearchShoeCloset from "@/pages/ShoeCloset/SearchShoeCloset";
 
 const router = createBrowserRouter(
   [
@@ -28,6 +29,10 @@ const router = createBrowserRouter(
         {
           path: "/archive",
           element: <ShoeCloset />,
+        },
+        {
+          path: "/archive/search",
+          element: <SearchShoeCloset />,
         },
         {
           path: "/archive/review",
