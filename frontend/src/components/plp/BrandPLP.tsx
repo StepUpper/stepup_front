@@ -38,8 +38,6 @@ const BrandPLP = (props: BrandPLPProps) => {
         return product.gender === selectedCategory;
       }) || [];
     setFilteredProducts(newFilteredProducts);
-
-    console.log(filteredProducts);
   }, [data, selectedCategory]);
 
   // 필터 적용

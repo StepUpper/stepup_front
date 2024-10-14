@@ -3,6 +3,7 @@ import ProductList from "@common/ProductList";
 import PLPEmptyList from "@components/plp/PLPEmptyList";
 import userStore from "@store/auth.store";
 import { TProductResponse } from "@/types/product";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface PLPProductDisplayProps {
   products: TProductResponse[];
@@ -13,21 +14,69 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
 
   const { likeShoes } = userStore();
 
+  const limit = 20;
+  const [itemsSize, setItemsSize] = useState(limit);
+  const [displayData, setDisplayData] = useState(products.slice(0, limit));
+
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  // 무한스크롤
+  // 1. 프론트에서 데이터 쪼개기
+  // 데이터가 변경되면 현재 limit만큼의 데이터를 displayData에 설정
+  useEffect(() => {
+    setDisplayData(products.slice(0, itemsSize));
+    console.log(displayData);
+  }, [products, itemsSize]);
+
+  // 2. 스크롤 감지해서 추가 데이터 로딩
+  // Intersection Observer 설정
+  const lastElementRef = useCallback(
+    (node: HTMLElement | null) => {
+      // if (isLoading) return; // 로딩 중이면 감지 중지
+      if (observer.current) observer.current.disconnect(); // 이전 관찰자는 해제
+
+      observer.current = new IntersectionObserver((entries) => {
+        // 현재 보여주는 사이즈가 전체 리스트 보다 작을 경우
+        if (entries[0].isIntersecting && itemsSize < products.length) {
+          setItemsSize((prev) => prev + limit); // 새로운 데이터 추가
+        }
+      });
+
+      if (node) observer.current.observe(node); // 새로운 엘리먼트 감시
+    },
+    [itemsSize]
+  );
+
   return (
     <>
       <PLPControls totalItems={products.length} />
       <div className="px-4 pb-6">
-        {products.length > 0 ? (
+        {displayData.length > 0 ? (
           <ProductList>
-            {products.map((product) => {
+            {displayData.map((product, index) => {
               const isLiked = likeShoes?.some(
                 (shoe) => shoe.shoeId === product.brand + product.modelNo
               );
               const shoeId = product.brand + product.modelNo;
 
+              if (index === displayData.length - 1) {
+                return (
+                  <ProductList.Item
+                    ref={lastElementRef}
+                    key={`${shoeId}_${index}`}
+                    shoeId={shoeId}
+                    productName={product.modelName}
+                    imgUrl={product.image}
+                    modelNo={product.modelNo}
+                    brand={product.brand}
+                    customerLink={product.link}
+                    isLiked={isLiked}
+                  />
+                );
+              }
               return (
                 <ProductList.Item
-                  key={shoeId}
+                  key={shoeId + index}
                   shoeId={shoeId}
                   productName={product.modelName}
                   imgUrl={product.image}
