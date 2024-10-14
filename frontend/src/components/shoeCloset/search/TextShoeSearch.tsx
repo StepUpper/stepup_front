@@ -1,10 +1,12 @@
 import { cameraIcon, searchIcon } from "@/assets/assets";
 import Input from "@/components/common/html/Input";
 import { addRecentSearches } from "@/utils/storeRecentSearches";
+import { shoeSearchApi } from "@/apis/services/shoeSearch";
 import { useEffect, useState } from "react";
+import { TShoeSearchResponse } from "@/types/product";
 
 interface TextShoeSearchProps {
-  onSearch: (keyword: string) => void;
+  onSearch: (keyword: string, results: TShoeSearchResponse[]) => void;
 }
 
 const TextShoeSearch = ({ onSearch }: TextShoeSearchProps) => {
@@ -14,11 +16,23 @@ const TextShoeSearch = ({ onSearch }: TextShoeSearchProps) => {
   useEffect(() => {
     if (textKeyword.trim() !== "") {
       console.log("text: ", textKeyword);
+      handleSearch(textKeyword);
       addRecentSearches(textKeyword);
-      onSearch(textKeyword);
-      setInputText("");
     }
   }, [textKeyword]);
+
+  const handleSearch = async (keyword: string) => {
+    try {
+      const response = await shoeSearchApi.postShoeTextSearch({
+        text: keyword,
+      });
+      console.log("API 응답 결과: ", response.data);
+      const results = response.data;
+      onSearch(keyword, results);
+    } catch (error) {
+      console.error("검색 실패: ", error);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);

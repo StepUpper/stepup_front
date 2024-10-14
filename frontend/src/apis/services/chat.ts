@@ -25,11 +25,4 @@ export const chatApi = {
   // 뭘 선택하든 같은 응답만 옴.
   postKeywordResponse: (data: { keyword: string[] }) =>
     api.post(`/chat/completions/keywords`, data),
-
-  // 신발 텍스트 검색
-  postShoeTextSearch: (data: { text: string }) => api.post(`/shoes/find`, data),
-
-  // 신발 이미지 검색
-  postShoeImageSearch: (data: { imageUri: string }) =>
-    api.post(`/shoes/find-by-image`, data),
 };

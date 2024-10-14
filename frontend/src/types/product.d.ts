@@ -28,3 +28,14 @@ export type TBrandPLPResponse = {
   link: string;
   products: TProductResponse[];
 };
+
+//API 응답 - 텍스트 검색 타입
+export type TShoeSearchResponse = {
+  shoeId: string;
+  image: string;
+  link: string;
+  modelName: string;
+  brand: string;
+  modelNo: string;
+  productId: string;
+};
