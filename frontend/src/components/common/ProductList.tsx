@@ -146,4 +146,6 @@ const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
     );
   }
 );
+
+ProductItem.displayName = "ProductItem";
 ProductList.Item = ProductItem;
