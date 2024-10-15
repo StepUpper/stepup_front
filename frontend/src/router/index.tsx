@@ -14,7 +14,6 @@ import ChatShareView from "@components/Chat/ChatShareView";
 import EditUserInfoPage from "@pages/EditUserInfo/EditUserInfoPage";
 import ChangePasswordPage from "@pages/ChangePassword/ChangePasswordPage";
 import SearchShoeCloset from "@/pages/ShoeCloset/SearchShoeCloset";
-import TextShoeSearchResults from "@/pages/ShoeCloset/TextShoeSearchResults";
 
 const router = createBrowserRouter(
   [
@@ -34,10 +33,6 @@ const router = createBrowserRouter(
         {
           path: "/archive/search",
           element: <SearchShoeCloset />,
-        },
-        {
-          path: "/archive/search/results",
-          element: <TextShoeSearchResults />,
         },
         {
           path: "/archive/review",

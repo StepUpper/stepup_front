@@ -1,38 +1,24 @@
-import { cameraIcon, searchIcon } from "@/assets/assets";
+import { cameraIcon, closeIcon, searchIcon } from "@/assets/assets";
 import Input from "@/components/common/html/Input";
 import { addRecentSearches } from "@/utils/storeRecentSearches";
-import { shoeSearchApi } from "@/apis/services/shoeSearch";
 import { useEffect, useState } from "react";
-import { TShoeSearchResponse } from "@/types/product";
 
 interface TextShoeSearchProps {
-  onSearch: (keyword: string, results: TShoeSearchResponse[]) => void;
+  onSearch: (keyword: string) => void;
+  onClearInput: () => void;
 }
 
-const TextShoeSearch = ({ onSearch }: TextShoeSearchProps) => {
+const TextShoeSearch = ({ onSearch, onClearInput }: TextShoeSearchProps) => {
   const [inputText, setInputText] = useState("");
   const [textKeyword, setTextKeyword] = useState("");
 
   useEffect(() => {
     if (textKeyword.trim() !== "") {
       console.log("text: ", textKeyword);
-      handleSearch(textKeyword);
       addRecentSearches(textKeyword);
+      onSearch(textKeyword);
     }
   }, [textKeyword]);
-
-  const handleSearch = async (keyword: string) => {
-    try {
-      const response = await shoeSearchApi.postShoeTextSearch({
-        text: keyword,
-      });
-      console.log("API 응답 결과: ", response.data);
-      const results = response.data;
-      onSearch(keyword, results);
-    } catch (error) {
-      console.error("검색 실패: ", error);
-    }
-  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
@@ -46,6 +32,11 @@ const TextShoeSearch = ({ onSearch }: TextShoeSearchProps) => {
     }
   };
 
+  const handleClearInput = () => {
+    setInputText("");
+    onClearInput();
+  };
+
   return (
     <div>
       <div className="rounded-full border border-[#E4E4E7] px-[16px]">
@@ -57,7 +48,14 @@ const TextShoeSearch = ({ onSearch }: TextShoeSearchProps) => {
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             value={inputText}
-          ></Input>
+          />
+          {inputText && (
+            <img
+              src={closeIcon}
+              className="size-4 opacity-50"
+              onClick={handleClearInput}
+            />
+          )}
           <img src={cameraIcon} className="size-5" />
         </div>
       </div>

@@ -5,12 +5,14 @@ interface RecentTextSearchesProps {
   recentSearches: string[];
   onClearAll: () => void;
   onDeleteKeyword: (keyword: string) => void;
+  onSearch: (keyword: string) => void;
 }
 
 const RecentTextSearches = ({
   recentSearches,
   onClearAll,
   onDeleteKeyword,
+  onSearch,
 }: RecentTextSearchesProps) => {
   return (
     <div>
@@ -30,7 +32,9 @@ const RecentTextSearches = ({
               <div className="flex size-[26px] justify-center rounded-full bg-gray-200">
                 <img src={searchIcon} className="w-3 object-contain" />
               </div>
-              <p className="flex-grow">{keyword}</p>
+              <p className="grow" onClick={() => onSearch(keyword)}>
+                {keyword}
+              </p>
               <img
                 src={closeIcon}
                 className="size-4 opacity-80"
