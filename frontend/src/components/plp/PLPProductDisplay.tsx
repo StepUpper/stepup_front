@@ -32,7 +32,6 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
   // 데이터가 변경되면 현재 limit만큼의 데이터를 displayData에 설정
   useEffect(() => {
     setDisplayData(products.slice(0, itemsSize));
-    console.log(displayData);
   }, [products, itemsSize]);
 
   // 2. 스크롤 감지해서 추가 데이터 로딩
@@ -51,7 +50,7 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
 
       if (node) observer.current.observe(node); // 새로운 엘리먼트 감시
     },
-    [itemsSize]
+    [itemsSize, products.length]
   );
 
   return (
