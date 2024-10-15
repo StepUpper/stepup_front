@@ -2,13 +2,19 @@ import { ReactNode } from "react";
 import Img from "@/components/common/html/Img";
 import { shoeImg } from "@/assets/assets";
 import { TShoeSearchResponse } from "@/types/product";
+import { twMerge } from "tailwind-merge";
+
+interface SearchResultItemProps extends TShoeSearchResponse {
+  onClick: () => void;
+  className: string;
+}
 
 const SearchResultList = ({ children }: { children: ReactNode }) => {
   return <ul className="no-scrollbar grid w-full gap-2">{children}</ul>;
 };
 export default SearchResultList;
 
-const SearchResultItem = (props: TShoeSearchResponse) => {
+const SearchResultItem = (props: SearchResultItemProps) => {
   const {
     shoeId, //brand+modelNo
     image,
@@ -17,9 +23,14 @@ const SearchResultItem = (props: TShoeSearchResponse) => {
     modelNo,
     productId,
     link,
+    onClick,
+    className,
   } = props;
   return (
-    <li className="flex items-center">
+    <li
+      className={twMerge("flex items-center rounded-md", className)}
+      onClick={onClick}
+    >
       {/* 상품 이미지 영역 */}
       <div className="relative overflow-hidden rounded-[0.39rem] bg-grey-50">
         {/* 신발 이미지 */}

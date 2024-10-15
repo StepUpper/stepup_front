@@ -10,11 +10,16 @@ import RecentTextSearches from "@/components/shoeCloset/search/RecentTextSearche
 import { TShoeSearchResponse } from "@/types/product";
 import { shoeSearchApi } from "@/apis/services/shoeSearch";
 import SearchResultList from "@/components/shoeCloset/search/SearchResultList";
+import BottomButton from "@/components/common/BottomButton";
+import { useNavigate } from "react-router-dom";
 
 const SearchShoeCloset = () => {
   const [recentSearches, setRecentSearches] = useState<string[]>([]); //최근 검색어 상태
   const [searchResults, setSearchResults] = useState<TShoeSearchResponse[]>([]); //검색 결과 상태
+  const [selectedResult, setSelectedResult] =
+    useState<TShoeSearchResponse | null>(null); //선택된 아이템 상태
   const [noResults, setNoResults] = useState(false); //검색결과 없음 상태
+  const navigate = useNavigate();
 
   useEffect(() => {
     setRecentSearches(getRecentSearches());
@@ -67,9 +72,29 @@ const SearchShoeCloset = () => {
     setRecentSearches([]);
   };
 
+  //인풋창 초기화 상태 전달 함수
   const handleClearInput = () => {
     setSearchResults([]);
     setNoResults(false);
+  };
+
+  //신발 선택시 상태 업데이트
+  const handleItemClick = (shoe: TShoeSearchResponse) => {
+    if (
+      selectedResult?.brand === shoe.brand &&
+      selectedResult?.modelNo === shoe.modelNo
+    ) {
+      setSelectedResult(null);
+    } else {
+      setSelectedResult(shoe);
+    }
+  };
+
+  //신발 정보 전달 함수
+  const handleButtonClick = () => {
+    if (selectedResult) {
+      navigate("/archive/review", { state: selectedResult });
+    }
   };
 
   return (
@@ -88,22 +113,36 @@ const SearchShoeCloset = () => {
         </div>
       </div>
       {searchResults.length > 0 ? (
-        <div className="flex h-full p-4">
-          <SearchResultList>
-            {searchResults.map((product, index) => (
-              <SearchResultList.Item
-                key={index}
-                shoeId={`${product.brand}-${product.modelNo}`}
-                image={product.image}
-                modelName={product.modelName}
-                brand={product.brand}
-                modelNo={product.modelNo}
-                productId={product.productId}
-                link={product.link}
-              />
-            ))}
-          </SearchResultList>
-        </div>
+        <>
+          <div className="flex h-full grow p-4">
+            <SearchResultList>
+              {searchResults.map((product, index) => (
+                <SearchResultList.Item
+                  key={index}
+                  shoeId={`${product.brand}-${product.modelNo}`}
+                  image={product.image}
+                  modelName={product.modelName}
+                  brand={product.brand}
+                  modelNo={product.modelNo}
+                  productId={product.productId}
+                  link={product.link}
+                  className={`cursor-pointer ${selectedResult?.brand === product.brand && selectedResult?.modelNo === product.modelNo ? "border-2 border-black" : ""}`}
+                  onClick={() => handleItemClick(product)}
+                />
+              ))}
+            </SearchResultList>
+          </div>
+          <div className="fixed bottom-0 z-10 w-screen bg-white px-4">
+            <BottomButton
+              title={selectedResult ? "선택 완료" : "선택해주세요"}
+              className={`${
+                selectedResult ? "" : "cursor-not-allowed opacity-40"
+              }`}
+              disabled={!selectedResult}
+              onClick={handleButtonClick}
+            />
+          </div>
+        </>
       ) : noResults ? (
         <p>검색 결과 없음</p>
       ) : (
