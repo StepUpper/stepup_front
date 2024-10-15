@@ -1,4 +1,4 @@
-import { IProduct } from "@/pages/ShoeCloset/page";
+import { IProduct } from "@/pages/ShoeCloset/ShoeCloset";
 
 interface ShoeComponentProps {
   id: number;
