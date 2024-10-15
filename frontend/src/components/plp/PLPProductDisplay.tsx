@@ -1,9 +1,10 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 import PLPControls from "@components/plp/PLPControls";
 import ProductList from "@common/ProductList";
 import PLPEmptyList from "@components/plp/PLPEmptyList";
 import userStore from "@store/auth.store";
-import { TProductResponse } from "@/types/product";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { TProductResponse } from "@type/product";
+import { useSizeConversion } from "@hooks/useSizeConversion";
 
 interface PLPProductDisplayProps {
   products: TProductResponse[];
@@ -12,7 +13,13 @@ interface PLPProductDisplayProps {
 const PLPProductDisplay = (props: PLPProductDisplayProps) => {
   const { products } = props;
 
-  const { likeShoes } = userStore();
+  const { user, likeShoes } = userStore();
+
+  const sizeType = user?.sizeType ?? "mm";
+  const sneakerSize = user?.sneakerSize ?? null;
+
+  // 신발 사이즈 변환
+  const convertedSneakerSize = useSizeConversion(sizeType, sneakerSize);
 
   const limit = 20;
   const [itemsSize, setItemsSize] = useState(limit);
@@ -71,6 +78,7 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
                     brand={product.brand}
                     customerLink={product.link}
                     isLiked={isLiked}
+                    sneakerSize={convertedSneakerSize}
                   />
                 );
               }

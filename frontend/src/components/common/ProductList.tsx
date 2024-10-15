@@ -6,11 +6,12 @@ import Img from "@common/html/Img";
 import { shoeImg } from "@assets/assets";
 import userStore from "@store/auth.store";
 import { addOrRemoveShoeFromLikes } from "@apis/firebase/likeFirestore";
-import { useSizeConversion } from "@hooks/useSizeConversion";
 import { addRecentProduct } from "@utils/storeRecentProducts";
 import { TProduct } from "@type/product";
 
-interface ProductItemProps extends TProduct, LikeButtonProps {}
+interface ProductItemProps extends TProduct, LikeButtonProps {
+  sneakerSize?: number | null;
+}
 
 const ProductList = ({ children }: { children: ReactNode }) => {
   return (
@@ -33,6 +34,7 @@ const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
       customerImg,
       price,
       isLiked,
+      sneakerSize,
     } = props;
 
     const location = useLocation();
@@ -41,11 +43,6 @@ const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
     const [type, setType] = useState("");
 
     const { isLoggedIn, user, updateUserInfo } = userStore();
-    const sizeType = user?.sizeType ?? "mm";
-    const sneakerSize = user?.sneakerSize ?? null;
-
-    // 신발 사이즈 변환
-    const convertedSneakerSize = useSizeConversion(sizeType, sneakerSize);
 
     useEffect(() => {
       setType(location.hash.slice(1));
@@ -115,10 +112,10 @@ const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
             </div>
           </div>
           {/* 사이즈 추천 */}
-          {convertedSneakerSize && (
+          {sneakerSize && (
             <span className="absolute left-2.5 top-2 flex rounded bg-gradient-to-r from-[#e8f4fe] to-[#ffecfe] p-[0.31rem]">
               <strong className="bg-gradient-to-r from-[#12C2E9] via-[#C471ED] to-[#F64F59] bg-clip-text text-caption1 font-label leading-4 text-transparent">
-                {convertedSneakerSize}mm 추천
+                {sneakerSize}mm 추천
               </strong>
             </span>
           )}
