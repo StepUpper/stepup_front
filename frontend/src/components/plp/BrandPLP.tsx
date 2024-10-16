@@ -7,7 +7,7 @@ import PLPHeader from "@components/plp/PLPHeader";
 import GenderCategorySelector, {
   GenderCategory,
 } from "@components/plp/GenderCategorySelector";
-import PLPProductDisplay from "@components/plp/PLPProductDisplay";
+import PLPProductList from "@components/plp/PLPProductList";
 import FilterBottomSheet from "@components/plp/FilterBottomSheet";
 import Error from "@common/Error";
 import PLPLoading from "@components/plp/PLPLoading";
@@ -75,7 +75,7 @@ const BrandPLP = (props: BrandPLPProps) => {
           />
 
           {/* 상품 영역 */}
-          <PLPProductDisplay products={filteredProducts} />
+          <PLPProductList products={filteredProducts} />
 
           {/* 필터 바텀 */}
           <FilterBottomSheet

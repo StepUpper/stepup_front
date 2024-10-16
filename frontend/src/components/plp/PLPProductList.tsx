@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import PLPControls from "@components/plp/PLPControls";
-import ProductList from "@common/ProductList";
+import ProductItem from "@components/common/ProductItem";
 import PLPEmptyList from "@components/plp/PLPEmptyList";
 import userStore from "@store/auth.store";
 import { TProductResponse } from "@type/product";
 import { useSizeConversion } from "@hooks/useSizeConversion";
 
-interface PLPProductDisplayProps {
+interface PLPProductListProps {
   products: TProductResponse[];
 }
 
-const PLPProductDisplay = (props: PLPProductDisplayProps) => {
+const PLPProductList = (props: PLPProductListProps) => {
   const { products } = props;
 
   const { user, likeShoes } = userStore();
@@ -32,6 +32,7 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
   // 데이터가 변경되면 현재 limit만큼의 데이터를 displayData에 설정
   useEffect(() => {
     setDisplayData(products.slice(0, itemsSize));
+    console.log(displayData)
   }, [products, itemsSize]);
 
   // 2. 스크롤 감지해서 추가 데이터 로딩
@@ -58,31 +59,14 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
       <PLPControls totalItems={products.length} />
       <div className="px-4 pb-6">
         {displayData.length > 0 ? (
-          <ProductList>
+          <ul className="no-scrollbar grid h-[calc(100vh-200px)] w-full grid-cols-2 gap-3 overflow-y-auto md:grid-cols-4">
             {displayData.map((product, index) => {
-              const isLiked = likeShoes?.some(
-                (shoe) => shoe.shoeId === product.brand + product.modelNo
-              );
               const shoeId = product.brand + product.modelNo;
+              const isLiked =likeShoes?.some((shoe) => shoe.shoeId === shoeId);
 
-              if (index === displayData.length - 1) {
-                return (
-                  <ProductList.Item
-                    ref={lastElementRef}
-                    key={`${shoeId}_${index}`}
-                    shoeId={shoeId}
-                    productName={product.modelName}
-                    imgUrl={product.image}
-                    modelNo={product.modelNo}
-                    brand={product.brand}
-                    customerLink={product.link}
-                    isLiked={isLiked}
-                    sneakerSize={convertedSneakerSize}
-                  />
-                );
-              }
               return (
-                <ProductList.Item
+                <ProductItem
+                  ref={index === displayData.length - 1 ? lastElementRef : null}
                   key={shoeId + index}
                   shoeId={shoeId}
                   productName={product.modelName}
@@ -91,10 +75,11 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
                   brand={product.brand}
                   customerLink={product.link}
                   isLiked={isLiked}
+                  sneakerSize={convertedSneakerSize}
                 />
               );
             })}
-          </ProductList>
+          </ul>
         ) : (
           <PLPEmptyList />
         )}
@@ -102,4 +87,4 @@ const PLPProductDisplay = (props: PLPProductDisplayProps) => {
     </>
   );
 };
-export default PLPProductDisplay;
+export default memo(PLPProductList);

@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode, useEffect, useState } from "react";
+import { forwardRef, memo, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import LikeButton, { LikeButtonProps } from "@common/LikeButton";
 import ProductLearnMoreButton from "@common/ProductLearnMoreButton";
@@ -12,15 +12,6 @@ import { TProduct } from "@type/product";
 interface ProductItemProps extends TProduct, LikeButtonProps {
   sneakerSize?: number | null;
 }
-
-const ProductList = ({ children }: { children: ReactNode }) => {
-  return (
-    <ul className="no-scrollbar grid h-[calc(100vh-200px)] w-full grid-cols-2 gap-3 overflow-y-auto md:grid-cols-4">
-      {children}
-    </ul>
-  );
-};
-export default ProductList;
 
 const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
   (props, ref) => {
@@ -68,25 +59,28 @@ const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
     };
 
     // 좋아요
-    const handleLikeClick = async (e: React.MouseEvent) => {
-      e.stopPropagation();
+    const handleLikeClick = useCallback(
+      async (e: React.MouseEvent) => {
+        e.stopPropagation();
 
-      if (isLoggedIn) {
-        await addOrRemoveShoeFromLikes(user?.uid!, {
-          brand,
-          productName,
-          imgUrl,
-          modelNo,
-          customerImg,
-          customerLink,
-          price,
-        });
-        updateUserInfo();
-      } else {
-        console.log("로그인이 필요합니다.");
-        // 여기서 로그인하라는 채팅을 띄워주면 좋을 듯 하다. 일단 나중에 ..
-      }
-    };
+        if (isLoggedIn) {
+          await addOrRemoveShoeFromLikes(user?.uid!, {
+            brand,
+            productName,
+            imgUrl,
+            modelNo,
+            customerImg,
+            customerLink,
+            price,
+          });
+          updateUserInfo();
+        } else {
+          console.log("로그인이 필요합니다.");
+          // 여기서 로그인하라는 채팅을 띄워주면 좋을 듯 하다. 일단 나중에 ..
+        }
+      },
+      [isLiked, user?.uid]
+    );
 
     return (
       <li
@@ -145,4 +139,4 @@ const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
 );
 
 ProductItem.displayName = "ProductItem";
-ProductList.Item = ProductItem;
+export default memo(ProductItem);
