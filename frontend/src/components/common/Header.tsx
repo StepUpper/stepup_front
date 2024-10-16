@@ -11,10 +11,12 @@ interface HeaderProps {
   children?: ReactNode;
   // 추가 옵션 버튼 활성화 여부
   optionButton?: boolean;
+  // 추가 옵션 버튼 클릭시 실행되는 내용
+  onOptionClick?: () => void;
 }
 
 const Header = (props: HeaderProps) => {
-  const { type, children, optionButton = false } = props;
+  const { type, children, optionButton = false, onOptionClick } = props;
   const navigate = useNavigate();
 
   const [isSideOpen, setIsSideOpen] = useState(false);
@@ -43,7 +45,9 @@ const Header = (props: HeaderProps) => {
           {children}
         </h1>
         <Button className="border-none">
-          {optionButton && <img src={dotIcon} alt="추가 옵션 버튼" />}
+          {optionButton && (
+            <img src={dotIcon} alt="추가 옵션 버튼" onClick={onOptionClick} />
+          )}
         </Button>
       </header>
       {isSideOpen && <SideMenu isOpen={isSideOpen} onClose={toggleSideMenu} />}
