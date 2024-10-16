@@ -33,16 +33,19 @@ import copyLeftIcon from "@assets/icons/copy-left-icon.svg";
 import chatFilledIcon from "@assets/icons/chat-filled-icon.svg";
 import noticeIcon from "@assets/icons/notice-icon.png";
 import searchIcon from "@assets/icons/search-icon.svg";
+import trashRedIcon from "@assets/icons/trash-red-icon.svg";
+import shareBlackIcon from "@assets/icons/share-black-icon.svg";
+import pencilIcon from "@assets/icons/pencil-icon.svg";
 
 import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import defaultProfilePlusImg from "@assets/images/default-profile-plus-img.svg";
 import footInfoPlaceholder from "@assets/images/foot-loading.webp";
 import aiIconImg from "@assets/images/ai-icon-img.png";
-import shoeHeart from "@assets/images/shoeHeart.svg";
+import shoeHeart from "@assets/images/shoe-heart.svg";
 import onboardingImg1 from "@assets/images/onboarding1.png";
 import onboardingImg2 from "@assets/images/onboarding2.png";
 import shoeImg from "@assets/images/shoe-img.svg";
-import shoeEye from "@assets/images/shoeEye.svg";
+import shoeEye from "@assets/images/shoe-eye.svg";
 
 export {
   // ******* ICON
@@ -81,6 +84,9 @@ export {
   chatFilledIcon,
   noticeIcon,
   searchIcon,
+  trashRedIcon,
+  shareBlackIcon,
+  pencilIcon,
   // ******* IMAGE
   defaultProfileImg,
   defaultProfilePlusImg,
