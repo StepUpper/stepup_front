@@ -1,4 +1,4 @@
-import { IProduct } from "@pages/ShoeCloset/page";
+import { IProduct } from "@/pages/ShoeCloset/ShoeCloset";
 import ShoeComponent from "./ShoeComponent";
 import AddShoeButton from "./AddShoeButton";
 import { sortIcon } from "@assets/assets";
