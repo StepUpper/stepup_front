@@ -2,20 +2,48 @@ import Header from "@common/Header";
 import ShoeListComponent from "@components/shoeCloset/ShoeListComponent";
 import ProfileCard from "@components/shoeCloset/ProfileCard";
 import EmptyShoeComponent from "@components/shoeCloset/EmptyShoeComponent";
+import { useEffect, useState } from "react";
+import { auth, db } from "@/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 export interface IProduct {
+  shoeId: string;
   image: string;
+  modelName: string;
 }
 
-// TODO: db에서 내 신발장 리스트 받아오기 @노원주
-const shoeList: IProduct[] = [
-  {
-    image:
-      "https://image.a-rt.com/art/product/2022/01/60008_1642143249212.jpg?shrink=580:580",
-  },
-];
-
 const ShoeCloset = () => {
+  const [shoeList, setShoeList] = useState<IProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchShoeCloset = async () => {
+    try {
+      const userId = auth.currentUser?.uid!;
+      const shoeClosetRef = collection(db, "users", userId, "shoeCloset");
+
+      const shoeDocs = await getDocs(shoeClosetRef);
+      const shoes = shoeDocs.docs.map((doc) => ({
+        shoeId: doc.id,
+        image: doc.data().img,
+        modelName: doc.data().modelName,
+      }));
+
+      setShoeList(shoes);
+    } catch (error) {
+      console.error("데이터를 가져오는 중 에러 발생: ", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchShoeCloset();
+  },[]);
+
+  if (isLoading) {
+    return <div> Loading...</div>;
+  }
+
   return (
     <div className="flex h-full flex-col">
       <Header type="back">신발장</Header>

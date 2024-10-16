@@ -48,7 +48,7 @@ const Review = () => {
     console.log("userId: ", userId);
     console.log("product: ", product);
     console.log("review: ", review);
-    //navigate("/archive");
+    navigate("/archive");
   };
 
   return (

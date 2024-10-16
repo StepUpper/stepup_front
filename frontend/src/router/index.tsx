@@ -32,7 +32,7 @@ const router = createBrowserRouter(
           element: <ShoeCloset />,
         },
         {
-          path: "/archive/detail",
+          path: "/archive/:shoeId",
           element: <ShoeClosetOverview />,
         },
         {
