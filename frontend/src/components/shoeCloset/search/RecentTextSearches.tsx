@@ -32,12 +32,15 @@ const RecentTextSearches = ({
               <div className="flex size-[26px] justify-center rounded-full bg-gray-200">
                 <img src={searchIcon} className="w-3 object-contain" />
               </div>
-              <p className="grow" onClick={() => onSearch(keyword)}>
+              <div
+                className="grow cursor-pointer"
+                onClick={() => onSearch(keyword)}
+              >
                 {keyword}
-              </p>
+              </div>
               <img
                 src={closeIcon}
-                className="size-4 opacity-80"
+                className="size-4 cursor-pointer opacity-80"
                 onClick={() => onDeleteKeyword(keyword)}
               />
             </li>
