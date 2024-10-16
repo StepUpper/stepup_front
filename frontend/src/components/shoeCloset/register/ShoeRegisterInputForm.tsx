@@ -1,9 +1,25 @@
 import InputField from "@/components/common/InputField";
 import ReviewOptionSelectorButton from "./ReviewOptionSelectorButton";
 import RecomendSizeRadioGroup from "./RecomendSizeRadioGroup";
-import { useInput } from "@/hooks/useInput";
+//import { useInput } from "@/hooks/useInput";
 
-const ShoeRegisterInputForm = () => {
+interface IReviewData {
+  len: string;
+  width: string;
+  height: string;
+  soft: string;
+  weight: string;
+  recommendSize: string;
+  text: string;
+}
+const ShoeRegisterInputForm = ({
+  reviewData,
+  setReviewData,
+}: {
+  reviewData: IReviewData;
+  setReviewData: (review: IReviewData) => void;
+}) => {
+  /*
   const { value: review, setValue: setReview } = useInput({
     len: "",
     width: "",
@@ -13,23 +29,24 @@ const ShoeRegisterInputForm = () => {
     size: "2",
     text: "",
   });
+  */
 
   const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLButtonElement;
     const { name, value } = target;
-    setReview((rev) => ({
-      ...rev,
+    setReviewData({
+      ...reviewData,
       [name]: value,
-    }));
+    });
   };
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const target = e.target as HTMLTextAreaElement;
     const { name, value } = target;
-    setReview((rev) => ({
-      ...rev,
+    setReviewData({
+      ...reviewData,
       [name]: value,
-    }));
+    });
   };
 
   return (
@@ -41,7 +58,7 @@ const ShoeRegisterInputForm = () => {
               key={`${idx}`}
               name="len"
               value={opt}
-              isSelected={review.len === opt}
+              isSelected={reviewData.len === opt}
               onClick={onClickHandler}
             />
           ))}
@@ -54,7 +71,7 @@ const ShoeRegisterInputForm = () => {
               key={`${idx}`}
               name="width"
               value={opt}
-              isSelected={review.width === opt}
+              isSelected={reviewData.width === opt}
               onClick={onClickHandler}
             />
           ))}
@@ -67,7 +84,7 @@ const ShoeRegisterInputForm = () => {
               key={`${idx}`}
               name="height"
               value={opt}
-              isSelected={review.height === opt}
+              isSelected={reviewData.height === opt}
               onClick={onClickHandler}
             />
           ))}
@@ -80,7 +97,7 @@ const ShoeRegisterInputForm = () => {
               key={`${idx}`}
               name="soft"
               value={opt}
-              isSelected={review.soft === opt}
+              isSelected={reviewData.soft === opt}
               onClick={onClickHandler}
             />
           ))}
@@ -93,7 +110,7 @@ const ShoeRegisterInputForm = () => {
               key={`${idx}`}
               name="weight"
               value={opt}
-              isSelected={review.weight === opt}
+              isSelected={reviewData.weight === opt}
               onClick={onClickHandler}
             />
           ))}
@@ -101,15 +118,15 @@ const ShoeRegisterInputForm = () => {
       </InputField>
       <InputField title="이 신발의 추천 사이즈는 무엇인가요?">
         <RecomendSizeRadioGroup
-          size={review.size}
-          setReview={(e) => setReview((rev) => ({ ...rev, size: e }))}
+          size={reviewData.recommendSize}
+          setReview={(e) => setReviewData({ ...reviewData, recommendSize: e })}
         />
       </InputField>
       <InputField title="자세한 사용기를 적어주세요">
         <textarea
           className="h-52 rounded-md border border-zinc-200 p-4 font-paragraph leading-6 placeholder:text-grey-400 focus:outline-none"
           placeholder="이 신발을 신으면서 느꼈던 장점 및 단점을 솔직하게 알려주세요."
-          value={review.text}
+          value={reviewData.text}
           name="text"
           onChange={onChangeHandler}
         />
