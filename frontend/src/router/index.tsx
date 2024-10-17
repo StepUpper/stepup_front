@@ -3,7 +3,7 @@ import Layout from "@components/layout/Layout";
 import NotFound from "@pages/NotFound/NotFound";
 import ShoeCloset from "@/pages/ShoeCloset/ShoeCloset";
 import Chat from "@pages/Chat/Chat";
-import Review from "@/pages/Review/Review";
+import Review from "@/pages/ShoeCloset/Review/Review";
 import MyPage from "@pages/MyPage/MyPage";
 import MyShopping from "@pages/MyShopping/MyShopping";
 import MyFootInfo from "@pages/MyFootInfo/MyFootInfo";
@@ -32,7 +32,7 @@ const router = createBrowserRouter(
           element: <ShoeCloset />,
         },
         {
-          path: "/archive/:shoeId",
+          path: "/archive/:closetId",
           element: <ShoeClosetOverview />,
         },
         {

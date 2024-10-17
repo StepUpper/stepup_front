@@ -4,12 +4,13 @@ import ProfileCard from "@components/shoeCloset/ProfileCard";
 import EmptyShoeComponent from "@components/shoeCloset/EmptyShoeComponent";
 import { useEffect, useState } from "react";
 import { auth, db } from "@/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, Timestamp } from "firebase/firestore";
 
 export interface IProduct {
-  shoeId: string;
+  closetId: string;
   image: string;
   modelName: string;
+  updatedAt: Timestamp;
 }
 
 const ShoeCloset = () => {
@@ -23,9 +24,10 @@ const ShoeCloset = () => {
 
       const shoeDocs = await getDocs(shoeClosetRef);
       const shoes = shoeDocs.docs.map((doc) => ({
-        shoeId: doc.id,
+        closetId: doc.id,
         image: doc.data().img,
         modelName: doc.data().modelName,
+        updatedAt: doc.data().updatedAt,
       }));
 
       setShoeList(shoes);

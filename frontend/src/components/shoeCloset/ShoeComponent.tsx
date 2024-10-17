@@ -10,7 +10,7 @@ const ShoeComponent = ({ prod }: ShoeComponentProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/archive/${prod.shoeId}`);
+    navigate(`/archive/${prod.closetId}`);
   };
 
   return (

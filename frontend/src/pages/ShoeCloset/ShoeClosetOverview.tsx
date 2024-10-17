@@ -31,17 +31,17 @@ const ShoeClosetOverview = () => {
   };
 
   //firestore에서 신발장 정보 불러오기
-  const { shoeId } = useParams<{ shoeId: string }>();
+  const { closetId } = useParams<{ closetId: string }>();
   const [detail, setDetail] = useState<IShoeCloset | null>(null);
   
   const fetchShoeClosetInfo = async () => {
-    if (!shoeId) {
-      console.error("shoeId가 없습니다.");
+    if (!closetId) {
+      console.error("closetId가 없습니다.");
       return;
     }
     const userId = auth.currentUser?.uid!;
 
-    const shoeClosetInfoRef = doc(db, "users", userId, "shoeCloset", shoeId);
+    const shoeClosetInfoRef = doc(db, "users", userId, "shoeCloset", closetId);
     const shoeClosetInfoDoc = await getDoc(shoeClosetInfoRef);
 
     if(shoeClosetInfoDoc.exists()) {
@@ -54,7 +54,7 @@ const ShoeClosetOverview = () => {
 
   useEffect(() => {
     fetchShoeClosetInfo();
-  },[shoeId]);
+  },[closetId]);
 
   if (!detail) {
     return <div>로딩 중...</div>;
