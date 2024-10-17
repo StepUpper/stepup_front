@@ -47,10 +47,10 @@ export const addOrUpdateShoesToCloset = async (
 
     if (!querySnapshot.empty) {
       // 동일한 brand와 modelNo가 존재하는 경우, 해당 문서를 업데이트 (merge)
-      const docRef = querySnapshot.docs[0].ref; // 첫 번째 매칭 문서 참조
+      const closetRef = querySnapshot.docs[0].ref; // 첫 번째 매칭 문서 참조
 
       await setDoc(
-        docRef,
+        closetRef,
         {
           // product 정보 업데이트
           brand: product.brand,

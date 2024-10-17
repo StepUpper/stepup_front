@@ -16,13 +16,9 @@ export default SearchResultList;
 
 const SearchResultItem = (props: SearchResultItemProps) => {
   const {
-    shoeId, //brand+modelNo
     image,
     modelName,
     brand,
-    modelNo,
-    productId,
-    link,
     onClick,
     className,
   } = props;

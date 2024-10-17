@@ -1,5 +1,4 @@
 import { starFilledIcon, starIcon } from "@/assets/assets";
-import { useState } from "react";
 
 const RatingComponent = ({
   rating,
