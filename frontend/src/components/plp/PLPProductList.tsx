@@ -1,14 +1,26 @@
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import PLPControls from "@components/plp/PLPControls";
 import ProductItem from "@components/common/ProductItem";
 import PLPEmptyList from "@components/plp/PLPEmptyList";
 import userStore from "@store/auth.store";
 import { TProductResponse } from "@type/product";
 import { useSizeConversion } from "@hooks/useSizeConversion";
+import {
+  AutoSizer,
+  CellMeasurer,
+  CellMeasurerCache,
+  Grid,
+  GridCellProps,
+} from "react-virtualized";
 
 interface PLPProductListProps {
   products: TProductResponse[];
 }
+
+const cache = new CellMeasurerCache({
+  fixedWidth: true, // 고정된 열 너비
+  defaultHeight: 100, // 기본 높이 설정
+});
 
 const PLPProductList = (props: PLPProductListProps) => {
   const { products } = props;
@@ -28,58 +40,102 @@ const PLPProductList = (props: PLPProductListProps) => {
   const observer = useRef<IntersectionObserver | null>(null);
 
   // 무한스크롤
-  // 1. 프론트에서 데이터 쪼개기
-  // 데이터가 변경되면 현재 limit만큼의 데이터를 displayData에 설정
-  useEffect(() => {
-    setDisplayData(products.slice(0, itemsSize));
-    console.log(displayData)
-  }, [products, itemsSize]);
+  // useEffect(() => {
+  //   setDisplayData(products.slice(0, itemsSize));
+  //   console.log(displayData);
+  // }, [products, itemsSize]);
 
-  // 2. 스크롤 감지해서 추가 데이터 로딩
-  // Intersection Observer 설정
-  const lastElementRef = useCallback(
-    (node: HTMLElement | null) => {
-      // if (isLoading) return; // 로딩 중이면 감지 중지
-      if (observer.current) observer.current.disconnect(); // 이전 관찰자는 해제
+  // const [resizeTrigger, setResizeTrigger] = useState(0);
 
-      observer.current = new IntersectionObserver((entries) => {
-        // 현재 보여주는 사이즈가 전체 리스트 보다 작을 경우
-        if (entries[0].isIntersecting && itemsSize < products.length) {
-          setItemsSize((prev) => prev + limit); // 새로운 데이터 추가
-        }
-      });
+  // // 창 크기가 변경될 때 리렌더링 트리거
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     cache.clearAll();  // 캐시 초기화
+  //     setResizeTrigger((prev) => prev + 1);  // 상태 변경으로 리렌더링 유도
+  //   };
 
-      if (node) observer.current.observe(node); // 새로운 엘리먼트 감시
-    },
-    [itemsSize, products.length]
-  );
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
+
+  const cellRenderer = ({
+    columnIndex,
+    key,
+    parent,
+    rowIndex,
+    style,
+  }: GridCellProps) => {
+    const columnCount = parent.props.columnCount;
+    const product = products[rowIndex * columnCount + columnIndex];
+    if (!product) return null;
+
+    const shoeId = product.brand + product.modelNo;
+    const isLiked = likeShoes?.some((shoe) => shoe.shoeId === shoeId);
+
+    console.log(style);
+    return (
+      <CellMeasurer
+        cache={cache}
+        columnIndex={columnIndex}
+        key={key}
+        parent={parent}
+        rowIndex={rowIndex}
+      >
+        {({ measure, registerChild }) => (
+          <div
+            ref={registerChild as React.LegacyRef<HTMLDivElement>}
+            style={{ ...style }}
+          >
+            <ProductItem
+              // ref={index === displayData.length - 1 ? lastElementRef : null}
+              // key={shoeId + index}
+              shoeId={shoeId}
+              productName={product.modelName}
+              imgUrl={product.image}
+              modelNo={product.modelNo}
+              brand={product.brand}
+              customerLink={product.link}
+              isLiked={isLiked}
+              sneakerSize={convertedSneakerSize}
+              onImageLoad={measure}
+            />
+          </div>
+        )}
+      </CellMeasurer>
+    );
+  };
 
   return (
     <>
       <PLPControls totalItems={products.length} />
-      <div className="px-4 pb-6">
-        {displayData.length > 0 ? (
-          <ul className="no-scrollbar grid h-[calc(100vh-200px)] w-full grid-cols-2 gap-3 overflow-y-auto md:grid-cols-4">
-            {displayData.map((product, index) => {
-              const shoeId = product.brand + product.modelNo;
-              const isLiked =likeShoes?.some((shoe) => shoe.shoeId === shoeId);
+      <div className="h-[calc(100vh-200px)] w-full px-4 pb-6">
+        {products.length > 0 ? (
+          <AutoSizer>
+            {({ height, width }) => {
+              const GUTTER_SIZE = 10;
+              const columnCount = width < 768 ? 2 : 4;
+              const columnWidth = width / columnCount - GUTTER_SIZE; // 열 너비에서 여백 제외
+              const rowCount = Math.ceil(products.length / columnCount); // 행 개수 계산
+              // const rowHeight = height / rowCount - GUTTER_SIZE; // 동적 높이
+              console.log("gird", width, width / columnCount - GUTTER_SIZE);
 
               return (
-                <ProductItem
-                  ref={index === displayData.length - 1 ? lastElementRef : null}
-                  key={shoeId + index}
-                  shoeId={shoeId}
-                  productName={product.modelName}
-                  imgUrl={product.image}
-                  modelNo={product.modelNo}
-                  brand={product.brand}
-                  customerLink={product.link}
-                  isLiked={isLiked}
-                  sneakerSize={convertedSneakerSize}
+                <Grid
+                  columnCount={columnCount} // 아이템 열 갯수
+                  columnWidth={columnWidth} // 아이템 넓이
+                  // columnWidth={({ index }) =>
+                  //   Math.floor(window.innerWidth * 0.25)
+                  // }
+                  rowCount={rowCount} // 아아텝 행 갯수
+                  rowHeight={cache.rowHeight} // 캐시된 아이템 높이 사용
+                  width={width} // AutoSizer에서 가져온 동적 너비
+                  height={height} // AutoSizer에서 가져온 동적 높이
+                  cellRenderer={cellRenderer} // 렌더링될 아이템
+                  // deferredMeasurementCache={cache}
                 />
               );
-            })}
-          </ul>
+            }}
+          </AutoSizer>
         ) : (
           <PLPEmptyList />
         )}

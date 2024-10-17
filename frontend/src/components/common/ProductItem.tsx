@@ -11,9 +11,10 @@ import { TProduct } from "@type/product";
 
 interface ProductItemProps extends TProduct, LikeButtonProps {
   sneakerSize?: number | null;
+  onImageLoad?: () => void;
 }
 
-const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
+const ProductItem = forwardRef<HTMLDivElement, ProductItemProps>(
   (props, ref) => {
     const {
       shoeId,
@@ -26,6 +27,7 @@ const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
       price,
       isLiked,
       sneakerSize,
+      onImageLoad,
     } = props;
 
     const location = useLocation();
@@ -83,7 +85,7 @@ const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
     );
 
     return (
-      <li
+      <div
         ref={ref}
         className="w-full min-w-[136px] cursor-pointer list-none"
         onClick={handleBridgeNavigation}
@@ -101,6 +103,7 @@ const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
                 alt={productName}
                 fallbackSrc={shoeImg}
                 className="mt-[20px]"
+                onLoad={onImageLoad}
                 errorStyle="w-[60%] mt-[10px] opacity-100"
               />
             </div>
@@ -133,7 +136,7 @@ const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
           {price && <p className="font-label">{price}</p>}
           <ProductLearnMoreButton />
         </div>
-      </li>
+      </div>
     );
   }
 );
