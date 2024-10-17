@@ -59,6 +59,10 @@ const Chat = () => {
       } finally {
         sessionStorage.removeItem("BottomSheetState");
       }
+    } else {
+      if (window.location.hash) {
+        history.replaceState(null, "", " ");
+      }
     }
   }, []);
 
