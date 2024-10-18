@@ -15,6 +15,7 @@ import EditUserInfoPage from "@pages/EditUserInfo/EditUserInfoPage";
 import ChangePasswordPage from "@pages/ChangePassword/ChangePasswordPage";
 import SearchShoeCloset from "@/pages/ShoeCloset/SearchShoeCloset";
 import ShoeClosetOverview from "@/pages/ShoeCloset/ShoeClosetOverview";
+import Modify from "@/pages/ShoeCloset/Review/Modify";
 
 const router = createBrowserRouter(
   [
@@ -42,6 +43,10 @@ const router = createBrowserRouter(
         {
           path: "/archive/review",
           element: <Review />,
+        },
+        {
+          path: "/archive/modify/:closetId",
+          element: <Modify />,
         },
         {
           path: "/mypage",

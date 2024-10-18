@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ShoeClosetThumb from "@/components/shoeCloset/details/ShoeClosetThumb";
 import ShoeClosetMainInfo from "@/components/shoeCloset/details/ShoeClosetMainInfo";
 import ShoeClosetDetailInfo from "@/components/shoeCloset/details/ShoeClosetDetailInfo";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -24,6 +24,8 @@ interface IShoeCloset {
 
 //TODO: 신발 상세 페이지에서 그냥 새로고침 하면 
 const ShoeClosetOverview = () => {
+  const navigate = useNavigate();
+
   //헤더 옵션 메뉴 상태
   const [isOptionMenuOpen, setIsOptionMenuOpen] = useState(false);
   const handleOptionClick = () => {
@@ -60,6 +62,10 @@ const ShoeClosetOverview = () => {
     return <div>로딩 중...</div>;
   }
 
+  const handleModifyClick = () => {
+    navigate(`/archive/modify/${closetId}`);
+  }
+
   return (
     <div className="flex h-full flex-col">
       <Header type="back" optionButton={true} onOptionClick={handleOptionClick}>
@@ -83,7 +89,11 @@ const ShoeClosetOverview = () => {
           text={detail.text}
         />
       </main>
-      {isOptionMenuOpen && <ShoeClosetOptionMenu onClose={handleOptionClick} />}
+      {isOptionMenuOpen && 
+        <ShoeClosetOptionMenu 
+          onClose={handleOptionClick} 
+          goToModify={handleModifyClick} 
+        />}
     </div>
   );
 };
