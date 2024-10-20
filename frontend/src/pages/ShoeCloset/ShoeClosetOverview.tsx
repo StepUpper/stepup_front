@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { deleteShoesFromCloset } from "@/apis/firebase/closetFirestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 interface IShoeCloset {
   brand: string;
@@ -25,6 +26,7 @@ interface IShoeCloset {
 
 const ShoeClosetOverview = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   //헤더 옵션 메뉴 상태
   const [isOptionMenuOpen, setIsOptionMenuOpen] = useState(false);
@@ -35,41 +37,62 @@ const ShoeClosetOverview = () => {
   //firestore에서 신발장 정보 불러오기
   const { closetId } = useParams<{ closetId: string }>();
   const [detail, setDetail] = useState<IShoeCloset | null>(null);
-  
-  const fetchShoeClosetInfo = async () => {
-    if (!closetId) {
-      console.error("closetId가 없습니다.");
-      return;
-    }
-    const userId = auth.currentUser?.uid!;
 
-    const shoeClosetInfoRef = doc(db, "users", userId, "shoeCloset", closetId);
-    const shoeClosetInfoDoc = await getDoc(shoeClosetInfoRef);
+  const fetchShoeClosetInfo = async (userId: string) => {
+    try {
+      if (!closetId) {
+        throw new Error("closetId가 없습니다.");
+      }
 
-    if(shoeClosetInfoDoc.exists()) {
-      const data = shoeClosetInfoDoc.data() as IShoeCloset
-      setDetail(data);
-    } else {
-      <div> 등록되지 않은 신발입니다 </div>
+      const shoeClosetInfoRef = doc(
+        db,
+        "users",
+        userId,
+        "shoeCloset",
+        closetId
+      );
+      const shoeClosetInfoDoc = await getDoc(shoeClosetInfoRef);
+
+      if (shoeClosetInfoDoc.exists()) {
+        const data = shoeClosetInfoDoc.data() as IShoeCloset;
+        setDetail(data);
+      } else {
+        console.warn("등록되지 않은 신발입니다");
+      }
+    } catch (error) {
+      console.error(
+        "신발장 정보를 가져오는 도중 에러가 발생했습니다. : ",
+        error
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchShoeClosetInfo();
-  },[closetId]);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        fetchShoeClosetInfo(user.uid);
+      } else {
+        setIsLoading(false);
+      }
+    });
 
-  if (!detail) {
+    return () => unsubscribe();
+  }, [closetId]);
+
+  if (!detail || isLoading) {
     return <div>로딩 중...</div>;
   }
 
   const handleModifyClick = () => {
     navigate(`/archive/modify/${closetId}`);
-  }
+  };
 
-  const handleDeleteClick = async(userId: string, deleteId: string) => {
+  const handleDeleteClick = async (userId: string, deleteId: string) => {
     await deleteShoesFromCloset(userId, deleteId);
     navigate("/archive");
-  }
+  };
 
   return (
     <div className="flex h-full flex-col">
@@ -94,12 +117,13 @@ const ShoeClosetOverview = () => {
           text={detail.text}
         />
       </main>
-      {isOptionMenuOpen && 
-        <ShoeClosetOptionMenu 
-          onClose={handleOptionClick} 
-          onModify={handleModifyClick} 
+      {isOptionMenuOpen && (
+        <ShoeClosetOptionMenu
+          onClose={handleOptionClick}
+          onModify={handleModifyClick}
           onDelete={() => handleDeleteClick(auth.currentUser?.uid!, closetId!)}
-        />}
+        />
+      )}
     </div>
   );
 };
