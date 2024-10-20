@@ -119,7 +119,6 @@ const SearchShoeCloset = () => {
               {searchResults.map((product, index) => (
                 <SearchResultList.Item
                   key={index}
-                  shoeId={`${product.brand}-${product.modelNo}`}
                   image={product.image}
                   modelName={product.modelName}
                   brand={product.brand}

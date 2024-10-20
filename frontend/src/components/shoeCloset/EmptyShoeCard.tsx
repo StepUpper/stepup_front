@@ -2,7 +2,7 @@ import { shoeSearch } from "@assets/assets";
 
 const EmptyShoeCard = () => {
   return (
-    <div className="item-center flex-col gap-4">
+    <div className="item-center absolute flex h-full grow flex-col gap-4">
       <img src={shoeSearch} />
       <label className="whitespace-nowrap text-center text-body2 font-label">
         아직 신발장에 <br />

@@ -17,7 +17,7 @@ type likeShoes =
 
 type shoeCloset =
   | {
-      shoeId: string;
+      closetId: string;
       image: string;
       brand: string;
       modelName: string;

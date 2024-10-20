@@ -4,13 +4,9 @@ import { TShoeSearchResponse } from "@/types/product";
 
 const SelectedShoe = (props: TShoeSearchResponse) => {
   const {
-    shoeId, //brand+modelNo
     image,
     modelName,
     brand,
-    modelNo,
-    productId,
-    link,
   } = props;
   return (
     <div className="flex items-center p-1.5">

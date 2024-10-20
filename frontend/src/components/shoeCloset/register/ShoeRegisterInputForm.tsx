@@ -1,7 +1,6 @@
 import InputField from "@/components/common/InputField";
 import ReviewOptionSelectorButton from "./ReviewOptionSelectorButton";
 import RecomendSizeRadioGroup from "./RecomendSizeRadioGroup";
-//import { useInput } from "@/hooks/useInput";
 
 interface IReviewData {
   len: string;
@@ -19,18 +18,6 @@ const ShoeRegisterInputForm = ({
   reviewData: IReviewData;
   setReviewData: (review: IReviewData) => void;
 }) => {
-  /*
-  const { value: review, setValue: setReview } = useInput({
-    len: "",
-    width: "",
-    height: "",
-    soft: "",
-    weight: "",
-    size: "2",
-    text: "",
-  });
-  */
-
   const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLButtonElement;
     const { name, value } = target;

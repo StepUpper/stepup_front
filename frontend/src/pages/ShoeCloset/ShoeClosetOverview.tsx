@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import ShoeClosetThumb from "@/components/shoeCloset/details/ShoeClosetThumb";
 import ShoeClosetMainInfo from "@/components/shoeCloset/details/ShoeClosetMainInfo";
 import ShoeClosetDetailInfo from "@/components/shoeCloset/details/ShoeClosetDetailInfo";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { deleteShoesFromCloset } from "@/apis/firebase/closetFirestore";
+import { onAuthStateChanged } from "firebase/auth";
+import ShoeClosetDetailLoading from "@/components/shoeCloset/details/ShoeClosetDetailLoading";
 
 interface IShoeCloset {
   brand: string;
@@ -22,8 +25,10 @@ interface IShoeCloset {
   width: string;
 }
 
-//TODO: 신발 상세 페이지에서 그냥 새로고침 하면 
 const ShoeClosetOverview = () => {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+
   //헤더 옵션 메뉴 상태
   const [isOptionMenuOpen, setIsOptionMenuOpen] = useState(false);
   const handleOptionClick = () => {
@@ -31,34 +36,60 @@ const ShoeClosetOverview = () => {
   };
 
   //firestore에서 신발장 정보 불러오기
-  const { shoeId } = useParams<{ shoeId: string }>();
+  const { closetId } = useParams<{ closetId: string }>();
   const [detail, setDetail] = useState<IShoeCloset | null>(null);
-  
-  const fetchShoeClosetInfo = async () => {
-    if (!shoeId) {
-      console.error("shoeId가 없습니다.");
-      return;
-    }
-    const userId = auth.currentUser?.uid!;
 
-    const shoeClosetInfoRef = doc(db, "users", userId, "shoeCloset", shoeId);
-    const shoeClosetInfoDoc = await getDoc(shoeClosetInfoRef);
+  const fetchShoeClosetInfo = async (userId: string) => {
+    try {
+      if (!closetId) {
+        throw new Error("closetId가 없습니다.");
+      }
 
-    if(shoeClosetInfoDoc.exists()) {
-      const data = shoeClosetInfoDoc.data() as IShoeCloset
-      setDetail(data);
-    } else {
-      <div> 등록되지 않은 신발입니다 </div>
+      const shoeClosetInfoRef = doc(
+        db,
+        "users",
+        userId,
+        "shoeCloset",
+        closetId
+      );
+      const shoeClosetInfoDoc = await getDoc(shoeClosetInfoRef);
+
+      if (shoeClosetInfoDoc.exists()) {
+        const data = shoeClosetInfoDoc.data() as IShoeCloset;
+        setDetail(data);
+      } else {
+        console.warn("등록되지 않은 신발입니다");
+      }
+    } catch (error) {
+      console.error(
+        "신발장 정보를 가져오는 도중 에러가 발생했습니다. : ",
+        error
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchShoeClosetInfo();
-  },[shoeId]);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        fetchShoeClosetInfo(user.uid);
+      } else {
+        setIsLoading(false);
+      }
+    });
 
-  if (!detail) {
-    return <div>로딩 중...</div>;
-  }
+    return () => unsubscribe();
+  }, [closetId]);
+
+  const handleModifyClick = () => {
+    navigate(`/archive/modify/${closetId}`);
+  };
+
+  const handleDeleteClick = async (userId: string, deleteId: string) => {
+    await deleteShoesFromCloset(userId, deleteId);
+    navigate("/archive");
+  };
 
   return (
     <div className="flex h-full flex-col">
@@ -67,23 +98,35 @@ const ShoeClosetOverview = () => {
       </Header>
 
       <main className="p-4">
-        <ShoeClosetThumb img={detail.img} modelName={detail.modelName} />
-        <ShoeClosetMainInfo
-          rating={detail.rating}
-          brand={detail.brand}
-          modelName={detail.modelName}
-        />
-        <ShoeClosetDetailInfo
-          len={detail.len}
-          width={detail.width}
-          height={detail.height}
-          soft={detail.soft}
-          weight={detail.weight}
-          recommendSize={detail.recommendSize}
-          text={detail.text}
-        />
+        {!detail || isLoading ? (
+          <ShoeClosetDetailLoading />
+        ) : (
+          <>
+            <ShoeClosetThumb img={detail.img} modelName={detail.modelName} />
+            <ShoeClosetMainInfo
+              rating={detail.rating}
+              brand={detail.brand}
+              modelName={detail.modelName}
+            />
+            <ShoeClosetDetailInfo
+              len={detail.len}
+              width={detail.width}
+              height={detail.height}
+              soft={detail.soft}
+              weight={detail.weight}
+              recommendSize={detail.recommendSize}
+              text={detail.text}
+            />
+          </>
+        )}
       </main>
-      {isOptionMenuOpen && <ShoeClosetOptionMenu onClose={handleOptionClick} />}
+      {isOptionMenuOpen && (
+        <ShoeClosetOptionMenu
+          onClose={handleOptionClick}
+          onModify={handleModifyClick}
+          onDelete={() => handleDeleteClick(auth.currentUser?.uid!, closetId!)}
+        />
+      )}
     </div>
   );
 };

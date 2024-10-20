@@ -42,7 +42,7 @@ const getUserData = async () => {
   const shoeClosetRef = collection(db, "users", uid, "shoeCloset");
   const shoeClosetSnap = await getDocs(shoeClosetRef);
   const shoeCloset = shoeClosetSnap.docs.map((doc) => ({
-    shoeId: doc.id,
+    closetId: doc.id,
     ...doc.data(),
   }));
 
