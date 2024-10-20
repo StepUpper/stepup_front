@@ -3,11 +3,12 @@ import Button from "@/components/common/html/Button";
 
 const ShoeClosetOptionMenu = ({ 
   onClose, 
-  goToModify,
+  onModify,
+  onDelete,
 }: { 
   onClose: () => void;
-  goToModify: () => void;
- 
+  onModify: () => void;
+  onDelete: () => void;
 }) => {
   return (
     <div
@@ -15,13 +16,13 @@ const ShoeClosetOptionMenu = ({
       onClick={onClose}
     >
       <div className="flex border-separate flex-col space-y-[1.5px]">
-        <Button className="flex justify-center gap-2 bg-white px-4 py-2.5 text-red">
+        <Button className="flex justify-center gap-2 bg-white px-4 py-2.5 text-red" onClick={onDelete}>
           <img src={trashRedIcon} alt="삭제 아이콘" />
           삭제하기
         </Button>
         <Button 
           className="flex justify-center gap-2 bg-white px-4 py-2.5" 
-          onClick={goToModify}
+          onClick={onModify}
         >
           <img src={pencilIcon} alt="수정 아이콘"  />
           수정하기

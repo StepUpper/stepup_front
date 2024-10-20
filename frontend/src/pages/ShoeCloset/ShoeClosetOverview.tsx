@@ -7,6 +7,7 @@ import ShoeClosetDetailInfo from "@/components/shoeCloset/details/ShoeClosetDeta
 import { useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { deleteShoesFromCloset } from "@/apis/firebase/closetFirestore";
 
 interface IShoeCloset {
   brand: string;
@@ -22,7 +23,6 @@ interface IShoeCloset {
   width: string;
 }
 
-//TODO: 신발 상세 페이지에서 그냥 새로고침 하면 
 const ShoeClosetOverview = () => {
   const navigate = useNavigate();
 
@@ -66,6 +66,11 @@ const ShoeClosetOverview = () => {
     navigate(`/archive/modify/${closetId}`);
   }
 
+  const handleDeleteClick = async(userId: string, deleteId: string) => {
+    await deleteShoesFromCloset(userId, deleteId);
+    navigate("/archive");
+  }
+
   return (
     <div className="flex h-full flex-col">
       <Header type="back" optionButton={true} onOptionClick={handleOptionClick}>
@@ -92,7 +97,8 @@ const ShoeClosetOverview = () => {
       {isOptionMenuOpen && 
         <ShoeClosetOptionMenu 
           onClose={handleOptionClick} 
-          goToModify={handleModifyClick} 
+          onModify={handleModifyClick} 
+          onDelete={() => handleDeleteClick(auth.currentUser?.uid!, closetId!)}
         />}
     </div>
   );

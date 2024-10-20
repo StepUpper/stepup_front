@@ -6,6 +6,8 @@ import {
   collection,
   serverTimestamp,
   setDoc,
+  doc,
+  writeBatch,
 } from "firebase/firestore";
 import { db } from "@/firebase";
 
@@ -98,6 +100,16 @@ export const addOrUpdateShoesToCloset = async (
   }
 };
 
-// auth.ts의 getUserData 함수에서 shoeCloset을 Firestore로부터 가지고 올 때 closetId라는 프로퍼티를 추가해주는데
-// 이는 zustand로 관리하는 shoeCloset 상태에 담기게 됩니다.
-// closetId를 사용하여 삭제하는 함수를 구현해주시면 될 듯 합니다.
+export const deleteShoesFromCloset = async(userId: string, closetId: string,) => {
+  const closetRef  = doc(db, "users", userId, "shoeCloset", closetId);
+  const batch  = writeBatch(db);
+
+  try {
+    batch.delete(closetRef);
+
+    await batch.commit();
+    console.log(`신발장 ${closetId} 삭제 완료`);
+  } catch (error) {
+    console.error("신발장 삭제 실패 : ", error);
+  }
+};
