@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { auth, db } from "@/firebase";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import ShoeClosetLoading from "@/components/shoeCloset/ShoeClosetLoading";
 
 export interface IProduct {
   closetId: string;
@@ -50,21 +51,23 @@ const ShoeCloset = () => {
     return () => unsubscribe();
   }, []);
 
-  if (isLoading) {
-    return <div> Loading...</div>;
-  }
-
   return (
     <div className="flex h-full flex-col">
       <Header type="back">신발장</Header>
       <main className="flex h-full flex-col gap-7 p-4">
-        <ProfileCard />
-
-        {/* shoe list comp */}
-        {shoeList.length ? (
-          <ShoeListComponent list={shoeList} />
+        {isLoading ? (
+          <ShoeClosetLoading />
         ) : (
-          <EmptyShoeComponent />
+          <>
+            <ProfileCard />
+
+            {/* shoe list comp */}
+            {shoeList.length ? (
+              <ShoeListComponent list={shoeList} />
+            ) : (
+              <EmptyShoeComponent />
+            )}
+          </>
         )}
       </main>
     </div>

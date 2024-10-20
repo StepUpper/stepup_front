@@ -9,6 +9,7 @@ import { auth, db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { deleteShoesFromCloset } from "@/apis/firebase/closetFirestore";
 import { onAuthStateChanged } from "firebase/auth";
+import ShoeClosetDetailLoading from "@/components/shoeCloset/details/ShoeClosetDetailLoading";
 
 interface IShoeCloset {
   brand: string;
@@ -81,10 +82,6 @@ const ShoeClosetOverview = () => {
     return () => unsubscribe();
   }, [closetId]);
 
-  if (!detail || isLoading) {
-    return <div>로딩 중...</div>;
-  }
-
   const handleModifyClick = () => {
     navigate(`/archive/modify/${closetId}`);
   };
@@ -101,21 +98,27 @@ const ShoeClosetOverview = () => {
       </Header>
 
       <main className="p-4">
-        <ShoeClosetThumb img={detail.img} modelName={detail.modelName} />
-        <ShoeClosetMainInfo
-          rating={detail.rating}
-          brand={detail.brand}
-          modelName={detail.modelName}
-        />
-        <ShoeClosetDetailInfo
-          len={detail.len}
-          width={detail.width}
-          height={detail.height}
-          soft={detail.soft}
-          weight={detail.weight}
-          recommendSize={detail.recommendSize}
-          text={detail.text}
-        />
+        {!detail || isLoading ? (
+          <ShoeClosetDetailLoading />
+        ) : (
+          <>
+            <ShoeClosetThumb img={detail.img} modelName={detail.modelName} />
+            <ShoeClosetMainInfo
+              rating={detail.rating}
+              brand={detail.brand}
+              modelName={detail.modelName}
+            />
+            <ShoeClosetDetailInfo
+              len={detail.len}
+              width={detail.width}
+              height={detail.height}
+              soft={detail.soft}
+              weight={detail.weight}
+              recommendSize={detail.recommendSize}
+              text={detail.text}
+            />
+          </>
+        )}
       </main>
       {isOptionMenuOpen && (
         <ShoeClosetOptionMenu
