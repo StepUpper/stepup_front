@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 // import { chatApi } from "@apis/services/chat";
 import PLPHeader from "@components/plp/PLPHeader";
 import { GenderCategory } from "@components/plp/GenderCategorySelector";
-import PLPProductDisplay from "@components/plp/PLPProductDisplay";
+import PLPProductList from "@components/plp/PLPProductList";
 import FilterBottomSheet from "@components/plp/FilterBottomSheet";
 import Error from "@common/Error";
 import { TChatResponse } from "@type/chat";
@@ -60,7 +60,7 @@ const ProductsPLP = (props: ProductsPLPProps) => {
       {data && filteredProducts && (
         <>
           {/* 상품 영역 */}
-          <PLPProductDisplay products={filteredProducts} />
+          <PLPProductList products={filteredProducts} />
 
           {/* 필터 바텀 */}
           <FilterBottomSheet

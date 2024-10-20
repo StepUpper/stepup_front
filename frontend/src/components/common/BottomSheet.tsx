@@ -81,7 +81,7 @@ const BottomSheet = (props: BottomSheetProps) => {
           <motion.div
             initial={{ y: "100%" }} // 초기값
             animate={{
-              y: isMinimized ? (plp ? "79%" : "97%") : "0%",
+              y: isMinimized ? (plp ? "84%" : "97%") : "0%",
             }} // PLP 최소화 임시 처리
             exit={{ y: "100%" }}
             transition={{
