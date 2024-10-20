@@ -5,6 +5,7 @@ import EmptyShoeComponent from "@components/shoeCloset/EmptyShoeComponent";
 import { useEffect, useState } from "react";
 import { auth, db } from "@/firebase";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 export interface IProduct {
   closetId: string;
@@ -17,9 +18,8 @@ const ShoeCloset = () => {
   const [shoeList, setShoeList] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchShoeCloset = async () => {
+  const fetchShoeCloset = async (userId: string) => {
     try {
-      const userId = auth.currentUser?.uid!;
       const shoeClosetRef = collection(db, "users", userId, "shoeCloset");
 
       const shoeDocs = await getDocs(shoeClosetRef);
@@ -39,7 +39,15 @@ const ShoeCloset = () => {
   };
 
   useEffect(() => {
-    fetchShoeCloset();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        fetchShoeCloset(user.uid);
+      } else {
+        setIsLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   if (isLoading) {
