@@ -40,7 +40,7 @@ const ShoeCloset = () => {
 
   useEffect(() => {
     fetchShoeCloset();
-  },[]);
+  }, []);
 
   if (isLoading) {
     return <div> Loading...</div>;
