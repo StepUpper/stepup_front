@@ -1,11 +1,11 @@
 import { saveMessageToShareMessages } from "@/apis/firebase/chatFirestore";
 import {
   chatListIcon,
-  closeIcon,
   copyLeftIcon,
   linkAngledIcon,
   loadingIcon,
 } from "@/assets/assets";
+import CloseIcon from "@assets/icons/close-icon.svg?react";
 import { TChatResponse } from "@/types/chat";
 import { Timestamp } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
@@ -81,7 +81,7 @@ const ChatShareModal = (props: ModalProps) => {
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold">공개 링크 생성됨</h2>
           <button onClick={onClose} className="text-gray-600">
-            <img src={closeIcon} alt="closeIcon" />
+            <CloseIcon stroke="black" />
           </button>
         </div>
         <p className="mt-2 text-sm text-gray-600">
