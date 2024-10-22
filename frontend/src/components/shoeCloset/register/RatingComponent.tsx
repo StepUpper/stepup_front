@@ -1,5 +1,4 @@
 import { starFilledIcon, starIcon } from "@/assets/assets";
-import { useState } from "react";
 
 const RatingComponent = ({
   rating,
@@ -18,7 +17,7 @@ const RatingComponent = ({
           별점을 눌러 만족도를 알려주세요.
         </p>
       </label>
-      <div className="flex w-fit">
+      <div className="flex w-fit cursor-pointer">
         <img
           src={rating > 0 ? starFilledIcon : starIcon}
           onClick={() => setRating(1)}

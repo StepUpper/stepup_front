@@ -7,12 +7,10 @@ import SelectedShoe from "@/components/shoeCloset/register/SelectedShoe";
 import { useLocation, useNavigate } from "react-router-dom";
 import { TShoeSearchResponse } from "@/types/product";
 import { useState } from "react";
-import userStore from "@/store/auth.store";
 import { addOrUpdateShoesToCloset } from "@/apis/firebase/closetFirestore";
 import { auth } from "@/firebase";
 
-const Review = () => {
-  const { user } = userStore();
+const ShoeClosetAdd = () => {
   const location = useLocation();
   const selectedShoe = location.state as TShoeSearchResponse | undefined; //선택된 신발
   const [rating, setRating] = useState(0);
@@ -48,7 +46,7 @@ const Review = () => {
     console.log("userId: ", userId);
     console.log("product: ", product);
     console.log("review: ", review);
-    navigate("/archive");
+    navigate("/shoecloset");
   };
 
   return (
@@ -61,7 +59,6 @@ const Review = () => {
         ) : (
           //선택된 상품 컴포넌트
           <SelectedShoe
-            shoeId={`${selectedShoe.brand}-${selectedShoe.modelNo}`}
             image={selectedShoe.image}
             modelName={selectedShoe.modelName}
             brand={selectedShoe.brand}
@@ -84,4 +81,4 @@ const Review = () => {
   );
 };
 
-export default Review;
+export default ShoeClosetAdd;

@@ -3,7 +3,7 @@ import Layout from "@components/layout/Layout";
 import NotFound from "@pages/NotFound/NotFound";
 import ShoeCloset from "@/pages/ShoeCloset/ShoeCloset";
 import Chat from "@pages/Chat/Chat";
-import Review from "@/pages/Review/Review";
+import ShoeClosetAdd from "@/pages/ShoeCloset/ShoeClosetAdd";
 import MyPage from "@pages/MyPage/MyPage";
 import MyShopping from "@pages/MyShopping/MyShopping";
 import MyFootInfo from "@pages/MyFootInfo/MyFootInfo";
@@ -14,7 +14,8 @@ import ChatShareView from "@components/Chat/ChatShareView";
 import EditUserInfoPage from "@pages/EditUserInfo/EditUserInfoPage";
 import ChangePasswordPage from "@pages/ChangePassword/ChangePasswordPage";
 import SearchShoeCloset from "@/pages/ShoeCloset/SearchShoeCloset";
-import ShoeClosetOverview from "@/pages/ShoeCloset/ShoeClosetOverview";
+import ShoeClosetDetail from "@/pages/ShoeCloset/ShoeClosetDetail";
+import ShoeClosetModify from "@/pages/ShoeCloset/ShoeClosetModify";
 
 const router = createBrowserRouter(
   [
@@ -28,20 +29,24 @@ const router = createBrowserRouter(
           loader: onBoardingLoader,
         },
         {
-          path: "/archive",
+          path: "/shoecloset",
           element: <ShoeCloset />,
         },
         {
-          path: "/archive/:shoeId",
-          element: <ShoeClosetOverview />,
+          path: "/shoecloset/:closetId",
+          element: <ShoeClosetDetail />,
         },
         {
-          path: "/archive/search",
+          path: "/shoecloset/search",
           element: <SearchShoeCloset />,
         },
         {
-          path: "/archive/review",
-          element: <Review />,
+          path: "/shoecloset/add",
+          element: <ShoeClosetAdd />,
+        },
+        {
+          path: "/shoecloset/modify/:closetId",
+          element: <ShoeClosetModify />,
         },
         {
           path: "/mypage",

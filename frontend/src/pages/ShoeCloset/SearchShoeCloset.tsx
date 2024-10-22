@@ -93,12 +93,12 @@ const SearchShoeCloset = () => {
   //신발 정보 전달 함수
   const handleButtonClick = () => {
     if (selectedResult) {
-      navigate("/archive/review", { state: selectedResult });
+      navigate("/shoecloset/add", { state: selectedResult });
     }
   };
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex min-h-real-screen flex-col">
       <div className="sticky top-0 z-10 bg-white">
         <Header type="back">신발 검색</Header>
         {/* 신발 텍스트 검색창 영역 */}
@@ -113,13 +113,12 @@ const SearchShoeCloset = () => {
         </div>
       </div>
       {searchResults.length > 0 ? (
-        <>
-          <div className="flex h-full grow p-4">
+        <div className="flex flex-col relative flex-1">
+          <div className="flex-1 h-full grow p-4">
             <SearchResultList>
               {searchResults.map((product, index) => (
                 <SearchResultList.Item
                   key={index}
-                  shoeId={`${product.brand}-${product.modelNo}`}
                   image={product.image}
                   modelName={product.modelName}
                   brand={product.brand}
@@ -132,7 +131,7 @@ const SearchShoeCloset = () => {
               ))}
             </SearchResultList>
           </div>
-          <div className="fixed bottom-0 z-10 w-screen bg-white px-4">
+          <div className="sticky bottom-0 z-10 w-full bg-white px-4">
             <BottomButton
               title={selectedResult ? "선택 완료" : "선택해주세요"}
               className={`${
@@ -142,7 +141,7 @@ const SearchShoeCloset = () => {
               onClick={handleButtonClick}
             />
           </div>
-        </>
+        </div>
       ) : noResults ? (
         <p>검색 결과 없음</p>
       ) : (

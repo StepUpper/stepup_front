@@ -9,7 +9,7 @@ const SearchShoeButton = () => {
     <InputField title="신발을 선택해 주세요">
       <Button
         className="item-center w-full rounded-md bg-grey-50 p-1.5"
-        onClick={() => navigate("/archive/search")}
+        onClick={() => navigate("/shoecloset/search")}
       >
         <img src={plusIcon} />
       </Button>

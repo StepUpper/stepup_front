@@ -4,28 +4,32 @@ import ProfileCard from "@components/shoeCloset/ProfileCard";
 import EmptyShoeComponent from "@components/shoeCloset/EmptyShoeComponent";
 import { useEffect, useState } from "react";
 import { auth, db } from "@/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, Timestamp } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import ShoeClosetLoading from "@/components/shoeCloset/ShoeClosetLoading";
+import { twMerge } from "tailwind-merge";
 
 export interface IProduct {
-  shoeId: string;
+  closetId: string;
   image: string;
   modelName: string;
+  updatedAt: Timestamp;
 }
 
 const ShoeCloset = () => {
   const [shoeList, setShoeList] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchShoeCloset = async () => {
+  const fetchShoeCloset = async (userId: string) => {
     try {
-      const userId = auth.currentUser?.uid!;
       const shoeClosetRef = collection(db, "users", userId, "shoeCloset");
 
       const shoeDocs = await getDocs(shoeClosetRef);
       const shoes = shoeDocs.docs.map((doc) => ({
-        shoeId: doc.id,
+        closetId: doc.id,
         image: doc.data().img,
         modelName: doc.data().modelName,
+        updatedAt: doc.data().updatedAt,
       }));
 
       setShoeList(shoes);
@@ -37,24 +41,34 @@ const ShoeCloset = () => {
   };
 
   useEffect(() => {
-    fetchShoeCloset();
-  },[]);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        fetchShoeCloset(user.uid);
+      } else {
+        setIsLoading(false);
+      }
+    });
 
-  if (isLoading) {
-    return <div> Loading...</div>;
-  }
+    return () => unsubscribe();
+  }, []);
 
   return (
-    <div className="flex h-full flex-col">
+    <div className={twMerge("flex flex-col", shoeList.length ? "" : "h-real-screen")}>
       <Header type="back">신발장</Header>
       <main className="flex h-full flex-col gap-7 p-4">
-        <ProfileCard />
-
-        {/* shoe list comp */}
-        {shoeList.length ? (
-          <ShoeListComponent list={shoeList} />
+        {isLoading ? (
+          <ShoeClosetLoading />
         ) : (
-          <EmptyShoeComponent />
+          <>
+            <ProfileCard />
+
+            {/* shoe list comp */}
+            {shoeList.length ? (
+              <ShoeListComponent list={shoeList} />
+            ) : (
+              <EmptyShoeComponent />
+            )}
+          </>
         )}
       </main>
     </div>

@@ -58,7 +58,6 @@ const RecentProducts = () => {
                   );
                 })}
             </ul>
-            <div className="mx-auto grid grid-cols-2 justify-items-center gap-[11px] py-[16px]"></div>
           </>
         ) : (
           <div className="item-center left-1/2 h-[50vh] flex-col gap-4">

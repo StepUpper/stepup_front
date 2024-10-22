@@ -10,12 +10,12 @@ const ShoeComponent = ({ prod }: ShoeComponentProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/archive/${prod.shoeId}`);
+    navigate(`/shoecloset/${prod.closetId}`);
   };
 
   return (
     <div 
-      className="rounded-md overflow-hidden bg-gray-50 item-center" 
+      className="rounded-md overflow-hidden bg-gray-50 item-center cursor-pointer" 
       onClick={handleClick} 
       style={{ aspectRatio: "1/1" }}
     >
