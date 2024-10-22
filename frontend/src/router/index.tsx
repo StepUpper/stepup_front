@@ -13,9 +13,10 @@ import { onBoardingLoader } from "@router/loaders/onBoarding";
 import ChatShareView from "@components/Chat/ChatShareView";
 import EditUserInfoPage from "@pages/EditUserInfo/EditUserInfoPage";
 import ChangePasswordPage from "@pages/ChangePassword/ChangePasswordPage";
-import SearchShoeCloset from "@/pages/ShoeCloset/SearchShoeCloset";
-import ShoeClosetDetail from "@/pages/ShoeCloset/ShoeClosetDetail";
-import ShoeClosetModify from "@/pages/ShoeCloset/ShoeClosetModify";
+import SearchShoeCloset from "@pages/ShoeCloset/SearchShoeCloset";
+import ShoeClosetDetail from "@pages/ShoeCloset/ShoeClosetDetail";
+import ShoeClosetModify from "@pages/ShoeCloset/ShoeClosetModify";
+import ImageSearchShoeCloset from "@pages/ShoeCloset/ImageSearchShoeCloset";
 
 const router = createBrowserRouter(
   [
@@ -39,6 +40,10 @@ const router = createBrowserRouter(
         {
           path: "/shoecloset/search",
           element: <SearchShoeCloset />,
+        },
+        {
+          path: "/shoecloset/search/image",
+          element: <ImageSearchShoeCloset />,
         },
         {
           path: "/shoecloset/add",
