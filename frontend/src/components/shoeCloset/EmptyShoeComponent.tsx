@@ -11,7 +11,7 @@ const EmptyShoeComponent = () => {
         <BottomButton
           title="신발 등록하기"
           onClick={() => {
-            navigate("/archive/review");
+            navigate("/shoecloset/add");
           }}
         />
       </div>

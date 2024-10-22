@@ -25,7 +25,7 @@ interface IShoeCloset {
   width: string;
 }
 
-const ShoeClosetOverview = () => {
+const ShoeClosetDetail = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -83,20 +83,17 @@ const ShoeClosetOverview = () => {
   }, [closetId]);
 
   const handleModifyClick = () => {
-    navigate(`/archive/modify/${closetId}`);
+    navigate(`/shoecloset/modify/${closetId}`);
   };
 
   const handleDeleteClick = async (userId: string, deleteId: string) => {
     await deleteShoesFromCloset(userId, deleteId);
-    navigate("/archive");
+    navigate("/shoecloset");
   };
 
   return (
-    <div className="flex h-full flex-col">
-      <Header type="back" optionButton={true} onOptionClick={handleOptionClick}>
-        신발 상세
-      </Header>
-
+    <div className="flex flex-col pb-20">
+      <Header type="back" optionButton={true} onOptionClick={handleOptionClick} />
       <main className="p-4">
         {!detail || isLoading ? (
           <ShoeClosetDetailLoading />
@@ -130,4 +127,4 @@ const ShoeClosetOverview = () => {
     </div>
   );
 };
-export default ShoeClosetOverview;
+export default ShoeClosetDetail;

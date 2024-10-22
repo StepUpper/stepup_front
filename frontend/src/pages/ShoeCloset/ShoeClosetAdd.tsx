@@ -10,7 +10,7 @@ import { useState } from "react";
 import { addOrUpdateShoesToCloset } from "@/apis/firebase/closetFirestore";
 import { auth } from "@/firebase";
 
-const Review = () => {
+const ShoeClosetAdd = () => {
   const location = useLocation();
   const selectedShoe = location.state as TShoeSearchResponse | undefined; //선택된 신발
   const [rating, setRating] = useState(0);
@@ -46,7 +46,7 @@ const Review = () => {
     console.log("userId: ", userId);
     console.log("product: ", product);
     console.log("review: ", review);
-    navigate("/archive");
+    navigate("/shoecloset");
   };
 
   return (
@@ -81,4 +81,4 @@ const Review = () => {
   );
 };
 
-export default Review;
+export default ShoeClosetAdd;

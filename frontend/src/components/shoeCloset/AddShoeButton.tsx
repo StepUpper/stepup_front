@@ -8,7 +8,7 @@ const AddShoeButton = () => {
     <Button
       className="item-center size-full rounded-md bg-zinc-200"
       onClick={() => {
-        navigate("/archive/review");
+        navigate("/shoecloset/add");
       }}
     >
       <img src={plusIcon} />

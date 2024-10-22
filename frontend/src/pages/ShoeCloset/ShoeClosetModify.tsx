@@ -26,7 +26,7 @@ interface ISelectedShoe {
   width : string;
 }
 
-const Modify = () => {
+const ShoeClosetModify = () => {
   const { closetId } = useParams<{closetId: string}>();
 
   const [selectedShoe, setSelectedShoe] = useState<ISelectedShoe | null>(null);
@@ -102,7 +102,7 @@ const Modify = () => {
     await addOrUpdateShoesToCloset(userId, product, review);
 
     console.log("신발장 업데이트 : ", {userId, product, review});
-    navigate(`/archive/${closetId}`)
+    navigate(`/shoecloset/${closetId}`)
   }
 
   if (!selectedShoe) {
@@ -134,4 +134,4 @@ const Modify = () => {
   );
 };
 
-export default Modify;
+export default ShoeClosetModify;
