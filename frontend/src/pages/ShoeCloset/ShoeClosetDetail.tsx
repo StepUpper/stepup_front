@@ -28,6 +28,7 @@ interface IShoeCloset {
 const ShoeClosetDetail = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   //헤더 옵션 메뉴 상태
   const [isOptionMenuOpen, setIsOptionMenuOpen] = useState(false);
@@ -73,8 +74,10 @@ const ShoeClosetDetail = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        setIsLoggedIn(true);
         fetchShoeClosetInfo(user.uid);
       } else {
+        setIsLoggedIn(false);
         setIsLoading(false);
       }
     });
@@ -119,6 +122,7 @@ const ShoeClosetDetail = () => {
       </main>
       {isOptionMenuOpen && (
         <ShoeClosetOptionMenu
+          isLoggedIn={isLoggedIn}
           onClose={handleOptionClick}
           onModify={handleModifyClick}
           onDelete={() => handleDeleteClick(auth.currentUser?.uid!, closetId!)}

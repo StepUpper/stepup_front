@@ -5,10 +5,12 @@ const ShoeClosetOptionMenu = ({
   onClose, 
   onModify,
   onDelete,
+  isLoggedIn,
 }: { 
   onClose: () => void;
   onModify: () => void;
   onDelete: () => void;
+  isLoggedIn: boolean;
 }) => {
   return (
     <div
@@ -16,17 +18,22 @@ const ShoeClosetOptionMenu = ({
       onClick={onClose}
     >
       <div className="flex border-separate flex-col space-y-[1.5px]">
-        <Button className="flex justify-center gap-2 bg-white px-4 py-2.5 text-red" onClick={onDelete}>
-          <img src={trashRedIcon} alt="삭제 아이콘" />
-          삭제하기
-        </Button>
-        <Button 
-          className="flex justify-center gap-2 bg-white px-4 py-2.5" 
-          onClick={onModify}
-        >
-          <img src={pencilIcon} alt="수정 아이콘"  />
-          수정하기
-        </Button>
+        {isLoggedIn ? (
+          <>
+            <Button 
+              className="flex justify-center gap-2 bg-white px-4 py-2.5 text-red" 
+              onClick={onDelete}>
+              <img src={trashRedIcon} alt="삭제 아이콘" />
+              삭제하기
+            </Button>
+            <Button 
+              className="flex justify-center gap-2 bg-white px-4 py-2.5" 
+              onClick={onModify}
+            >
+              <img src={pencilIcon} alt="수정 아이콘"  />
+              수정하기
+            </Button>
+          </>) : ("")}
         <Button className="flex justify-center gap-2 bg-white px-4 py-2.5">
           <img src={shareBlackIcon} alt="공유 아이콘" />
           공유하기
