@@ -40,7 +40,7 @@ const MyPage = () => {
           </Button>
           <Button
             className="flex h-[60px] grow place-content-center items-center gap-[10px] bg-white p-[10px]"
-            onClick={() => navigate("/archive")}
+            onClick={() => navigate("/shoecloset")}
           >
             <img src={smileIcon} className="w-[14px]" />
             <span className="text-body3 font-medium"> 신발장 </span>

@@ -7,6 +7,7 @@ import { auth, db } from "@/firebase";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import ShoeClosetLoading from "@/components/shoeCloset/ShoeClosetLoading";
+import { twMerge } from "tailwind-merge";
 
 export interface IProduct {
   closetId: string;
@@ -52,7 +53,7 @@ const ShoeCloset = () => {
   }, []);
 
   return (
-    <div className="flex h-full flex-col">
+    <div className={twMerge("flex flex-col", shoeList.length ? "" : "h-real-screen")}>
       <Header type="back">신발장</Header>
       <main className="flex h-full flex-col gap-7 p-4">
         {isLoading ? (

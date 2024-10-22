@@ -244,7 +244,7 @@ const SideMenu = ({
                       </Button>
                       <Button
                         className="bg-white"
-                        onClick={() => navigate("/archive")}
+                        onClick={() => navigate("/shoecloset")}
                       >
                         신발장
                       </Button>
