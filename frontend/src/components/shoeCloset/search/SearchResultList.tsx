@@ -15,17 +15,7 @@ const SearchResultList = ({ children }: { children: ReactNode }) => {
 export default SearchResultList;
 
 const SearchResultItem = (props: SearchResultItemProps) => {
-  const {
-    shoeId, //brand+modelNo
-    image,
-    modelName,
-    brand,
-    modelNo,
-    productId,
-    link,
-    onClick,
-    className,
-  } = props;
+  const { image, modelName, brand, onClick, className } = props;
   return (
     <li
       className={twMerge("flex items-center rounded-md", className)}

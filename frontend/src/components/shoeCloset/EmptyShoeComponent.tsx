@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const EmptyShoeComponent = () => {
   const navigate = useNavigate();
   return (
-    <div className="item-center relative h-full">
+    <div className="item-center relative flex h-[80vh]">
       <EmptyShoeCard />
       <div className="absolute bottom-0 w-full">
         <BottomButton
