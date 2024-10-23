@@ -61,14 +61,14 @@ const ShoeClosetDetail = () => {
       } else {
         console.warn("등록되지 않은 신발입니다");
         alert("등록되지 않은 신발입니다");
-        navigate("/shoecloset");
+        navigate("/shoecloset", {replace : true});
       }
     } catch (error) {
       console.error(
         "신발장 정보를 가져오는 도중 에러가 발생했습니다. : ",
         error
       );
-      navigate("/shoecloset");
+      navigate("/shoecloset", {replace : true});
     } finally {
       setIsLoading(false);
     }
@@ -82,7 +82,8 @@ const ShoeClosetDetail = () => {
       } else {
         setIsLoggedIn(false);
         setIsLoading(false);
-        navigate("/shoecloset");      }
+        navigate("/shoecloset", {replace : true});      
+      }
     });
 
     return () => unsubscribe();
@@ -94,7 +95,7 @@ const ShoeClosetDetail = () => {
 
   const handleDeleteClick = async (userId: string, deleteId: string) => {
     await deleteShoesFromCloset(userId, deleteId);
-    navigate("/shoecloset");
+    navigate("/shoecloset", { replace : true });;
   };
 
   if (!detail) {
