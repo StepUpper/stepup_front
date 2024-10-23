@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { useNavigate } from "react-router-dom";
 import Button from "@components/common/html/Button";
@@ -6,6 +6,8 @@ import { cameraIcon } from "@assets/assets";
 import ImageSelectIcon from "@assets/icons/image-select-icon.svg?react";
 import CloseIcon from "@assets/icons/close-icon.svg?react";
 import CameraFocusOverlay from "@components/shoeCloset/search/ImageSearch/CameraFocusOverlay";
+import { useBottomSheet } from "@store/bottomSheet.store";
+import { uploadImage } from "@apis/firebase/storage";
 
 const videoConstraints = {
   facingMode: "user",
@@ -13,12 +15,46 @@ const videoConstraints = {
 
 const CameraView = () => {
   const webcamRef = useRef<Webcam | null>(null);
-
+  const [isCapture, setIsCapture] = useState(false);
   const navigate = useNavigate();
 
-  const capture = useCallback(() => {
-    const imageSrc = webcamRef.current?.getScreenshot();
-    console.log(imageSrc);
+  const { open, close } = useBottomSheet();
+  const imageSearchSheet = useBottomSheet(
+    (state) => state.sheets["imageSearch"]
+  );
+  
+  // 검색 중 촬영 중지
+  useEffect(() => {
+    if (!imageSearchSheet?.isOpen) {
+      setIsCapture(false);
+      webcamRef.current?.video?.play();
+    }
+  }, [imageSearchSheet?.isOpen, isCapture]);
+
+  // 이미지 촬영과 스토리지 저장 및 url 가져오기
+  const handleImageUpload = useCallback(async () => {
+    setIsCapture(false);
+    const imageSrc = webcamRef.current?.getScreenshot() || null;
+
+    if (imageSrc) {
+      try {
+        setIsCapture(true);
+        open("imageSearch");
+        webcamRef.current?.video?.pause();
+
+        const id = Date.now().toString();
+        const downloadURL = await uploadImage(imageSrc, id);
+        console.log("이미지 업로드 성공:", downloadURL);
+
+        navigate(`/shoecloset/search/image?query=${id}`, {
+          state: downloadURL,
+        });
+      } catch (error) {
+        console.error("이미지 업로드 오류:", error);
+        alert("다시 촬영해주세요.");
+        close("imageSearch");
+      }
+    }
   }, [webcamRef]);
 
   const handleBack = () => {
@@ -48,9 +84,9 @@ const CameraView = () => {
         className="size-full object-cover"
       />
       {/* 신발 위치 표시 영역 */}
-      <CameraFocusOverlay />
+      {!isCapture && <CameraFocusOverlay />}
       {/* 하단 갤러리 & 사진 촬영 버튼 영역 */}
-      <div className="absolute bottom-[3.75rem] z-[2] flex w-4/5 flex-col items-center gap-3">
+      <div className="absolute bottom-[3.75rem] z-[1] flex w-4/5 flex-col items-center gap-3">
         <div className="w-fit rounded bg-black/50 px-3 py-1 text-body3 leading-6 text-white">
           촬영 버튼을 탭하여 검색
         </div>
@@ -60,7 +96,7 @@ const CameraView = () => {
           </Button>
           <Button
             className="rounded-full bg-white px-5 py-[1.375rem]"
-            onClick={capture}
+            onClick={handleImageUpload}
           >
             <img src={cameraIcon} alt="사진 촬영" width="26px" />
           </Button>
