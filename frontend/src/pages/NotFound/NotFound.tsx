@@ -15,7 +15,7 @@ const NotFound = () => {
               explore on the home page.{" "}
             </p>
             <a
-              href="#"
+              href="/stepup_front"
               className="my-4 inline-flex rounded-lg bg-black px-5 py-2.5 text-center text-sm font-medium text-white"
             >
               Back to Homepage
