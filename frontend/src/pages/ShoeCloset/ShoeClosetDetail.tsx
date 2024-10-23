@@ -60,12 +60,15 @@ const ShoeClosetDetail = () => {
         setDetail(data);
       } else {
         console.warn("등록되지 않은 신발입니다");
+        alert("등록되지 않은 신발입니다");
+        navigate("/shoecloset");
       }
     } catch (error) {
       console.error(
         "신발장 정보를 가져오는 도중 에러가 발생했습니다. : ",
         error
       );
+      navigate("/shoecloset");
     } finally {
       setIsLoading(false);
     }
@@ -79,7 +82,7 @@ const ShoeClosetDetail = () => {
       } else {
         setIsLoggedIn(false);
         setIsLoading(false);
-      }
+        navigate("/shoecloset");      }
     });
 
     return () => unsubscribe();
@@ -94,38 +97,43 @@ const ShoeClosetDetail = () => {
     navigate("/shoecloset");
   };
 
+  if (!detail) {
+    return null;
+  };
+
+  if (isLoading) {
+    return <ShoeClosetDetailLoading />;
+  }
+
   return (
     <div className="flex flex-col pb-20">
       <Header type="back" optionButton={true} onOptionClick={handleOptionClick} />
       <main className="p-4">
-        {!detail || isLoading ? (
-          <ShoeClosetDetailLoading />
-        ) : (
-          <>
-            <ShoeClosetThumb img={detail.img} modelName={detail.modelName} />
-            <ShoeClosetMainInfo
-              rating={detail.rating}
-              brand={detail.brand}
-              modelName={detail.modelName}
-            />
-            <ShoeClosetDetailInfo
-              len={detail.len}
-              width={detail.width}
-              height={detail.height}
-              soft={detail.soft}
-              weight={detail.weight}
-              recommendSize={detail.recommendSize}
-              text={detail.text}
-            />
-          </>
-        )}
+        <ShoeClosetThumb img={detail.img} modelName={detail.modelName} />
+        <ShoeClosetMainInfo
+          rating={detail.rating}
+          brand={detail.brand}
+          modelName={detail.modelName}
+        />
+        <ShoeClosetDetailInfo
+          len={detail.len}
+          width={detail.width}
+          height={detail.height}
+          soft={detail.soft}
+          weight={detail.weight}
+          recommendSize={detail.recommendSize}
+          text={detail.text}
+        />
       </main>
       {isOptionMenuOpen && (
         <ShoeClosetOptionMenu
           isLoggedIn={isLoggedIn}
           onClose={handleOptionClick}
+          modifyButton={true}
           onModify={handleModifyClick}
+          deleteButton={true}
           onDelete={() => handleDeleteClick(auth.currentUser?.uid!, closetId!)}
+          shareButton={true}
         />
       )}
     </div>
