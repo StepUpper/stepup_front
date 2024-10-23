@@ -8,6 +8,7 @@ import { collection, getDocs, Timestamp } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import ShoeClosetLoading from "@/components/shoeCloset/ShoeClosetLoading";
 import { twMerge } from "tailwind-merge";
+import ShoeClosetOptionMenu from "@/components/shoeCloset/details/ShoeClosetOptionMenu";
 
 export interface IProduct {
   closetId: string;
@@ -17,6 +18,14 @@ export interface IProduct {
 }
 
 const ShoeCloset = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  //헤더 옵션 메뉴 상태
+  const [isOptionMenuOpen, setIsOptionMenuOpen] = useState(false);
+  const handleOptionClick = () => {
+    setIsOptionMenuOpen((prev) => !prev);
+  };
+  
   const [shoeList, setShoeList] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -43,9 +52,11 @@ const ShoeCloset = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        setIsLoggedIn(true);
         fetchShoeCloset(user.uid);
       } else {
         setIsLoading(false);
+        setIsLoggedIn(false);
       }
     });
 
@@ -54,7 +65,9 @@ const ShoeCloset = () => {
 
   return (
     <div className={twMerge("flex flex-col", shoeList.length ? "" : "h-real-screen")}>
-      <Header type="back">신발장</Header>
+      <Header type="back" optionButton={true} onOptionClick={handleOptionClick}>
+        신발장
+      </Header>
       <main className="flex h-full flex-col gap-7 p-4">
         {isLoading ? (
           <ShoeClosetLoading />
@@ -71,6 +84,13 @@ const ShoeCloset = () => {
           </>
         )}
       </main>
+      {isOptionMenuOpen && (
+        <ShoeClosetOptionMenu
+          isLoggedIn={isLoggedIn}
+          onClose={handleOptionClick}
+          shareButton={true}
+        />
+      )}
     </div>
   );
 };
