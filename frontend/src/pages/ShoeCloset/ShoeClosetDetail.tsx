@@ -60,6 +60,7 @@ const ShoeClosetDetail = () => {
         setDetail(data);
       } else {
         console.warn("등록되지 않은 신발입니다");
+        navigate("*", {replace : true});
       }
     } catch (error) {
       console.error(
