@@ -36,6 +36,7 @@ import searchIcon from "@assets/icons/search-icon.svg";
 import trashRedIcon from "@assets/icons/trash-red-icon.svg";
 import shareBlackIcon from "@assets/icons/share-black-icon.svg";
 import pencilIcon from "@assets/icons/pencil-icon.svg";
+import retryIcon from "@assets/icons/retry-arrow-icon.png";
 
 import defaultProfileImg from "@assets/images/default-profile-img.svg";
 import defaultProfilePlusImg from "@assets/images/default-profile-plus-img.svg";
@@ -87,6 +88,7 @@ export {
   trashRedIcon,
   shareBlackIcon,
   pencilIcon,
+  retryIcon,
   // ******* IMAGE
   defaultProfileImg,
   defaultProfilePlusImg,

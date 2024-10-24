@@ -16,7 +16,7 @@ import ChangePasswordPage from "@pages/ChangePassword/ChangePasswordPage";
 import SearchShoeCloset from "@pages/ShoeCloset/SearchShoeCloset";
 import ShoeClosetDetail from "@pages/ShoeCloset/ShoeClosetDetail";
 import ShoeClosetModify from "@pages/ShoeCloset/ShoeClosetModify";
-import ImageSearchShoeCloset from "@pages/ShoeCloset/ImageSearchShoeCloset";
+import ShoeImageSearch from "@pages/ShoeCloset/ShoeImageSearch";
 
 const router = createBrowserRouter(
   [
@@ -43,7 +43,7 @@ const router = createBrowserRouter(
         },
         {
           path: "/shoecloset/search/image",
-          element: <ImageSearchShoeCloset />,
+          element: <ShoeImageSearch />,
         },
         {
           path: "/shoecloset/add",

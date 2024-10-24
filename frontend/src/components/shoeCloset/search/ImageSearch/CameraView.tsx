@@ -22,7 +22,7 @@ const CameraView = () => {
   const imageSearchSheet = useBottomSheet(
     (state) => state.sheets["imageSearch"]
   );
-  
+
   // 검색 중 촬영 중지
   useEffect(() => {
     if (!imageSearchSheet?.isOpen) {
@@ -47,6 +47,7 @@ const CameraView = () => {
         console.log("이미지 업로드 성공:", downloadURL);
 
         navigate(`/shoecloset/search/image?query=${id}`, {
+          replace: true,
           state: downloadURL,
         });
       } catch (error) {
@@ -57,6 +58,7 @@ const CameraView = () => {
     }
   }, [webcamRef]);
 
+  // 닫기 (검색창으로 이동)
   const handleBack = () => {
     navigate(-1);
   };
