@@ -32,7 +32,6 @@ const PLPProductList = (props: PLPProductListProps) => {
   // 데이터가 변경되면 현재 limit만큼의 데이터를 displayData에 설정
   useEffect(() => {
     setDisplayData(products.slice(0, itemsSize));
-    console.log(displayData)
   }, [products, itemsSize]);
 
   // 2. 스크롤 감지해서 추가 데이터 로딩
@@ -62,7 +61,7 @@ const PLPProductList = (props: PLPProductListProps) => {
           <ul className="no-scrollbar grid h-[calc(100vh-200px)] w-full grid-cols-2 gap-3 overflow-y-auto md:grid-cols-4">
             {displayData.map((product, index) => {
               const shoeId = product.brand + product.modelNo;
-              const isLiked =likeShoes?.some((shoe) => shoe.shoeId === shoeId);
+              const isLiked = likeShoes?.some((shoe) => shoe.shoeId === shoeId);
 
               return (
                 <ProductItem
