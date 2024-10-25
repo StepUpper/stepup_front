@@ -6,23 +6,16 @@ import SubmitBottomButton from "@/components/shoeCloset/register/SubmitBottomBut
 import SelectedShoe from "@/components/shoeCloset/register/SelectedShoe";
 import { useLocation, useNavigate } from "react-router-dom";
 import { TShoeSearchResponse } from "@/types/product";
-import { useState } from "react";
 import { addOrUpdateShoesToCloset } from "@/apis/firebase/closetFirestore";
 import { auth } from "@/firebase";
+import { useReviewStore } from "@/store/review.store";
 
 const ShoeClosetAdd = () => {
   const location = useLocation();
   const selectedShoe = location.state as TShoeSearchResponse | undefined; //선택된 신발
-  const [rating, setRating] = useState(0);
-  const [reviewData, setReviewData] = useState({
-    len: "",
-    width: "",
-    height: "",
-    soft: "",
-    weight: "",
-    recommendSize: "2",
-    text: "",
-  });
+  
+  const {rating, reviewData, setRating, setReviewData, resetReviewData } = useReviewStore();
+
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -46,6 +39,9 @@ const ShoeClosetAdd = () => {
     console.log("userId: ", userId);
     console.log("product: ", product);
     console.log("review: ", review);
+
+    resetReviewData();
+
     navigate("/shoecloset");
   };
 

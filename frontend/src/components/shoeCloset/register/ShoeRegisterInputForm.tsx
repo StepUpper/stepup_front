@@ -16,7 +16,7 @@ const ShoeRegisterInputForm = ({
   setReviewData,
 }: {
   reviewData: IReviewData;
-  setReviewData: (review: IReviewData) => void;
+  setReviewData: (review: Partial<IReviewData>) => void;
 }) => {
   const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLButtonElement;
