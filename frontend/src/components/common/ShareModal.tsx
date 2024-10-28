@@ -66,6 +66,10 @@ const ShareModal = (props: ShareModalProps) => {
     setTimeout(() => {
       setIsCopying(false);
       setIsCopied(true);
+
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 3000)
     }, 500);
   };
 
