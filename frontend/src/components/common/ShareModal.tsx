@@ -59,7 +59,7 @@ const ShareModal = (props: ShareModalProps) => {
   const generateShareableLink = async () => {
     setIsCopying(true);
     const baseUrl = `${window.location.origin}/stepup_front`;
-    const shareUrl = `${baseUrl}${link}/${id}}`;
+    const shareUrl = `${baseUrl}${link}/${id}`;
 
     await navigator.clipboard.writeText(shareUrl);
 
@@ -69,7 +69,7 @@ const ShareModal = (props: ShareModalProps) => {
 
       setTimeout(() => {
         setIsCopied(false);
-      }, 3000)
+      }, 3000);
     }, 500);
   };
 
