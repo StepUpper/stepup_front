@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { thumbsDownIcon, shareIcon } from "@assets/assets";
-import ChatShareModal from "./ChatShareModal";
+import { thumbsDownIcon, shareIcon, chatListIcon } from "@assets/assets";
 import { getMessageById } from "@/apis/firebase/chatFirestore";
 import useChatStore from "@/store/chat.store";
 import userStore from "@/store/auth.store";
 import { TChatResponse } from "@/types/chat";
 import { Timestamp } from "firebase/firestore";
+import ShareModal from "@common/ShareModal";
 
 interface ChatShareDislikeBoxProps {
   docId?: string | null;
@@ -57,7 +57,22 @@ const ChatShareDislikeBox = (props: ChatShareDislikeBoxProps) => {
         <img src={thumbsDownIcon} alt="thumbsDownIcon" />
       </div>
 
-      {isModalOpen && <ChatShareModal onClose={closeModal} message={message} />}
+      {isModalOpen && message && (
+        <ShareModal
+          icon={chatListIcon}
+          id={message.id}
+          desc="채팅의 공개 링크가 생성되었습니다. 공유를 원하는 곳에 어디든지
+          전달하실 수 있습니다."
+          link="/share"
+          content={message.userMessage}
+          timestamp={
+            message.timestamp instanceof Date
+              ? message.timestamp
+              : message.timestamp.toDate()
+          }
+          onClose={closeModal}
+        />
+      )}
     </>
   );
 };
