@@ -6,6 +6,7 @@ import userStore from "@/store/auth.store";
 import { TChatResponse } from "@/types/chat";
 import { Timestamp } from "firebase/firestore";
 import ShareModal from "@common/ShareModal";
+import useModal from "@/hooks/useModal";
 
 interface ChatShareDislikeBoxProps {
   docId?: string | null;
@@ -13,7 +14,7 @@ interface ChatShareDislikeBoxProps {
 
 const ChatShareDislikeBox = (props: ChatShareDislikeBoxProps) => {
   const { docId } = props;
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
   const [message, setMessage] = useState<{
     id: string;
     userMessage: string;
@@ -24,14 +25,13 @@ const ChatShareDislikeBox = (props: ChatShareDislikeBoxProps) => {
   const { roomId } = useChatStore();
   const userId = user?.uid!;
 
-  const openModal = async () => {
+  const handleOpenModal = async () => {
     if (user) {
-      setIsModalOpen(true);
       try {
         const fetchedMessage = await getMessageById(userId, roomId!, docId!);
         if (fetchedMessage) {
           setMessage(fetchedMessage);
-          setIsModalOpen(true);
+          openModal();
         }
       } catch (error) {
         console.error(error);
@@ -41,17 +41,13 @@ const ChatShareDislikeBox = (props: ChatShareDislikeBoxProps) => {
     }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <>
       <div className="flex gap-3 py-3 pl-8">
         <img
           src={shareIcon}
           alt="shareIcon"
-          onClick={openModal}
+          onClick={handleOpenModal}
           className="cursor-pointer"
         />
         <img src={thumbsDownIcon} alt="thumbsDownIcon" />
