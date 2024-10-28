@@ -6,7 +6,7 @@ import userStore from "@/store/auth.store";
 import { TChatResponse } from "@/types/chat";
 import { Timestamp } from "firebase/firestore";
 import ShareModal from "@common/ShareModal";
-import useModal from "@/hooks/useModal";
+import useToggle from "@hooks/useToggle";
 
 interface ChatShareDislikeBoxProps {
   docId?: string | null;
@@ -14,7 +14,11 @@ interface ChatShareDislikeBoxProps {
 
 const ChatShareDislikeBox = (props: ChatShareDislikeBoxProps) => {
   const { docId } = props;
-  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    isOpen: isModalOpen,
+    open: openModal,
+    close: closeModal,
+  } = useToggle();
   const [message, setMessage] = useState<{
     id: string;
     userMessage: string;

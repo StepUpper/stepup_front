@@ -6,9 +6,10 @@ import { useEffect, useState } from "react";
 import { auth, db } from "@/firebase";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import ShoeClosetLoading from "@/components/shoeCloset/ShoeClosetLoading";
+import ShoeClosetLoading from "@components/shoeCloset/ShoeClosetLoading";
 import { twMerge } from "tailwind-merge";
-import ShoeClosetOptionMenu from "@/components/shoeCloset/details/ShoeClosetOptionMenu";
+import ShoeClosetOptionMenu from "@components/shoeCloset/details/ShoeClosetOptionMenu";
+import useToggle from "@hooks/useToggle";
 
 export interface IProduct {
   closetId: string;
@@ -21,11 +22,8 @@ const ShoeCloset = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   //헤더 옵션 메뉴 상태
-  const [isOptionMenuOpen, setIsOptionMenuOpen] = useState(false);
-  const handleOptionClick = () => {
-    setIsOptionMenuOpen((prev) => !prev);
-  };
-  
+  const { isOpen: isOptionMenuOpen, toggle: toggleOptionMenu } = useToggle();
+
   const [shoeList, setShoeList] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -64,8 +62,13 @@ const ShoeCloset = () => {
   }, []);
 
   return (
-    <div className={twMerge("flex flex-col", shoeList.length ? "" : "h-real-screen")}>
-      <Header type="back" optionButton={true} onOptionClick={handleOptionClick}>
+    <div
+      className={twMerge(
+        "flex flex-col",
+        shoeList.length ? "" : "h-real-screen"
+      )}
+    >
+      <Header type="back" optionButton={true} onOptionClick={toggleOptionMenu}>
         신발장
       </Header>
       <main className="flex h-full flex-col gap-7 p-4">
@@ -87,7 +90,7 @@ const ShoeCloset = () => {
       {isOptionMenuOpen && (
         <ShoeClosetOptionMenu
           isLoggedIn={isLoggedIn}
-          onClose={handleOptionClick}
+          onClose={toggleOptionMenu}
           shareButton={true}
         />
       )}
