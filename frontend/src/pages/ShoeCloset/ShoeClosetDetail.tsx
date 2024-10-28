@@ -28,6 +28,7 @@ interface IShoeCloset {
 const ShoeClosetDetail = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   //헤더 옵션 메뉴 상태
   const [isOptionMenuOpen, setIsOptionMenuOpen] = useState(false);
@@ -59,12 +60,14 @@ const ShoeClosetDetail = () => {
         setDetail(data);
       } else {
         console.warn("등록되지 않은 신발입니다");
+        navigate("*", {replace : true});
       }
     } catch (error) {
       console.error(
         "신발장 정보를 가져오는 도중 에러가 발생했습니다. : ",
         error
       );
+      navigate("/shoecloset", {replace : true});
     } finally {
       setIsLoading(false);
     }
@@ -73,9 +76,12 @@ const ShoeClosetDetail = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        setIsLoggedIn(true);
         fetchShoeClosetInfo(user.uid);
       } else {
+        setIsLoggedIn(false);
         setIsLoading(false);
+        navigate("/shoecloset", {replace : true});      
       }
     });
 
@@ -88,40 +94,46 @@ const ShoeClosetDetail = () => {
 
   const handleDeleteClick = async (userId: string, deleteId: string) => {
     await deleteShoesFromCloset(userId, deleteId);
-    navigate("/shoecloset");
+    navigate("/shoecloset", { replace : true });;
   };
+
+  if (!detail) {
+    return null;
+  };
+
+  if (isLoading) {
+    return <ShoeClosetDetailLoading />;
+  }
 
   return (
     <div className="flex flex-col pb-20">
       <Header type="back" optionButton={true} onOptionClick={handleOptionClick} />
       <main className="p-4">
-        {!detail || isLoading ? (
-          <ShoeClosetDetailLoading />
-        ) : (
-          <>
-            <ShoeClosetThumb img={detail.img} modelName={detail.modelName} />
-            <ShoeClosetMainInfo
-              rating={detail.rating}
-              brand={detail.brand}
-              modelName={detail.modelName}
-            />
-            <ShoeClosetDetailInfo
-              len={detail.len}
-              width={detail.width}
-              height={detail.height}
-              soft={detail.soft}
-              weight={detail.weight}
-              recommendSize={detail.recommendSize}
-              text={detail.text}
-            />
-          </>
-        )}
+        <ShoeClosetThumb img={detail.img} modelName={detail.modelName} />
+        <ShoeClosetMainInfo
+          rating={detail.rating}
+          brand={detail.brand}
+          modelName={detail.modelName}
+        />
+        <ShoeClosetDetailInfo
+          len={detail.len}
+          width={detail.width}
+          height={detail.height}
+          soft={detail.soft}
+          weight={detail.weight}
+          recommendSize={detail.recommendSize}
+          text={detail.text}
+        />
       </main>
       {isOptionMenuOpen && (
         <ShoeClosetOptionMenu
+          isLoggedIn={isLoggedIn}
           onClose={handleOptionClick}
+          modifyButton={true}
           onModify={handleModifyClick}
+          deleteButton={true}
           onDelete={() => handleDeleteClick(auth.currentUser?.uid!, closetId!)}
+          shareButton={true}
         />
       )}
     </div>

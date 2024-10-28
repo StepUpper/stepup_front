@@ -98,7 +98,7 @@ const SearchShoeCloset = () => {
   };
 
   return (
-    <div className="flex min-h-real-screen flex-col">
+    <div className="flex h-real-screen flex-col">
       <div className="sticky top-0 z-10 bg-white">
         <Header type="back">신발 검색</Header>
         {/* 신발 텍스트 검색창 영역 */}
