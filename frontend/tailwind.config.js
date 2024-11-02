@@ -31,6 +31,15 @@ export default {
       boxShadow: {
         'custom': '0 -1px 4px rgba(0, 0, 0, 0.15)',
       },
+      keyframes: {
+        'dot-spin': {
+          '0%, 100%': { opacity: 0.2 },
+          '50%': { opacity: 1 },
+        },
+      },
+      animation: {
+        'dot-spin': 'dot-spin 1.2s infinite ease-in-out',
+      },
     },
     
   },
