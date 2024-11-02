@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   closeIcon,
   copyLeftIcon,
   linkAngledIcon,
   loadingIcon,
 } from "@assets/assets";
+import formattedDate from "@utils/formattedDate";
 
 interface ShareModalProps {
   id: string;
@@ -49,11 +50,10 @@ const ShareModal = (props: ShareModalProps) => {
   }, [modalRef, onClose]);
 
   // 날짜 포멧
-  const formattedDate = timestamp?.toLocaleDateString("ko-KR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedTimestamp = useMemo(
+    () => formattedDate(timestamp),
+    [timestamp]
+  );
 
   // 링크 복사
   const generateShareableLink = async () => {
@@ -87,9 +87,9 @@ const ShareModal = (props: ShareModalProps) => {
         </div>
         <p className="mt-2 text-sm text-gray-600">{desc}</p>
         <div className="mt-4 rounded-lg bg-gray-100 p-4">
-          <img src={icon} alt="아이콘" />
+          <img src={icon} alt="공유 아이콘" className="w-6" />
           <div className="text-md mt-2 font-semibold">{content}</div>
-          <div className="mt-2 text-xs text-gray-500">{formattedDate}</div>
+          <div className="mt-2 text-xs text-gray-500">{formattedTimestamp}</div>
         </div>
 
         <button

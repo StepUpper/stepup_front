@@ -5,6 +5,8 @@ import { getSharedMessageById } from "@/apis/firebase/chatFirestore";
 import { chatListIcon } from "@/assets/assets";
 import ChatUserMessage from "./ChatUserMessage";
 import ChatMessage from "./ChatMessage";
+import ShareView from "@components/common/ShareView";
+import { Timestamp } from "firebase/firestore";
 
 interface SeparatedMessage {
   type: "user" | "bot";
@@ -12,10 +14,9 @@ interface SeparatedMessage {
 }
 
 const ChatShareView = () => {
-  const navigate = useNavigate();
   const { messageId } = useParams();
   const [message, setMessage] = useState<SeparatedMessage[]>([]);
-  const [formattedDate, setFormattedDate] = useState("");
+  const [timestamp, setTimestamp] = useState<Timestamp>();
 
   useEffect(() => {
     if (messageId) {
@@ -39,17 +40,7 @@ const ChatShareView = () => {
           }
 
           setMessage(formattedMessages);
-
-          if (data.timestamp) {
-            const formatted = data.timestamp
-              .toDate()
-              .toLocaleDateString("ko-KR", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              });
-            setFormattedDate(formatted);
-          }
+          setTimestamp(data.timestamp);
         }
       });
     }
@@ -58,13 +49,12 @@ const ChatShareView = () => {
   const title = message[0]?.content as string;
 
   return (
-    <div className="h-real-screen flex flex-col">
-      <header className="h-36 border-b p-4">
-        <img src={chatListIcon} alt="chatCircleIcon" className="mb-2" />
-        <p className="mb-2 text-heading font-semibold">{title}</p>
-        <p className="font-[#52525B] text-body3">{formattedDate}</p>
-      </header>
-      <main className="no-scrollbar flex-1 overflow-y-auto">
+    <>
+      <ShareView
+        icon={chatListIcon}
+        title={title}
+        timestamp={timestamp?.toDate()}
+      >
         {message.map((msg, index) => (
           <div key={index}>
             {msg.type === "user" ? (
@@ -74,16 +64,8 @@ const ChatShareView = () => {
             )}
           </div>
         ))}
-      </main>
-      <div className="flex justify-center p-4">
-        <button
-          className="h-14 w-full max-w-md rounded-lg bg-black text-white"
-          onClick={() => navigate("/onboarding/1")}
-        >
-          핏톡 시작하기
-        </button>
-      </div>
-    </div>
+      </ShareView>
+    </>
   );
 };
 
