@@ -8,8 +8,10 @@ import {
   setDoc,
   doc,
   writeBatch,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "@/firebase";
+import { TShareUser, TShoeCloset } from "@/types/shoeCloset";
 
 // addOrUpdateShoesToCloset 함수는 신발을 등록하거나 업데이트 할 때 사용되는 함수이다.
 // 신발 등록시에 Firestore에서 자동으로 생성된 ID로 저장한다. -> closetId
@@ -100,9 +102,12 @@ export const addOrUpdateShoesToCloset = async (
   }
 };
 
-export const deleteShoesFromCloset = async(userId: string, closetId: string,) => {
-  const closetRef  = doc(db, "users", userId, "shoeCloset", closetId);
-  const batch  = writeBatch(db);
+export const deleteShoesFromCloset = async (
+  userId: string,
+  closetId: string
+) => {
+  const closetRef = doc(db, "users", userId, "shoeCloset", closetId);
+  const batch = writeBatch(db);
 
   try {
     batch.delete(closetRef);
@@ -111,5 +116,52 @@ export const deleteShoesFromCloset = async(userId: string, closetId: string,) =>
     console.log(`신발장 ${closetId} 삭제 완료`);
   } catch (error) {
     console.error("신발장 삭제 실패 : ", error);
+  }
+};
+
+// 신발장 가져오기
+export const getShareShoeCloset = async (userId: string) => {
+  try {
+    const userRef = doc(db, "users", userId);
+    const shoeClosetRef = collection(db, "users", userId, "shoeCloset");
+
+    const [userDoc, shoeDocs] = await Promise.all([
+      getDoc(userRef),
+      getDocs(shoeClosetRef),
+    ]);
+
+    if (userDoc.exists() && !shoeDocs.empty) {
+      const userData = userDoc.data();
+      const user: TShareUser = {
+        username: userData.username,
+        sneakerSize: userData.sneakerSize,
+        sizeType: userData.sizeType,
+      };
+
+      const shoes: TShoeCloset[] = shoeDocs.docs.map((doc) => {
+        const data = doc.data();
+
+        return {
+          closetId: doc.id,
+          brand: data.brand,
+          height: data.height,
+          img: data.img,
+          len: data.len,
+          modelName: data.modelName,
+          modelNo: data.modelNo,
+          rating: data.rating,
+          recommendSize: data.recommendSize,
+          soft: data.soft,
+          text: data.text,
+          weight: data.weight,
+          width: data.width,
+          updatedAt: data.updatedAt,
+        };
+      });
+
+      return { user, shoes };
+    }
+  } catch (error) {
+    console.error("신발장 정보를 가져오는 중 에러 발생: ", error);
   }
 };

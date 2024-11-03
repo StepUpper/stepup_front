@@ -17,6 +17,7 @@ import SearchShoeCloset from "@pages/ShoeCloset/SearchShoeCloset";
 import ShoeClosetDetail from "@pages/ShoeCloset/ShoeClosetDetail";
 import ShoeClosetModify from "@pages/ShoeCloset/ShoeClosetModify";
 import ShoeImageSearch from "@pages/ShoeCloset/ShoeImageSearch";
+import ShareShoeCloset from "@pages/Share/ShareShoeCloset";
 
 const router = createBrowserRouter(
   [
@@ -52,6 +53,10 @@ const router = createBrowserRouter(
         {
           path: "/shoecloset/modify/:closetId",
           element: <ShoeClosetModify />,
+        },
+        {
+          path: "/share/shoecloset/:id",
+          element: <ShareShoeCloset />,
         },
         {
           path: "/mypage",
