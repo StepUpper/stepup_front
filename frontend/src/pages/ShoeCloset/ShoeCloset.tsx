@@ -10,6 +10,9 @@ import ShoeClosetLoading from "@components/shoeCloset/ShoeClosetLoading";
 import { twMerge } from "tailwind-merge";
 import ShoeClosetOptionMenu from "@components/shoeCloset/details/ShoeClosetOptionMenu";
 import useToggle from "@hooks/useToggle";
+import ShareModal from "@components/common/ShareModal";
+import { shareShoeIcon } from "@assets/assets";
+import userStore from "@/store/auth.store";
 
 export interface IProduct {
   closetId: string;
@@ -20,9 +23,16 @@ export interface IProduct {
 
 const ShoeCloset = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user } = userStore();
 
   //헤더 옵션 메뉴 상태
   const { isOpen: isOptionMenuOpen, toggle: toggleOptionMenu } = useToggle();
+  // 모달 상태
+  const {
+    isOpen: isShareModalOpen,
+    open: openShareModal,
+    close: closeShareModal,
+  } = useToggle();
 
   const [shoeList, setShoeList] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,6 +71,13 @@ const ShoeCloset = () => {
     return () => unsubscribe();
   }, []);
 
+  const handleShareShoeCloset = () => {
+    if (shoeList.length === 0) {
+      return alert("신발장에 등록된 신발이 없습니다. 신발을 등록해주세요.");
+    }
+    openShareModal();
+  };
+
   return (
     <div
       className={twMerge(
@@ -76,9 +93,7 @@ const ShoeCloset = () => {
           <ShoeClosetLoading />
         ) : (
           <>
-            <ProfileCard />
-
-            {/* shoe list comp */}
+            <ProfileCard />x{/* shoe list comp */}
             {shoeList.length ? (
               <ShoeListComponent list={shoeList} />
             ) : (
@@ -92,6 +107,18 @@ const ShoeCloset = () => {
           isLoggedIn={isLoggedIn}
           onClose={toggleOptionMenu}
           shareButton={true}
+          onShare={handleShareShoeCloset}
+        />
+      )}
+      {/* 공유하기 */}
+      {isShareModalOpen && user?.uid && (
+        <ShareModal
+          icon={shareShoeIcon}
+          id={user.uid}
+          desc={`신발장 공개 링크가 생성되었습니다. 친구들에게 나만의 신발 컬렉션을 공개해 보세요.`}
+          link="/share/shoecloset"
+          content={`${user.username}님의 신발장이 열렸습니다!`}
+          onClose={closeShareModal}
         />
       )}
     </div>
