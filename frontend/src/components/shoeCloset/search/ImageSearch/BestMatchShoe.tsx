@@ -14,7 +14,7 @@ const BestMatchShoe = (props: BestMatchShoeProps) => {
   return (
     <>
       {/* 상단 영역 */}
-      <div className="sticky left-0 top-0 bg-white pb-4 pt-8">
+      <div className="sticky left-0 top-0 bg-white">
         <Button className="flex items-center gap-2 text-xs" onClick={onRetry}>
           <img src={retryIcon} alt="다시하기 버튼" className="w-5" />
           다시하기

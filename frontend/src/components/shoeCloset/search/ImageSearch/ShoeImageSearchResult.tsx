@@ -5,6 +5,7 @@ import { TShoeSearchResponse } from "@type/product";
 import BottomButton from "@components/common/BottomButton";
 import { useBottomSheet } from "@store/bottomSheet.store";
 import BestMatchShoe from "@components/shoeCloset/search/ImageSearch/BestMatchShoe";
+import SimilarShoeList from "@components/shoeCloset/search/ImageSearch/SimilarShoeList";
 
 interface ShoeImageSearchResultProps {
   products: TShoeSearchResponse[];
@@ -12,10 +13,11 @@ interface ShoeImageSearchResultProps {
 
 const ShoeImageSearchResult = (props: ShoeImageSearchResultProps) => {
   const { products } = props;
-  const bestMatchShoe = products[0];
+  const bestMatchShoe = products[0]; // 첫번째 값으로 처리함
 
   const [selectedResult, setSelectedResult] =
     useState<TShoeSearchResponse | null>(bestMatchShoe);
+  const [clickedMore, setClickedMore] = useState(false);
 
   const navigate = useNavigate();
   const { close } = useBottomSheet();
@@ -29,7 +31,7 @@ const ShoeImageSearchResult = (props: ShoeImageSearchResultProps) => {
 
   // 비슷한 상품 더보기
   const handleShowMoreSimilarShoes = () => {
-    setSelectedResult(null);
+    setClickedMore(true);
   };
 
   // 선택한 신발 정보 전달
@@ -39,24 +41,24 @@ const ShoeImageSearchResult = (props: ShoeImageSearchResultProps) => {
     }
   };
 
-  // TODO: 신발 선택
+  // 신발 선택
   const handleSelectedShoe = (shoe: TShoeSearchResponse) => {
     setSelectedResult(shoe);
   };
 
   return (
-    <div>
-      {selectedResult ? (
-        <BestMatchShoe
-          shoe={bestMatchShoe}
-          onRetry={handleRetry}
-          onShowMoreSimilarShoes={handleShowMoreSimilarShoes}
-        />
-      ) : (
-        // TODO 리스트
-        "리스트 자리"
-      )}
-
+    <div className="flex min-h-[568px] flex-col">
+      <div className="flex-1 py-8">
+        {!clickedMore ? (
+          <BestMatchShoe
+            shoe={selectedResult!}
+            onRetry={handleRetry}
+            onShowMoreSimilarShoes={handleShowMoreSimilarShoes}
+          />
+        ) : (
+          <SimilarShoeList products={products} onClick={handleSelectedShoe} />
+        )}
+      </div>
       <div className="sticky bottom-0 z-10 w-full bg-white">
         <BottomButton
           title="선택 완료"

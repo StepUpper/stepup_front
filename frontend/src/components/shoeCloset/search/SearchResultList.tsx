@@ -6,7 +6,7 @@ import { twMerge } from "tailwind-merge";
 
 interface SearchResultItemProps extends TShoeSearchResponse {
   onClick: () => void;
-  className: string;
+  className?: string;
 }
 
 const SearchResultList = ({ children }: { children: ReactNode }) => {
@@ -18,7 +18,10 @@ const SearchResultItem = (props: SearchResultItemProps) => {
   const { image, modelName, brand, onClick, className } = props;
   return (
     <li
-      className={twMerge("flex items-center rounded-md", className)}
+      className={twMerge(
+        "flex cursor-pointer items-center rounded-md border border-white hover:border-black",
+        className
+      )}
       onClick={onClick}
     >
       {/* 상품 이미지 영역 */}
