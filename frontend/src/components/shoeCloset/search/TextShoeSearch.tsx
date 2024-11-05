@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { cameraIcon, closeIcon, searchIcon } from "@/assets/assets";
 import Input from "@/components/common/html/Input";
 import { addRecentSearches } from "@/utils/storeRecentSearches";
-import { useEffect, useState } from "react";
 
 interface TextShoeSearchProps {
   onSearch: (keyword: string) => void;
@@ -11,6 +12,8 @@ interface TextShoeSearchProps {
 const TextShoeSearch = ({ onSearch, onClearInput }: TextShoeSearchProps) => {
   const [inputText, setInputText] = useState("");
   const [textKeyword, setTextKeyword] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (textKeyword.trim() !== "") {
@@ -56,7 +59,11 @@ const TextShoeSearch = ({ onSearch, onClearInput }: TextShoeSearchProps) => {
               onClick={handleClearInput}
             />
           )}
-          <img src={cameraIcon} className="size-5" />
+          <img
+            src={cameraIcon}
+            className="size-5 cursor-pointer"
+            onClick={() => navigate("/shoecloset/search/image")}
+          />
         </div>
       </div>
     </div>

@@ -1,22 +1,16 @@
 import { IProduct } from "@/pages/ShoeCloset/ShoeCloset";
 import Img from "@common/html/Img";
 import { shoeImg } from "@/assets/assets";
-import { useNavigate } from "react-router-dom";
 
 interface ShoeComponentProps {
   prod: IProduct;
+  onClick: (closetId: string) => void;
 }
-const ShoeComponent = ({ prod }: ShoeComponentProps) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(`/shoecloset/${prod.closetId}`);
-  };
-
+const ShoeComponent = ({ prod, onClick }: ShoeComponentProps) => {
   return (
-    <div 
-      className="rounded-md overflow-hidden bg-gray-50 item-center cursor-pointer" 
-      onClick={handleClick} 
+    <div
+      className="item-center cursor-pointer overflow-hidden rounded-md bg-gray-50"
+      onClick={() => onClick(prod.closetId)}
       style={{ aspectRatio: "1/1" }}
     >
       <Img
