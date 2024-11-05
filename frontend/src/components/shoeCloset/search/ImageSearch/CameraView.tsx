@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { useNavigate } from "react-router-dom";
 import Button from "@components/common/html/Button";
@@ -15,6 +15,7 @@ const videoConstraints = {
 
 const CameraView = () => {
   const webcamRef = useRef<Webcam | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isCapture, setIsCapture] = useState(false);
   const navigate = useNavigate();
 
@@ -23,40 +24,59 @@ const CameraView = () => {
     (state) => state.sheets["imageSearch"]
   );
 
-  // 검색 중 촬영 중지
+  // 촬영 중지 제어
   useEffect(() => {
     if (!imageSearchSheet?.isOpen) {
-      setIsCapture(false);
       webcamRef.current?.video?.play();
+    } else {
+      webcamRef.current?.video?.pause();
     }
-  }, [imageSearchSheet?.isOpen, isCapture]);
+  }, [imageSearchSheet?.isOpen]);
 
-  // 이미지 촬영과 스토리지 저장 및 url 가져오기
-  const handleImageUpload = useCallback(async () => {
-    setIsCapture(false);
-    const imageSrc = webcamRef.current?.getScreenshot() || null;
+  // 이미지 업로드 및 라우팅
+  const handleImageUpload = async (file: File | string, fileName: string) => {
+    try {
+      setIsCapture(true); // 캡쳐
+      open("imageSearch"); // 결과 바텀 열기
 
-    if (imageSrc) {
-      try {
-        setIsCapture(true);
-        open("imageSearch");
-        webcamRef.current?.video?.pause();
-
-        const id = Date.now().toString();
-        const downloadURL = await uploadImage(imageSrc, id);
-        console.log("이미지 업로드 성공:", downloadURL);
-
-        navigate(`/shoecloset/search/image?query=${id}`, {
-          replace: true,
-          state: downloadURL,
-        });
-      } catch (error) {
-        console.error("이미지 업로드 오류:", error);
-        alert("다시 촬영해주세요.");
-        close("imageSearch");
-      }
+      const downloadURL = await uploadImage(file, fileName); // 업로드
+      navigate(`/shoecloset/search/image?query=${fileName}`, {
+        replace: true,
+        state: downloadURL,
+      }); // 라우팅
+    } catch (error) {
+      console.log("이미지 업로드 오류: ", error);
+      alert("이미지 업로드에 실패했습니다. 다시 시도해주세요.");
+      close("imageSearch");
+    } finally {
+      setIsCapture(false);
     }
+  };
+
+  // 웹캠 이미지 캡쳐 및 업로드
+  const handleCameraCapture = useCallback(async () => {
+    const capturedImage = webcamRef.current?.getScreenshot() || null;
+    if (!capturedImage) {
+      alert("촬영에 실패했습니다. 다시 시도해주세요.");
+      return;
+    }
+    handleImageUpload(capturedImage, `captured_image_${Date.now()}`);
   }, [webcamRef]);
+
+  // 갤러리에서 파일 선택
+  const handleGalleryClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  // 갤러리에서 선택한 이미지 업로드
+  const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      alert("이미지를 불러오지 못 했습니다. 다시 시도해주세요.");
+      return;
+    }
+    handleImageUpload(file, `${file.name}_${Date.now()}`);
+  };
 
   // 닫기 (검색창으로 이동)
   const handleBack = () => {
@@ -93,12 +113,24 @@ const CameraView = () => {
           촬영 버튼을 탭하여 검색
         </div>
         <div className="flex w-full items-center justify-center">
-          <Button className="absolute left-0 rounded-full bg-black/50 px-3 py-[.8125rem]">
-            <ImageSelectIcon stroke="#fff" width="22px" />
-          </Button>
+          <div className="absolute left-0">
+            <Button
+              className="rounded-full bg-black/50 px-3 py-[.8125rem]"
+              onClick={handleGalleryClick}
+            >
+              <ImageSelectIcon stroke="#fff" width="22px" />
+            </Button>
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: "none" }} // 화면에 표시하지 않음
+              onChange={handleFileInputChange}
+            />
+          </div>
           <Button
             className="rounded-full bg-white px-5 py-[1.375rem]"
-            onClick={handleImageUpload}
+            onClick={handleCameraCapture}
           >
             <img src={cameraIcon} alt="사진 촬영" width="26px" />
           </Button>

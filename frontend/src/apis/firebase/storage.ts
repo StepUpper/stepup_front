@@ -22,7 +22,7 @@ export const uploadImage = async (file: File | string, fileName: string) => {
     const downloadURL = await getDownloadURL(storageRef); // url 가져오기
     return downloadURL;
   } catch (error) {
-    console.error("이미지 업로드 오류:", error);
+    console.error("스토리지에 이미지 업로드 오류:", error);
     throw error;
   }
 };

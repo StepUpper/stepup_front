@@ -48,7 +48,7 @@ const ShoeImageSearchResult = (props: ShoeImageSearchResultProps) => {
 
   return (
     <div className="flex min-h-[568px] flex-col">
-      <div className="flex-1 py-8">
+      <div className="flex-1 pt-8">
         {!clickedMore ? (
           <BestMatchShoe
             shoe={selectedResult!}

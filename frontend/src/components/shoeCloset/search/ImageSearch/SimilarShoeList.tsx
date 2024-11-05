@@ -10,7 +10,7 @@ interface SimilarShoeListProps {
 const SimilarShoeList = (props: SimilarShoeListProps) => {
   const { products, onClick } = props;
   const [clicked, setClicked] = useState("");
-  
+
   return (
     <>
       <SearchResultList>
