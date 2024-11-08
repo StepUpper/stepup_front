@@ -14,9 +14,9 @@ const ShoeComponent = ({ prod }: ShoeComponentProps) => {
   };
 
   return (
-    <div 
-      className="rounded-md overflow-hidden bg-gray-50 item-center cursor-pointer" 
-      onClick={handleClick} 
+    <div
+      className="item-center cursor-pointer overflow-hidden rounded-md bg-gray-50"
+      onClick={handleClick}
       style={{ aspectRatio: "1/1" }}
     >
       <Img

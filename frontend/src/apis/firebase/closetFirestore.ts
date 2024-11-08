@@ -100,9 +100,12 @@ export const addOrUpdateShoesToCloset = async (
   }
 };
 
-export const deleteShoesFromCloset = async(userId: string, closetId: string,) => {
-  const closetRef  = doc(db, "users", userId, "shoeCloset", closetId);
-  const batch  = writeBatch(db);
+export const deleteShoesFromCloset = async (
+  userId: string,
+  closetId: string
+) => {
+  const closetRef = doc(db, "users", userId, "shoeCloset", closetId);
+  const batch = writeBatch(db);
 
   try {
     batch.delete(closetRef);

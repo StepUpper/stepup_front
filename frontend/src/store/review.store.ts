@@ -26,7 +26,7 @@ const initialReviewData = {
   weight: "",
   recommendSize: "정사이즈",
   text: "",
-}
+};
 
 export const useReviewStore = create<ReviewData>((set, get) => ({
   rating: 0,
@@ -45,7 +45,8 @@ export const useReviewStore = create<ReviewData>((set, get) => ({
   hasReviewDraft: () => {
     const { rating, reviewData } = get();
     const isRatingChanged = rating !== 0;
-    const isReviewChanged = JSON.stringify(reviewData) !== JSON.stringify(initialReviewData);
+    const isReviewChanged =
+      JSON.stringify(reviewData) !== JSON.stringify(initialReviewData);
     return isRatingChanged || isReviewChanged;
   },
 }));

@@ -25,7 +25,7 @@ const ShoeCloset = () => {
   const handleOptionClick = () => {
     setIsOptionMenuOpen((prev) => !prev);
   };
-  
+
   const [shoeList, setShoeList] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -64,7 +64,12 @@ const ShoeCloset = () => {
   }, []);
 
   return (
-    <div className={twMerge("flex flex-col", shoeList.length ? "" : "h-real-screen")}>
+    <div
+      className={twMerge(
+        "flex flex-col",
+        shoeList.length ? "" : "h-real-screen"
+      )}
+    >
       <Header type="back" optionButton={true} onOptionClick={handleOptionClick}>
         신발장
       </Header>

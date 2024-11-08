@@ -98,7 +98,7 @@ const SearchShoeCloset = () => {
   };
 
   return (
-    <div className="flex h-real-screen flex-col">
+    <div className="h-real-screen flex flex-col">
       <div className="sticky top-0 z-10 bg-white">
         <Header type="back">신발 검색</Header>
         {/* 신발 텍스트 검색창 영역 */}
@@ -113,8 +113,8 @@ const SearchShoeCloset = () => {
         </div>
       </div>
       {searchResults.length > 0 ? (
-        <div className="flex flex-col relative flex-1">
-          <div className="flex-1 h-full grow p-4">
+        <div className="relative flex flex-1 flex-col">
+          <div className="h-full flex-1 grow p-4">
             <ul className="no-scrollbar grid w-full gap-2">
               {searchResults.map((product, index) => {
                 return (
@@ -129,7 +129,7 @@ const SearchShoeCloset = () => {
                     className={`cursor-pointer ${selectedResult?.brand === product.brand && selectedResult?.modelNo === product.modelNo ? "border-2 border-black" : ""}`}
                     onClick={() => handleItemClick(product)}
                   />
-                )
+                );
               })}
             </ul>
           </div>
