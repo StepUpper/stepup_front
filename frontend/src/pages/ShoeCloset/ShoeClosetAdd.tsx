@@ -9,12 +9,14 @@ import { TShoeSearchResponse } from "@/types/product";
 import { addOrUpdateShoesToCloset } from "@/apis/firebase/closetFirestore";
 import { auth } from "@/firebase";
 import { useReviewStore } from "@/store/review.store";
+import { useSelectedShoeStore } from "@/store/selectedShoe.store";
+import { useEffect } from "react";
 
 const ShoeClosetAdd = () => {
   const location = useLocation();
-  const selectedShoe = location.state as TShoeSearchResponse | undefined; //선택된 신발
   
   const {rating, reviewData, setRating, setReviewData, resetReviewData } = useReviewStore();
+  const { selectedShoe, setSelectedShoe, resetSelectedShoe } = useSelectedShoeStore();
 
   const navigate = useNavigate();
 
@@ -41,9 +43,15 @@ const ShoeClosetAdd = () => {
     console.log("review: ", review);
 
     resetReviewData();
+    resetSelectedShoe();
 
     navigate("/shoecloset");
   };
+
+  useEffect(() => {
+    const locationShoe = location.state as TShoeSearchResponse | undefined; //선택된 신발
+    if (locationShoe) setSelectedShoe(locationShoe);
+  },[location.state, setSelectedShoe]);
 
   return (
     <div className="flex h-full flex-col">
