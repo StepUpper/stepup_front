@@ -5,7 +5,7 @@ interface DraftModalProps {
   onNewStart: () => void;
 }
 
-const ShoeClosetDraftModal = (props: DraftModalProps) => {
+const ShoeClosetResumeDraftModal = (props: DraftModalProps) => {
   const { onContinue, onNewStart } = props;
 
   return (
@@ -35,4 +35,4 @@ const ShoeClosetDraftModal = (props: DraftModalProps) => {
     </div>
   );
 };
-export default ShoeClosetDraftModal;
+export default ShoeClosetResumeDraftModal;

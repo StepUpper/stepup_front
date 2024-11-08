@@ -3,7 +3,7 @@ import { plusIcon } from "@assets/assets";
 import Button from "@components/common/html/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ShoeClosetDraftModal from "./ShoeClosetDraftModal";
+import ShoeClosetResumeDraftModal from "./ShoeClosetResumeDraftModal";
 import { useSelectedShoeStore } from "@/store/selectedShoe.store";
 
 const AddShoeButton = () => {
@@ -42,7 +42,7 @@ const AddShoeButton = () => {
       </Button>
 
       {isModalOpen && (
-        <ShoeClosetDraftModal
+        <ShoeClosetResumeDraftModal
           onContinue={handleContinue}
           onNewStart={handleNewStart}
         />
