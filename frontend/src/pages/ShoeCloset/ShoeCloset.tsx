@@ -26,12 +26,6 @@ const ShoeCloset = () => {
   const { user } = userStore();
 
   //헤더 옵션 메뉴 상태
-<<<<<<< HEAD
-  const [isOptionMenuOpen, setIsOptionMenuOpen] = useState(false);
-  const handleOptionClick = () => {
-    setIsOptionMenuOpen((prev) => !prev);
-  };
-=======
   const { isOpen: isOptionMenuOpen, toggle: toggleOptionMenu } = useToggle();
   // 모달 상태
   const {
@@ -39,7 +33,6 @@ const ShoeCloset = () => {
     open: openShareModal,
     close: closeShareModal,
   } = useToggle();
->>>>>>> 9e4facf8aa667f88e02a6acfcf6b6b9c81961b2d
 
   const [shoeList, setShoeList] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -92,11 +85,7 @@ const ShoeCloset = () => {
         shoeList.length ? "" : "h-real-screen"
       )}
     >
-<<<<<<< HEAD
-      <Header type="back" optionButton={true} onOptionClick={handleOptionClick}>
-=======
       <Header type="back" optionButton={true} onOptionClick={toggleOptionMenu}>
->>>>>>> 9e4facf8aa667f88e02a6acfcf6b6b9c81961b2d
         신발장
       </Header>
       <main className="flex h-full flex-col gap-7 p-4">
