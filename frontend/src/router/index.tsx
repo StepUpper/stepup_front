@@ -13,9 +13,11 @@ import { onBoardingLoader } from "@router/loaders/onBoarding";
 import ChatShareView from "@components/Chat/ChatShareView";
 import EditUserInfoPage from "@pages/EditUserInfo/EditUserInfoPage";
 import ChangePasswordPage from "@pages/ChangePassword/ChangePasswordPage";
-import SearchShoeCloset from "@/pages/ShoeCloset/SearchShoeCloset";
-import ShoeClosetDetail from "@/pages/ShoeCloset/ShoeClosetDetail";
-import ShoeClosetModify from "@/pages/ShoeCloset/ShoeClosetModify";
+import SearchShoeCloset from "@pages/ShoeCloset/SearchShoeCloset";
+import ShoeClosetDetail from "@pages/ShoeCloset/ShoeClosetDetail";
+import ShoeClosetModify from "@pages/ShoeCloset/ShoeClosetModify";
+import ShoeImageSearch from "@pages/ShoeCloset/ShoeImageSearch";
+import ShareShoeCloset from "@pages/Share/ShareShoeCloset";
 
 const router = createBrowserRouter(
   [
@@ -41,12 +43,20 @@ const router = createBrowserRouter(
           element: <SearchShoeCloset />,
         },
         {
+          path: "/shoecloset/search/image",
+          element: <ShoeImageSearch />,
+        },
+        {
           path: "/shoecloset/add",
           element: <ShoeClosetAdd />,
         },
         {
           path: "/shoecloset/modify/:closetId",
           element: <ShoeClosetModify />,
+        },
+        {
+          path: "/share/shoecloset/:id",
+          element: <ShareShoeCloset />,
         },
         {
           path: "/mypage",

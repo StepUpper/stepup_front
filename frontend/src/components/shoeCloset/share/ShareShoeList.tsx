@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IProduct } from "@/pages/ShoeCloset/ShoeCloset";
-import ShoeComponent from "./ShoeComponent";
-import AddShoeButton from "./AddShoeButton";
 import { sortIcon } from "@assets/assets";
-import Button from "../common/html/Button";
+import Button from "@components/common/html/Button";
+import ShoeComponent from "@components/shoeCloset/ShoeComponent";
+import { TShoeCloset } from "@type/shoeCloset";
+import userStore from "@store/auth.store";
 
-const ShoeListComponent = ({ list }: { list: IProduct[] }) => {
+const ShareShoeList = ({ list }: { list: TShoeCloset[] }) => {
   const [sort, setSort] = useState(true);
 
+  const { isLoggedIn } = userStore();
   const navigate = useNavigate();
 
   const sortedList = list.slice().sort((a, b) => {
@@ -20,8 +21,19 @@ const ShoeListComponent = ({ list }: { list: IProduct[] }) => {
     return sort ? bTime - aTime : aTime - bTime;
   });
 
-  const handleShoeClick = (closetId: string) => {
-    navigate(`/shoecloset/${closetId}`);
+  // TODO: 로그인 상태일 때 신발 리뷰 볼 수 있도록 처리
+  // TODO: 안내 모달창 UI 작업 필요
+  const handleShoeClick = () => {
+    if (!isLoggedIn) {
+      const userConfirmed = confirm(
+        "신발에 대한 자세한 정보를 보려면 로그인해 주세요. 로그인하시겠습니까?"
+      );
+      if (userConfirmed) {
+        navigate("/");
+      } else {
+        console.log("사용자가 로그인을 취소했습니다.");
+      }
+    }
   };
 
   return (
@@ -37,11 +49,15 @@ const ShoeListComponent = ({ list }: { list: IProduct[] }) => {
         </Button>
       </div>
       <div className="grid w-full grid-cols-3 grid-rows-3 gap-1">
-        <AddShoeButton />
-        {sortedList.map((prod) => (
+        {sortedList.map((product) => (
           <ShoeComponent
-            key={prod.closetId}
-            prod={prod}
+            key={product.closetId}
+            prod={{
+              closetId: product.closetId,
+              image: product.img,
+              modelName: product.modelName,
+              updatedAt: product.updatedAt,
+            }}
             onClick={handleShoeClick}
           />
         ))}
@@ -50,4 +66,4 @@ const ShoeListComponent = ({ list }: { list: IProduct[] }) => {
   );
 };
 
-export default ShoeListComponent;
+export default ShareShoeList;

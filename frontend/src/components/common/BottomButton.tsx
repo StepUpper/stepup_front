@@ -15,7 +15,7 @@ const BottomButton = forwardRef<HTMLButtonElement, BottomButtonProps>(
         <Button
           ref={ref}
           className={twMerge(
-            "my-6 w-full rounded bg-black px-3.5 py-[1.125rem] text-white",
+            "my-6 w-full rounded bg-black px-3.5 py-3.5 text-white",
             className
           )}
           {...rest}

@@ -6,9 +6,13 @@ import { useEffect, useState } from "react";
 import { auth, db } from "@/firebase";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import ShoeClosetLoading from "@/components/shoeCloset/ShoeClosetLoading";
+import ShoeClosetLoading from "@components/shoeCloset/ShoeClosetLoading";
 import { twMerge } from "tailwind-merge";
-import ShoeClosetOptionMenu from "@/components/shoeCloset/details/ShoeClosetOptionMenu";
+import ShoeClosetOptionMenu from "@components/shoeCloset/details/ShoeClosetOptionMenu";
+import useToggle from "@hooks/useToggle";
+import ShareModal from "@components/common/ShareModal";
+import { shareShoeIcon } from "@assets/assets";
+import userStore from "@/store/auth.store";
 
 export interface IProduct {
   closetId: string;
@@ -19,12 +23,23 @@ export interface IProduct {
 
 const ShoeCloset = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user } = userStore();
 
   //헤더 옵션 메뉴 상태
+<<<<<<< HEAD
   const [isOptionMenuOpen, setIsOptionMenuOpen] = useState(false);
   const handleOptionClick = () => {
     setIsOptionMenuOpen((prev) => !prev);
   };
+=======
+  const { isOpen: isOptionMenuOpen, toggle: toggleOptionMenu } = useToggle();
+  // 모달 상태
+  const {
+    isOpen: isShareModalOpen,
+    open: openShareModal,
+    close: closeShareModal,
+  } = useToggle();
+>>>>>>> 9e4facf8aa667f88e02a6acfcf6b6b9c81961b2d
 
   const [shoeList, setShoeList] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -63,6 +78,13 @@ const ShoeCloset = () => {
     return () => unsubscribe();
   }, []);
 
+  const handleShareShoeCloset = () => {
+    if (shoeList.length === 0) {
+      return alert("신발장에 등록된 신발이 없습니다. 신발을 등록해주세요.");
+    }
+    openShareModal();
+  };
+
   return (
     <div
       className={twMerge(
@@ -70,7 +92,11 @@ const ShoeCloset = () => {
         shoeList.length ? "" : "h-real-screen"
       )}
     >
+<<<<<<< HEAD
       <Header type="back" optionButton={true} onOptionClick={handleOptionClick}>
+=======
+      <Header type="back" optionButton={true} onOptionClick={toggleOptionMenu}>
+>>>>>>> 9e4facf8aa667f88e02a6acfcf6b6b9c81961b2d
         신발장
       </Header>
       <main className="flex h-full flex-col gap-7 p-4">
@@ -78,9 +104,7 @@ const ShoeCloset = () => {
           <ShoeClosetLoading />
         ) : (
           <>
-            <ProfileCard />
-
-            {/* shoe list comp */}
+            <ProfileCard />x{/* shoe list comp */}
             {shoeList.length ? (
               <ShoeListComponent list={shoeList} />
             ) : (
@@ -92,8 +116,20 @@ const ShoeCloset = () => {
       {isOptionMenuOpen && (
         <ShoeClosetOptionMenu
           isLoggedIn={isLoggedIn}
-          onClose={handleOptionClick}
+          onClose={toggleOptionMenu}
           shareButton={true}
+          onShare={handleShareShoeCloset}
+        />
+      )}
+      {/* 공유하기 */}
+      {isShareModalOpen && user?.uid && (
+        <ShareModal
+          icon={shareShoeIcon}
+          id={user.uid}
+          desc={`신발장 공개 링크가 생성되었습니다. 친구들에게 나만의 신발 컬렉션을 공개해 보세요.`}
+          link="/share/shoecloset"
+          content={`${user.username}님의 신발장이 열렸습니다!`}
+          onClose={closeShareModal}
         />
       )}
     </div>

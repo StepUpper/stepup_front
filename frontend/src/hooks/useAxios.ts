@@ -10,11 +10,11 @@ const useAxios = <T, Args = undefined>(
   args?: Args // api 함수에 넘겨줄 인자
 ) => {
   const [data, setData] = useState<T | null>(initialData);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState<AxiosError | null>(null);
 
-  const memoizedArgs = useMemo(() => ({ ...args }), [JSON.stringify(args)]);
+  const memoizedArgs = useMemo(() => args, [JSON.stringify(args)]);
 
   useEffect(() => {
     // 사용자가 컴포넌트가 언마운트될 때
