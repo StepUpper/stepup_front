@@ -1,5 +1,5 @@
 import { TShoeSearchResponse } from "@/types/product";
-import SearchResultList from "@components/shoeCloset/search/SearchResultList";
+import SearchResultItem from "@/components/shoeCloset/search/SearchResultItem";
 import { useState } from "react";
 
 interface SimilarShoeListProps {
@@ -8,26 +8,38 @@ interface SimilarShoeListProps {
 }
 
 const SimilarShoeList = (props: SimilarShoeListProps) => {
-  const { products, onClick } = props;
-  const [clicked, setClicked] = useState("");
+  const { products } = props;
+
+  const [selectedResult, setSelectedResult] =
+    useState<TShoeSearchResponse | null>(null); //선택된 아이템 상태
+
+  //신발 선택시 상태 업데이트
+  const handleItemClick = (shoe: TShoeSearchResponse) => {
+    if (
+      selectedResult?.brand === shoe.brand &&
+      selectedResult?.modelNo === shoe.modelNo
+    ) {
+      setSelectedResult(null);
+    } else {
+      setSelectedResult(shoe);
+    }
+  };
 
   return (
     <>
-      <SearchResultList>
+      <ul className="no-scrollbar grid w-full gap-2">
         {products.map((product) => (
-          <SearchResultList.Item
+          <SearchResultItem
+            key={product.modelNo}
             modelNo={product.modelNo}
             image={product.image}
             modelName={product.modelName}
             brand={product.brand}
-            onClick={() => {
-              setClicked(product.modelNo);
-              onClick(product);
-            }}
-            className={clicked === product.modelNo ? "border-black" : ""}
+            className={`cursor-pointer ${selectedResult?.brand === product.brand && selectedResult?.modelNo === product.modelNo ? "border border-black" : "border border-transparent"}`}
+            onClick={() => handleItemClick(product)}
           />
         ))}
-      </SearchResultList>
+      </ul>    
     </>
   );
 };
