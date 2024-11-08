@@ -52,7 +52,10 @@ const ShoeClosetOptionMenu = (props: ShoeClosetOptionMenuProps) => {
           </>
         )}
         {shareButton && (
-          <Button className="flex justify-center gap-2 bg-white px-4 py-2.5" onClick={onShare}>
+          <Button
+            className="flex justify-center gap-2 bg-white px-4 py-2.5"
+            onClick={onShare}
+          >
             <img src={shareBlackIcon} alt="공유 아이콘" />
             공유하기
           </Button>

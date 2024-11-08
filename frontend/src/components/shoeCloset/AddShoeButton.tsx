@@ -1,10 +1,10 @@
-import { useReviewStore } from "@/store/review.store";
+import { useReviewStore } from "@store/review.store";
 import { plusIcon } from "@assets/assets";
 import Button from "@components/common/html/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ShoeClosetResumeDraftModal from "./ShoeClosetResumeDraftModal";
-import { useSelectedShoeStore } from "@/store/selectedShoe.store";
+import { useSelectedShoeStore } from "@store/selectedShoe.store";
 
 const AddShoeButton = () => {
   const navigate = useNavigate();

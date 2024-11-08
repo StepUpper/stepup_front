@@ -10,14 +10,22 @@ import { addOrUpdateShoesToCloset } from "@/apis/firebase/closetFirestore";
 import { auth } from "@/firebase";
 import { useReviewStore } from "@/store/review.store";
 import { useSelectedShoeStore } from "@/store/selectedShoe.store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import ShoeClosetSaveDraftModal from "@/components/shoeCloset/ShoeClosetSaveDraftModal";
 
 const ShoeClosetAdd = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
 
-  const { rating, reviewData, setRating, setReviewData, resetReviewData } =
-    useReviewStore();
-  const { selectedShoe, setSelectedShoe, resetSelectedShoe } =
+  const {
+    rating,
+    reviewData,
+    setRating,
+    setReviewData,
+    resetReviewData,
+    hasReviewDraft,
+  } = useReviewStore();
+  const { selectedShoe, setSelectedShoe, resetSelectedShoe, hasShoeDraft } =
     useSelectedShoeStore();
 
   const navigate = useNavigate();
@@ -50,6 +58,14 @@ const ShoeClosetAdd = () => {
     navigate("/shoecloset");
   };
 
+  const handleBackClick = () => {
+    if (hasReviewDraft() || hasShoeDraft()) {
+      setIsModalOpen(true);
+    } else {
+      navigate("/shoecloset");
+    }
+  };
+
   useEffect(() => {
     const locationShoe = location.state as TShoeSearchResponse | undefined; //선택된 신발
     if (locationShoe) setSelectedShoe(locationShoe);
@@ -57,7 +73,9 @@ const ShoeClosetAdd = () => {
 
   return (
     <div className="flex h-full flex-col">
-      <Header type="back">신발 등록</Header>
+      <Header type="back" onBackClick={handleBackClick}>
+        신발 등록
+      </Header>
       <main className="gap-7 overflow-y-scroll px-2">
         {!selectedShoe ? (
           //상품 찾기 버튼
@@ -82,6 +100,11 @@ const ShoeClosetAdd = () => {
         />
         {/* 등록하기 버튼 */}
         <SubmitBottomButton onSubmit={handleSubmit} />
+
+        {/* 임시저장 모달 */}
+        {isModalOpen && (
+          <ShoeClosetSaveDraftModal onClose={() => setIsModalOpen(false)} />
+        )}
       </main>
     </div>
   );

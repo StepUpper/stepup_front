@@ -1,11 +1,11 @@
 import Button from "@common/html/Button";
 
-interface DraftModalProps {
+interface ResumeDraftModalProps {
   onContinue: () => void;
   onNewStart: () => void;
 }
 
-const ShoeClosetResumeDraftModal = (props: DraftModalProps) => {
+const ShoeClosetResumeDraftModal = (props: ResumeDraftModalProps) => {
   const { onContinue, onNewStart } = props;
 
   return (
