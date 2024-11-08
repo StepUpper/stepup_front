@@ -10,7 +10,7 @@ import RecentTextSearches from "@/components/shoeCloset/search/RecentTextSearche
 import { TShoeSearchResponse } from "@/types/product";
 import { shoeSearchApi } from "@/apis/services/shoeSearch";
 import BottomButton from "@/components/common/BottomButton";
-import { replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchResultItem from "@/components/shoeCloset/search/SearchResultItem";
 
 const SearchShoeCloset = () => {

@@ -39,7 +39,7 @@ const SimilarShoeList = (props: SimilarShoeListProps) => {
             onClick={() => handleItemClick(product)}
           />
         ))}
-      </ul>    
+      </ul>
     </>
   );
 };

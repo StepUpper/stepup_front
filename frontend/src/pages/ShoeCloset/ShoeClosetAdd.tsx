@@ -62,7 +62,7 @@ const ShoeClosetAdd = () => {
     if (hasReviewDraft() || hasShoeDraft()) {
       setIsModalOpen(true);
     } else {
-      navigate("/shoecloset", {replace: true});
+      navigate("/shoecloset", { replace: true });
     }
   };
 
