@@ -1,4 +1,4 @@
-import Button from "../common/html/Button";
+import Button from "@common/html/Button";
 
 interface DraftModalProps {
   onContinue: () => void;
