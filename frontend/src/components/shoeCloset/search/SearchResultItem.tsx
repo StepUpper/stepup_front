@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { forwardRef, memo } from "react";
 import Img from "@/components/common/html/Img";
 import { shoeImg } from "@/assets/assets";
 import { TShoeSearchResponse } from "@/types/product";
@@ -9,15 +9,12 @@ interface SearchResultItemProps extends TShoeSearchResponse {
   className: string;
 }
 
-const SearchResultList = ({ children }: { children: ReactNode }) => {
-  return <ul className="no-scrollbar grid w-full gap-2">{children}</ul>;
-};
-export default SearchResultList;
-
-const SearchResultItem = (props: SearchResultItemProps) => {
+const SearchResultItem = forwardRef<HTMLLIElement, SearchResultItemProps>((props, ref) => {
   const { image, modelName, brand, onClick, className } = props;
+
   return (
     <li
+      ref={ref}
       className={twMerge("flex items-center rounded-md", className)}
       onClick={onClick}
     >
@@ -44,5 +41,7 @@ const SearchResultItem = (props: SearchResultItemProps) => {
       </div>
     </li>
   );
-};
-SearchResultList.Item = SearchResultItem;
+});
+
+SearchResultItem.displayName = "SearchResultItem";
+export default memo(SearchResultItem);

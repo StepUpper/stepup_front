@@ -9,9 +9,9 @@ import { useEffect, useState } from "react";
 import RecentTextSearches from "@/components/shoeCloset/search/RecentTextSearches";
 import { TShoeSearchResponse } from "@/types/product";
 import { shoeSearchApi } from "@/apis/services/shoeSearch";
-import SearchResultList from "@/components/shoeCloset/search/SearchResultList";
 import BottomButton from "@/components/common/BottomButton";
 import { useNavigate } from "react-router-dom";
+import SearchResultItem from "@/components/shoeCloset/search/SearchResultItem";
 
 const SearchShoeCloset = () => {
   const [recentSearches, setRecentSearches] = useState<string[]>([]); //최근 검색어 상태
@@ -115,21 +115,23 @@ const SearchShoeCloset = () => {
       {searchResults.length > 0 ? (
         <div className="flex flex-col relative flex-1">
           <div className="flex-1 h-full grow p-4">
-            <SearchResultList>
-              {searchResults.map((product, index) => (
-                <SearchResultList.Item
-                  key={index}
-                  image={product.image}
-                  modelName={product.modelName}
-                  brand={product.brand}
-                  modelNo={product.modelNo}
-                  productId={product.productId}
-                  link={product.link}
-                  className={`cursor-pointer ${selectedResult?.brand === product.brand && selectedResult?.modelNo === product.modelNo ? "border-2 border-black" : ""}`}
-                  onClick={() => handleItemClick(product)}
-                />
-              ))}
-            </SearchResultList>
+            <ul className="no-scrollbar grid w-full gap-2">
+              {searchResults.map((product, index) => {
+                return (
+                  <SearchResultItem
+                    key={index}
+                    image={product.image}
+                    modelName={product.modelName}
+                    brand={product.brand}
+                    modelNo={product.modelNo}
+                    productId={product.productId}
+                    link={product.link}
+                    className={`cursor-pointer ${selectedResult?.brand === product.brand && selectedResult?.modelNo === product.modelNo ? "border-2 border-black" : ""}`}
+                    onClick={() => handleItemClick(product)}
+                  />
+                )
+              })}
+            </ul>
           </div>
           <div className="sticky bottom-0 z-10 w-full bg-white px-4">
             <BottomButton
