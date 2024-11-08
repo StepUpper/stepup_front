@@ -14,9 +14,11 @@ import { useEffect } from "react";
 
 const ShoeClosetAdd = () => {
   const location = useLocation();
-  
-  const {rating, reviewData, setRating, setReviewData, resetReviewData } = useReviewStore();
-  const { selectedShoe, setSelectedShoe, resetSelectedShoe } = useSelectedShoeStore();
+
+  const { rating, reviewData, setRating, setReviewData, resetReviewData } =
+    useReviewStore();
+  const { selectedShoe, setSelectedShoe, resetSelectedShoe } =
+    useSelectedShoeStore();
 
   const navigate = useNavigate();
 
@@ -51,7 +53,7 @@ const ShoeClosetAdd = () => {
   useEffect(() => {
     const locationShoe = location.state as TShoeSearchResponse | undefined; //선택된 신발
     if (locationShoe) setSelectedShoe(locationShoe);
-  },[location.state, setSelectedShoe]);
+  }, [location.state, setSelectedShoe]);
 
   return (
     <div className="flex h-full flex-col">
