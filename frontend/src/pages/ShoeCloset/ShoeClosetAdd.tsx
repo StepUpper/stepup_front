@@ -55,14 +55,14 @@ const ShoeClosetAdd = () => {
     resetReviewData();
     resetSelectedShoe();
 
-    navigate("/shoecloset");
+    navigate("/shoecloset", { replace: true });
   };
 
   const handleBackClick = () => {
     if (hasReviewDraft() || hasShoeDraft()) {
       setIsModalOpen(true);
     } else {
-      navigate("/shoecloset");
+      navigate("/shoecloset", {replace: true});
     }
   };
 

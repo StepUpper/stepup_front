@@ -10,7 +10,7 @@ import RecentTextSearches from "@/components/shoeCloset/search/RecentTextSearche
 import { TShoeSearchResponse } from "@/types/product";
 import { shoeSearchApi } from "@/apis/services/shoeSearch";
 import BottomButton from "@/components/common/BottomButton";
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
 import SearchResultItem from "@/components/shoeCloset/search/SearchResultItem";
 
 const SearchShoeCloset = () => {
@@ -93,7 +93,7 @@ const SearchShoeCloset = () => {
   //신발 정보 전달 함수
   const handleButtonClick = () => {
     if (selectedResult) {
-      navigate("/shoecloset/add", { state: selectedResult });
+      navigate("/shoecloset/add", { state: selectedResult, replace: true });
     }
   };
 
@@ -126,7 +126,7 @@ const SearchShoeCloset = () => {
                     modelNo={product.modelNo}
                     productId={product.productId}
                     link={product.link}
-                    className={`cursor-pointer ${selectedResult?.brand === product.brand && selectedResult?.modelNo === product.modelNo ? "border-2 border-black" : ""}`}
+                    className={`cursor-pointer ${selectedResult?.brand === product.brand && selectedResult?.modelNo === product.modelNo ? "border border-black" : "border border-transparent"}`}
                     onClick={() => handleItemClick(product)}
                   />
                 );

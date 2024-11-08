@@ -15,14 +15,16 @@ const ShoeClosetSaveDraftModal = (props: SaveDraftProps) => {
 
   //임시저장 함수
   const handleSave = () => {
-    navigate("/shoecloset");
+    onClose();
+    navigate(-2);
   };
 
   //임시저장 삭제 함수
   const handleDiscard = () => {
     resetReviewData();
     resetSelectedShoe();
-    navigate("/shoecloset");
+    onClose();
+    navigate(-2);
   };
 
   return (
@@ -31,8 +33,7 @@ const ShoeClosetSaveDraftModal = (props: SaveDraftProps) => {
         <div className="flex flex-col items-center justify-center gap-1 p-6">
           <p className="text-body1 font-semibold">작성 중인 글을 저장할까요?</p>
           <p className="text-body2 font-normal">
-            {" "}
-            삭제된 글은 복구할 수 없습니다.{" "}
+            삭제된 글은 복구할 수 없습니다.
           </p>
         </div>
         <div className="flex justify-between border-t">
