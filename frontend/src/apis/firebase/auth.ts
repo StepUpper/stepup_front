@@ -71,6 +71,7 @@ const signUpWithCredential = async (user: UserTypeforSignup & TUser) => {
     .then((credential) => {
       setDoc(doc(db, "users", credential.user.uid), {
         ...rest,
+        email: email,
         imgUrl: "",
         sizeType: null,
         sneakerSize: 0,
@@ -85,24 +86,30 @@ const signInWithCredential = async (user: {
 }) => {
   await signInWithEmailAndPassword(auth, user.email, user.password)
     .then()
-    .catch((e) => alert(e.message));
+    .catch(() => alert("이메일 / 비밀번호를 다시 확인해주세요."));
 };
 
 const signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
 
-  await signInWithPopup(auth, provider)
+  const isNew = await signInWithPopup(auth, provider)
     .then((credential) => {
       setDoc(doc(db, "users", credential.user.uid), {
         username: credential.user.displayName,
         gender: null,
         birthDate: "",
+        email: credential.user.email,
         imgUrl: credential.user.photoURL,
         sizeType: null,
         sneakerSize: 0,
       });
+      return (
+        credential.user.metadata.creationTime ===
+        credential.user.metadata.lastSignInTime
+      );
     })
     .catch((e) => alert(e.message));
+  return isNew;
 };
 
 const logOut = async () => {
