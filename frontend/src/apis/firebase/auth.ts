@@ -91,7 +91,7 @@ const signInWithCredential = async (user: {
 const signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
 
-  await signInWithPopup(auth, provider)
+  const isNew = await signInWithPopup(auth, provider)
     .then((credential) => {
       setDoc(doc(db, "users", credential.user.uid), {
         username: credential.user.displayName,
@@ -101,8 +101,13 @@ const signInWithGoogle = async () => {
         sizeType: null,
         sneakerSize: 0,
       });
+      return (
+        credential.user.metadata.creationTime ===
+        credential.user.metadata.lastSignInTime
+      );
     })
     .catch((e) => alert(e.message));
+  return isNew;
 };
 
 const logOut = async () => {
