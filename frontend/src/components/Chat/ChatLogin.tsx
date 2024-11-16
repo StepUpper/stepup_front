@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { perfittLogo } from "@assets/assets";
 import Button from "@common/html/Button";
 import { useBottomSheet } from "@store/bottomSheet.store";
+import { signInWithGoogle } from "@/apis/firebase/auth";
 
 const ChatLogin = () => {
   const { open } = useBottomSheet();
@@ -17,6 +18,12 @@ const ChatLogin = () => {
     open("login");
   };
 
+  const handleGoogleSignIn = () => {
+    signInWithGoogle().then((data) => {
+      if (data) return handleSignUp();
+    });
+  };
+
   return (
     <>
       <div className="flex items-start bg-white px-4 pt-4">
@@ -30,12 +37,12 @@ const ChatLogin = () => {
         </p>
       </div>
       <div className="flex flex-col gap-1.5 pb-4 pl-12 pt-1">
-        {/* <Button
+        <Button
           className="h-8 w-44 rounded-md bg-grey-50 px-4 py-1 text-sm"
-          onClick={handleSignUp}
+          onClick={handleGoogleSignIn}
         >
           구글
-        </Button> */}
+        </Button>
         <Button
           className="h-8 w-44 rounded-md bg-grey-50 px-4 py-1 text-sm"
           onClick={handleLogin}
