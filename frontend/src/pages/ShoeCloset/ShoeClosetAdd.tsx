@@ -76,7 +76,7 @@ const ShoeClosetAdd = () => {
       <Header type="back" onBackClick={handleBackClick}>
         신발 등록
       </Header>
-      <main className="gap-7 overflow-y-scroll px-2">
+      <main className="gap-7 overflow-y-auto px-2">
         {!selectedShoe ? (
           //상품 찾기 버튼
           <SearchShoeButton />
