@@ -12,8 +12,10 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 
 interface UserTypeforSignup {
@@ -67,16 +69,17 @@ const updateUserData = async (key: string, value: string | number) => {
 
 const signUpWithCredential = async (user: UserTypeforSignup & TUser) => {
   const { email, password, ...rest } = user;
-  await createUserWithEmailAndPassword(auth, email, password)
-    .then((credential) => {
+  await createUserWithEmailAndPassword(auth, email, password).then(
+    (credential) => {
       setDoc(doc(db, "users", credential.user.uid), {
         ...rest,
+        email: email,
         imgUrl: "",
         sizeType: null,
         sneakerSize: 0,
       });
-    })
-    .catch((e) => alert(e));
+    }
+  );
 };
 
 const signInWithCredential = async (user: {
@@ -94,6 +97,7 @@ const signInWithGoogle = async () => {
   const isNew = await signInWithPopup(auth, provider)
     .then((credential) => {
       setDoc(doc(db, "users", credential.user.uid), {
+        email: credential.user.email,
         username: credential.user.displayName,
         gender: null,
         birthDate: "",
@@ -118,6 +122,14 @@ const logOut = async () => {
     .catch((e) => alert(e.message));
 };
 
+const availableAccount = async (email: string) => {
+  const docRef = collection(db, "users");
+  const q = query(docRef, where("email", "==", email));
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot.empty;
+};
+
 export {
   getUserData,
   updateUserData,
@@ -125,4 +137,5 @@ export {
   signInWithCredential,
   signInWithGoogle,
   logOut,
+  availableAccount,
 };

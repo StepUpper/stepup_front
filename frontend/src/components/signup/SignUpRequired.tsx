@@ -3,7 +3,11 @@ import InputField from "@common/InputField";
 import Input from "@common/html/Input";
 import BottomButton from "@common/BottomButton";
 import DropDown, { DropDownRef } from "@common/html/DropDown";
-import { signUpWithCredential, updateUserData } from "@apis/firebase/auth";
+import {
+  availableAccount,
+  signUpWithCredential,
+  updateUserData,
+} from "@apis/firebase/auth";
 import { useInput } from "@hooks/useInput";
 import userStore from "@store/auth.store";
 import { auth } from "@/firebase";
@@ -36,9 +40,6 @@ const SignUpRequired = () => {
   const [userNameRef, focusUserName, handleUserNamePress] =
     useFocus<HTMLInputElement>();
   const [genderRef, focusGender] = useFocus<DropDownRef>();
-  const [birthYearRef, focusBirthYear] = useFocus<DropDownRef>();
-  const [birthMonthRef, focusBirthMonth] = useFocus<DropDownRef>();
-  const [birthDayRef, focusBirthDay] = useFocus<DropDownRef>();
 
   const genderOptions: { value: string; label: string }[] = [
     { value: "남성", label: "남성" },
@@ -93,74 +94,70 @@ const SignUpRequired = () => {
     if (name === "username") setnameError("");
   };
 
-  const submitHandle = (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const checkValidate = () => {
+    let isvalid = true;
     const validateEmail = (email: string) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
         focusEmail(); // 이메일 필드 자동 포커스
         setEmailError("이메일 형식을 확인해주세요");
-        isSignUpRequiredValid = false;
-        return false;
-      } else {
-        setEmailError("");
-        return true;
       }
     };
 
-    let isSignUpRequiredValid = true;
-
     if (!signUpRequired.email) {
       //아이디 비어있을 때
-      if (isSignUpRequiredValid) focusEmail(); // 이메일 필드 자동 포커스
-
+      focusEmail(); // 이메일 필드 자동 포커스
       setEmailError("아이디를 입력하세요");
-      isSignUpRequiredValid = false;
-    } else if (validateEmail(signUpRequired.email)) {
-      isSignUpRequiredValid = true;
-    }
+      isvalid = false;
+    } else if (emailError.length > 0) {
+      focusEmail();
+      isvalid = false;
+    } else validateEmail(signUpRequired.email);
 
     if (!signUpRequired.password) {
       //비밀번호 비어있을 때
-      if (isSignUpRequiredValid) focusPassword(); // 비밀번호 필드 자동 포커스
-
+      if (isvalid) focusPassword(); // 비밀번호 필드 자동 포커스
+      isvalid = false;
       setPasswordError("비밀번호를 입력하세요");
-      isSignUpRequiredValid = false;
     }
 
     if (!signUpRequired.username) {
-      if (isSignUpRequiredValid) focusUserName(); // 이름 필드 자동 포커스
-
+      if (isvalid) focusUserName(); // 이름 필드 자동 포커스
+      isvalid = false;
       setnameError("이름을 입력하세요");
-      isSignUpRequiredValid = false;
     }
 
     if (!signUpRequired.gender) {
-      if (isSignUpRequiredValid) focusGender(); // 성별 필드 자동 포커스
-
+      if (isvalid) focusGender(); // 성별 필드 자동 포커스
+      isvalid = false;
       setGenderError("성별을 입력하세요");
-      isSignUpRequiredValid = false;
     }
 
     if (!signUpRequired.birthDate) {
       if (!birthYear) {
-        focusBirthYear(); // 년도 필드에 포커스
+        // focusBirthYear(); // 년도 필드에 포커스
         setBirthDateError("년도를 선택하세요");
-        isSignUpRequiredValid = false;
       } else if (!birthMonth) {
-        focusBirthMonth(); // 월 필드에 포커스
+        // focusBirthMonth(); // 월 필드에 포커스
         setBirthDateError("월을 선택하세요");
-        isSignUpRequiredValid = false;
       } else if (!birthDay) {
-        focusBirthDay(); // 일 필드에 포커스
+        // focusBirthDay(); // 일 필드에 포커스
         setBirthDateError("일을 선택하세요");
-        isSignUpRequiredValid = false;
       }
     }
+  };
 
-    //값 확인용
-    if (isSignUpRequiredValid) {
+  const submitHandle = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (
+      emailError.length === 0 &&
+      passwordError.length === 0 &&
+      genderError.length === 0 &&
+      birthDateError.length === 0 &&
+      nameError.length === 0
+    ) {
+      console.log(676766677666);
       if (user) {
         updateUserData("gender", signUpRequired.gender);
         updateUserData("birthDate", signUpRequired.birthDate);
@@ -174,7 +171,15 @@ const SignUpRequired = () => {
           gender: signUpRequired.gender === "남성" ? "male" : "female",
           username: signUpRequired.username,
           birthDate: signUpRequired.birthDate,
-        }).then(updateUserInfo);
+        })
+          .then(updateUserInfo)
+          .catch((data) => {
+            if (data.code === "auth/email-already-in-use")
+              setEmailError("이미 사용중인 이메일입니다");
+            else if (data.code === "auth/weak-password") {
+              setPasswordError("비밀번호는 6자 이상이어야합니다");
+            }
+          });
     }
   };
 
@@ -189,11 +194,18 @@ const SignUpRequired = () => {
               type="email"
               name="email"
               placeholder={user?.email || "이메일을 입력해주세요"}
-              className="h-[48px] w-full rounded-[4px] px-4 py-[14px]"
+              className={`h-[48px] w-full rounded-[4px] px-4 py-[14px] ${emailError === "이미 사용중인 이메일입니다" && "border-red-300 text-red"}`}
               value={user?.email ? "" : signUpRequired.email}
               onChange={handleInputChange}
               disabled={user?.email ? true : false}
               onKeyDown={(e) => handleEmailPress(e, focusPassword)} // 다음 패스워드 포커스
+              onBlur={async (e) => {
+                const isAvailable = await availableAccount(e.target.value);
+
+                if (!isAvailable) {
+                  setEmailError("이미 사용중인 이메일입니다");
+                }
+              }}
             />
           </InputField>
           {/*패스워드 입력 필드*/}
@@ -242,7 +254,6 @@ const SignUpRequired = () => {
           <InputField title="생년월일" error={birthDateError}>
             <div className="flex w-full justify-between space-x-1">
               <DropDown
-                ref={birthYearRef}
                 className="h-[45px] gap-2 rounded-[6px] border-[#E4E4E7] px-[10px] py-[14px]"
                 menuPlacement="top"
                 placeholder="년"
@@ -253,7 +264,6 @@ const SignUpRequired = () => {
                 }}
               />
               <DropDown
-                ref={birthMonthRef}
                 className="h-[45px] gap-2 rounded-[6px] border-[#E4E4E7] px-[10px] py-[14px]"
                 menuPlacement="top"
                 placeholder="월"
@@ -264,7 +274,6 @@ const SignUpRequired = () => {
                 }}
               />
               <DropDown
-                ref={birthDayRef}
                 className="h-[45px] gap-2 rounded-[6px] border-[#E4E4E7] px-[10px] py-[14px]"
                 menuPlacement="top"
                 placeholder="일"
@@ -279,7 +288,7 @@ const SignUpRequired = () => {
         </div>
         <div className="mt-4 px-5">
           {/*회원가입 다음 페이지로 이동 버튼*/}
-          <BottomButton title="다음" type="submit" />
+          <BottomButton title="다음" type="submit" onClick={checkValidate} />
         </div>
       </form>
     </>
