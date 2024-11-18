@@ -37,7 +37,7 @@ const ShoeImageSearchResult = (props: ShoeImageSearchResultProps) => {
   // 선택한 신발 정보 전달
   const handleAddSelectedShoe = () => {
     if (selectedResult) {
-      navigate("/shoecloset/add", { state: selectedResult });
+      navigate("/shoecloset/add", { state: selectedResult, replace: true });
     }
   };
 
