@@ -56,7 +56,11 @@ const ShoeImageSearchResult = (props: ShoeImageSearchResultProps) => {
             onShowMoreSimilarShoes={handleShowMoreSimilarShoes}
           />
         ) : (
-          <SimilarShoeList products={products} onClick={handleSelectedShoe} />
+          <SimilarShoeList
+            products={products}
+            selectedResult={selectedResult}
+            onSelectedShoe={handleSelectedShoe}
+          />
         )}
       </div>
       <div className="sticky bottom-0 z-10 w-full bg-white">
