@@ -58,21 +58,22 @@ const BottomSheet = (props: BottomSheetProps) => {
   return (
     <>
       {isOpen && (
-        <div className="z-[9999]">
+        <>
           {/* 오버레이 */}
           {isOpen && !isMinimized && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-white"
+              className="absolute left-0 top-0 z-[9999] size-full bg-white"
               onClick={() => {
+                if (isOverlayClose) close(id);
+
                 history.replaceState(
                   null,
                   "",
                   window.location.pathname + window.location.search
                 );
-                if (isOverlayClose) close(id);
               }}
             ></motion.div>
           )}
@@ -81,7 +82,7 @@ const BottomSheet = (props: BottomSheetProps) => {
           <motion.div
             initial={{ y: "100%" }} // 초기값
             animate={{
-              y: isMinimized ? (plp ? "79%" : "97%") : "0%",
+              y: isMinimized ? (plp ? "84%" : "97%") : "0%",
             }} // PLP 최소화 임시 처리
             exit={{ y: "100%" }}
             transition={{
@@ -96,7 +97,7 @@ const BottomSheet = (props: BottomSheetProps) => {
             dragConstraints={{ top: 0, bottom: 0 }} // 드래그 범위
             dragListener={false}
             onDragEnd={handleDragEnd} // 드래그 끝난 후 스냅 애니메이션 적용
-            className="absolute bottom-0 left-0 flex max-h-[98dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-custom"
+            className="absolute bottom-0 left-0 z-[9999] flex max-h-[98dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-custom"
           >
             {/* 드래그 바 */}
             {isDragBar && (
@@ -116,7 +117,7 @@ const BottomSheet = (props: BottomSheetProps) => {
             {/* 헤더 / 콘텐츠 영역 */}
             {children}
           </motion.div>
-        </div>
+        </>
       )}
     </>
   );

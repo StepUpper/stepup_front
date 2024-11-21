@@ -1,12 +1,29 @@
-import { IProduct } from "@pages/ShoeCloset/page";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { IProduct } from "@/pages/ShoeCloset/ShoeCloset";
 import ShoeComponent from "./ShoeComponent";
 import AddShoeButton from "./AddShoeButton";
 import { sortIcon } from "@assets/assets";
-import { useState } from "react";
 import Button from "../common/html/Button";
 
 const ShoeListComponent = ({ list }: { list: IProduct[] }) => {
   const [sort, setSort] = useState(true);
+
+  const navigate = useNavigate();
+
+  const sortedList = list.slice().sort((a, b) => {
+    const aTime =
+      a.updatedAt.seconds * 1000 + a.updatedAt.nanoseconds / 1000000;
+    const bTime =
+      b.updatedAt.seconds * 1000 + b.updatedAt.nanoseconds / 1000000;
+
+    return sort ? bTime - aTime : aTime - bTime;
+  });
+
+  const handleShoeClick = (closetId: string) => {
+    navigate(`/shoecloset/${closetId}`);
+  };
+
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex justify-between text-body3">
@@ -21,8 +38,12 @@ const ShoeListComponent = ({ list }: { list: IProduct[] }) => {
       </div>
       <div className="grid w-full grid-cols-3 grid-rows-3 gap-1">
         <AddShoeButton />
-        {list.map((prod, idx) => (
-          <ShoeComponent key={`shoe+${idx}`} id={idx} prod={prod} />
+        {sortedList.map((prod) => (
+          <ShoeComponent
+            key={prod.closetId}
+            prod={prod}
+            onClick={handleShoeClick}
+          />
         ))}
       </div>
     </div>

@@ -1,6 +1,7 @@
 import Button from "@common/html/Button";
 import Input from "@common/html/Input";
-import { imageSelectIcon, arrowUpIcon } from "@assets/assets";
+import { arrowUpIcon } from "@assets/assets";
+import ImageSelectIcon from "@assets/icons/image-select-icon.svg?react";
 import { useState } from "react";
 import { chatApi } from "@/apis/services/chat";
 import useChatStore from "@/store/chat.store";
@@ -71,8 +72,9 @@ const ChatInput = () => {
 
   return (
     <div className="flex h-28 w-full items-center bg-gray-100 px-4 pb-10 pt-4">
-      <img src={imageSelectIcon} alt="imageSelectIcon" className="mr-2 w-5" />
-
+      <div className="mr-2 w-5">
+        <ImageSelectIcon stroke="#71717A" />
+      </div>
       <div className="flex grow items-center rounded-full border border-gray-300 bg-white">
         <Input
           className="h-12 grow border-none bg-transparent py-3.5 pl-4 pr-1 font-paragraph text-gray-500 outline-none"

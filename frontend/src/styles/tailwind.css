@@ -44,4 +44,14 @@
       height: 100dvh; /* dvh를 지원하는 경우 dvh 사용 */
     }
   }
+
+  .min-h-real-screen {
+    min-height: 100vh; /* 기본적으로 vh 사용 */
+  }
+
+  @supports (height: 100dvh) {
+    .min-h-real-screen {
+      min-height: 100dvh; /* dvh를 지원하는 경우 dvh 사용 */
+    }
+  }
 }

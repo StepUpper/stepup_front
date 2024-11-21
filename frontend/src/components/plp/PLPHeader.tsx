@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { closeIcon } from "@assets/assets";
+import CloseIcon from "@assets/icons/close-icon.svg?react";
 import Button from "@common/html/Button";
 import { useBottomSheet } from "@store/bottomSheet.store";
 
@@ -26,7 +26,7 @@ const PLPHeader = (props: PLPHeaderProps) => {
             close("plp");
           }}
         >
-          <img src={closeIcon} alt="닫기 버튼" className="shrink-0" />
+          <CloseIcon stroke="black" className="shrink-0" />
         </Button>
       </div>
     </>

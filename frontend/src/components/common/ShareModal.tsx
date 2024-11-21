@@ -1,29 +1,36 @@
-import { saveMessageToShareMessages } from "@/apis/firebase/chatFirestore";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  chatListIcon,
   closeIcon,
   copyLeftIcon,
   linkAngledIcon,
   loadingIcon,
-} from "@/assets/assets";
-import { TChatResponse } from "@/types/chat";
-import { Timestamp } from "firebase/firestore";
-import { useEffect, useRef, useState } from "react";
+} from "@assets/assets";
+import formattedDate from "@utils/formattedDate";
 
-interface ModalProps {
+interface ShareModalProps {
+  id: string;
+  icon: string; // 표시 아이콘
+  title?: string; // 공유 제목
+  desc: string; // 안내 문구 (설명)
+  link: string; // 생성 링트
+  content: string; // 공유할 내용
+  timestamp?: Date; // 시간
   onClose: () => void;
-  message:
-    | {
-        id: string;
-        userMessage: string;
-        botMessage: TChatResponse;
-        timestamp: Timestamp;
-      }
-    | undefined;
+  onSaveData?: ()=> void;
 }
 
-const ChatShareModal = (props: ModalProps) => {
-  const { onClose, message } = props;
+const ShareModal = (props: ShareModalProps) => {
+  const {
+    id,
+    icon,
+    title = "공개 링크 생성됨",
+    desc,
+    link,
+    content,
+    timestamp,
+    onClose,
+    onSaveData,
+  } = props;
   const modalRef = useRef<HTMLDivElement>(null);
 
   const [isCopying, setIsCopying] = useState(false);
@@ -44,57 +51,49 @@ const ChatShareModal = (props: ModalProps) => {
     };
   }, [modalRef, onClose]);
 
-  const formattedDate = message?.timestamp
-    ? message.timestamp instanceof Date
-      ? message.timestamp.toLocaleDateString("ko-KR", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
-      : message.timestamp.toDate().toLocaleDateString("ko-KR", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
-    : "Invalid date";
+  // 날짜 포멧
+  const formattedTimestamp = useMemo(
+    () => formattedDate(timestamp),
+    [timestamp]
+  );
 
+  // 링크 복사
   const generateShareableLink = async () => {
     setIsCopying(true);
-    saveMessageToShareMessages(message!);
+    if(onSaveData) onSaveData()
+      
     const baseUrl = `${window.location.origin}/stepup_front`;
-    const shareUrl = `${baseUrl}/share/${message?.id}`;
+    const shareUrl = `${baseUrl}${link}/${id}`;
 
     await navigator.clipboard.writeText(shareUrl);
 
     setTimeout(() => {
       setIsCopying(false);
       setIsCopied(true);
+
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 3000);
     }, 500);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div
         ref={modalRef}
         className="relative w-[320px] rounded-lg bg-white p-6 shadow-lg"
       >
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold">공개 링크 생성됨</h2>
+          <h2 className="text-lg font-bold">{title}</h2>
           <button onClick={onClose} className="text-gray-600">
             <img src={closeIcon} alt="closeIcon" />
           </button>
         </div>
-        <p className="mt-2 text-sm text-gray-600">
-          채팅의 공개 링크가 생성되었습니다. 공유를 원하는 곳에 어디든지
-          전달하실 수 있습니다.
-        </p>
-
+        <p className="mt-2 text-sm text-gray-600">{desc}</p>
         <div className="mt-4 rounded-lg bg-gray-100 p-4">
-          <img src={chatListIcon} alt="chatCircleIcon" />
-          <div className="text-md mt-2 font-semibold">
-            {message?.userMessage}
-          </div>
-          <div className="mt-2 text-xs text-gray-500">{formattedDate}</div>
+          <img src={icon} alt="공유 아이콘" className="w-6" />
+          <div className="text-base mt-2 font-semibold">{content}</div>
+          <div className="mt-2 text-xs text-gray-500">{formattedTimestamp}</div>
         </div>
 
         <button
@@ -125,4 +124,4 @@ const ChatShareModal = (props: ModalProps) => {
   );
 };
 
-export default ChatShareModal;
+export default ShareModal;

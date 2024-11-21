@@ -1,9 +1,16 @@
 import userStore from "@store/auth.store";
-import ProductList from "@common/ProductList";
+import ProductItem from "@components/common/ProductItem";
 import { shoeHeart } from "@assets/assets";
+import { useSizeConversion } from "@/hooks/useSizeConversion";
 
 const LikedProducts = () => {
-  const { likeShoes } = userStore();
+  const { user, likeShoes } = userStore();
+
+  const sizeType = user?.sizeType ?? "mm";
+  const sneakerSize = user?.sneakerSize ?? null;
+
+  // 신발 사이즈 변환
+  const convertedSneakerSize = useSizeConversion(sizeType, sneakerSize);
 
   return (
     <>
@@ -13,14 +20,14 @@ const LikedProducts = () => {
         </p>
         {likeShoes && likeShoes.length > 0 ? (
           <>
-            <ProductList>
+            <ul className="no-scrollbar grid h-[calc(100vh-200px)] w-full grid-cols-2 gap-3 overflow-y-auto md:grid-cols-4">
               {likeShoes &&
                 likeShoes.map((product, index) => {
                   const isLiked = likeShoes?.some(
                     (shoe) => shoe.shoeId === product.brand + product.modelNo
                   );
                   return (
-                    <ProductList.Item
+                    <ProductItem
                       key={index}
                       shoeId={product.shoeId}
                       modelNo={product.modelNo}
@@ -31,11 +38,11 @@ const LikedProducts = () => {
                       customerLink={product.customerLink}
                       customerImg={product.customerImg || undefined}
                       isLiked={isLiked}
+                      sneakerSize={convertedSneakerSize}
                     />
                   );
                 })}
-            </ProductList>
-            <div className="mx-auto grid grid-cols-2 justify-items-center gap-[11px] py-[16px]"></div>
+            </ul>
           </>
         ) : (
           <div className="item-center left-1/2 h-[50vh] flex-col gap-4">

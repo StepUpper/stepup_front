@@ -25,10 +25,10 @@ const MyShopping = () => {
   return (
     <>
       <Header type="back" />
-      <div>
-        <div className="flex w-screen justify-between">
+      <div className="relative h-screen">
+        <div className="flex w-full justify-between">
           <Button
-            className={`h-[40px] grow px-[16px] py-[8px] text-body2 ${activeCompoenet === "likedproducts" || activeCompoenet === "likedBrands" ? "border-b-2 border-black font-bold" : "border-b border-[#E5E7EB] font-normal text-grey-600"}`}
+            className={`h-[40px] grow bg-white px-[16px] py-[8px] text-body2 ${activeCompoenet === "likedproducts" || activeCompoenet === "likedBrands" ? "border-b-2 border-black font-bold" : "border-b border-[#E5E7EB] font-normal text-grey-600"}`}
             onClick={() => setActiveComponent("likedproducts")}
           >
             좋아요

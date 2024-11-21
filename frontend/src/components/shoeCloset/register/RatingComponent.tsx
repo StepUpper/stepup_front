@@ -1,8 +1,13 @@
 import { starFilledIcon, starIcon } from "@/assets/assets";
-import { useState } from "react";
 
-const RatingComponent = () => {
-  const [rate, setRate] = useState(0);
+const RatingComponent = ({
+  rating,
+  setRating,
+}: {
+  rating: number;
+  setRating: (rating: number) => void;
+}) => {
+  //const [rate, setRate] = useState(0);
 
   return (
     <div className="flex flex-col items-center gap-2.5 py-5">
@@ -12,26 +17,26 @@ const RatingComponent = () => {
           별점을 눌러 만족도를 알려주세요.
         </p>
       </label>
-      <div className="flex w-fit">
+      <div className="flex w-fit cursor-pointer">
         <img
-          src={rate > 0 ? starFilledIcon : starIcon}
-          onClick={() => setRate(1)}
+          src={rating > 0 ? starFilledIcon : starIcon}
+          onClick={() => setRating(1)}
         />
         <img
-          src={rate > 1 ? starFilledIcon : starIcon}
-          onClick={() => setRate(2)}
+          src={rating > 1 ? starFilledIcon : starIcon}
+          onClick={() => setRating(2)}
         />
         <img
-          src={rate > 2 ? starFilledIcon : starIcon}
-          onClick={() => setRate(3)}
+          src={rating > 2 ? starFilledIcon : starIcon}
+          onClick={() => setRating(3)}
         />
         <img
-          src={rate > 3 ? starFilledIcon : starIcon}
-          onClick={() => setRate(4)}
+          src={rating > 3 ? starFilledIcon : starIcon}
+          onClick={() => setRating(4)}
         />
         <img
-          src={rate > 4 ? starFilledIcon : starIcon}
-          onClick={() => setRate(5)}
+          src={rating > 4 ? starFilledIcon : starIcon}
+          onClick={() => setRating(5)}
         />
       </div>
     </div>

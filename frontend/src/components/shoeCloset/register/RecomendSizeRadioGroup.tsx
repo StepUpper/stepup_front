@@ -17,50 +17,50 @@ const RecomendSizeRadioGroup = ({
           id="horizontal-list-group-item-radio-0"
           type="radio"
           name="horizontal-list-group-item-radio"
-          className="box-content size-2 appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
-          value="0"
+          className="box-content size-2 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
+          value="많이 작아요"
           onChange={(e) => setReview(e.target.value)}
-          checked={size === "0"}
+          checked={size === "많이 작아요"}
         />
 
         <Input
           id="horizontal-list-group-item-radio-1"
           type="radio"
           name="horizontal-list-group-item-radio"
-          className="box-content size-2 appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
-          value="1"
+          className="box-content size-2 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
+          value="약간 작아요"
           onChange={(e) => setReview(e.target.value)}
-          checked={size === "1"}
+          checked={size === "약간 작아요"}
         />
 
         <Input
           id="horizontal-list-group-item-radio-2"
           type="radio"
           name="horizontal-list-group-item-radio"
-          className="box-content size-2 appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
-          value="2"
+          className="box-content size-2 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
+          value="정사이즈"
           onChange={(e) => setReview(e.target.value)}
-          checked={size === "2"}
+          checked={size === "정사이즈"}
         />
 
         <Input
           id="horizontal-list-group-item-radio-3"
           type="radio"
           name="horizontal-list-group-item-radio"
-          className="box-content size-2 appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
-          value="3"
+          className="box-content size-2 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
+          value="약간 커요"
           onChange={(e) => setReview(e.target.value)}
-          checked={size === "3"}
+          checked={size === "약간 커요"}
         />
 
         <Input
           id="horizontal-list-group-item-radio-4"
           type="radio"
           name="horizontal-list-group-item-radio"
-          className="box-content size-2 appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
-          value="4"
+          className="box-content size-2 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
+          value="많이 커요"
           onChange={(e) => setReview(e.target.value)}
-          checked={size === "4"}
+          checked={size === "많이 커요"}
         />
       </ul>
       <ul className="flex w-full justify-between text-caption1">
@@ -68,7 +68,7 @@ const RecomendSizeRadioGroup = ({
           htmlFor="horizontal-list-group-item-radio-0"
           className={twMerge(
             "item-center w-1/5 text-caption1 font-label",
-            size === "0" ? "text-black" : "text-grey-500"
+            size === "많이 작아요" ? "text-black" : "text-grey-500"
           )}
         >
           많이 작아요
@@ -77,7 +77,7 @@ const RecomendSizeRadioGroup = ({
           htmlFor="horizontal-list-group-item-radio-1"
           className={twMerge(
             "item-center w-1/5 font-label",
-            size === "1" ? "text-black" : "text-grey-500"
+            size === "약간 작아요" ? "text-black" : "text-grey-500"
           )}
         >
           약간 작아요
@@ -86,7 +86,7 @@ const RecomendSizeRadioGroup = ({
           htmlFor="horizontal-list-group-item-radio-2"
           className={twMerge(
             "item-center w-1/5 font-label",
-            size === "2" ? "text-black" : "text-grey-500"
+            size === "정사이즈" ? "text-black" : "text-grey-500"
           )}
         >
           정사이즈
@@ -95,7 +95,7 @@ const RecomendSizeRadioGroup = ({
           htmlFor="horizontal-list-group-item-radio-3"
           className={twMerge(
             "item-center w-1/5 font-label",
-            size === "3" ? "text-black" : "text-grey-500"
+            size === "약간 커요" ? "text-black" : "text-grey-500"
           )}
         >
           약간 커요
@@ -104,10 +104,10 @@ const RecomendSizeRadioGroup = ({
           htmlFor="horizontal-list-group-item-radio-4"
           className={twMerge(
             "item-center w-1/5 font-label",
-            size === "4" ? "text-black" : "text-grey-500"
+            size === "많이 커요" ? "text-black" : "text-grey-500"
           )}
         >
-          약간 커요
+          많이 커요
         </label>
       </ul>
     </div>

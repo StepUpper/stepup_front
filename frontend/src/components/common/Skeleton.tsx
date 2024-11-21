@@ -7,8 +7,8 @@ interface SkeletonProps {
 }
 
 const Skeleton: React.FC<SkeletonProps> = ({
-  isSquare = false,
-  isCircle = false,
+  isSquare = false, // 정사각
+  isCircle = false, // 원
   className,
 }) => {
   return (

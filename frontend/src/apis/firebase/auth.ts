@@ -34,13 +34,24 @@ const getUserData = async () => {
 
   const likeShoesRef = collection(db, "users", uid, "likeShoes");
   const likeShoesSnap = await getDocs(likeShoesRef);
-
   const likeShoes = likeShoesSnap.docs.map((doc) => ({
     shoeId: doc.id,
     ...doc.data(),
   }));
 
-  return { uid: uid, ...docSnap.data(), likeShoes: likeShoes };
+  const shoeClosetRef = collection(db, "users", uid, "shoeCloset");
+  const shoeClosetSnap = await getDocs(shoeClosetRef);
+  const shoeCloset = shoeClosetSnap.docs.map((doc) => ({
+    closetId: doc.id,
+    ...doc.data(),
+  }));
+
+  return {
+    uid,
+    ...docSnap.data(),
+    likeShoes,
+    shoeCloset,
+  };
 };
 
 const updateUserData = async (key: string, value: string | number) => {
@@ -80,7 +91,7 @@ const signInWithCredential = async (user: {
 const signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
 
-  await signInWithPopup(auth, provider)
+  const isNew = await signInWithPopup(auth, provider)
     .then((credential) => {
       setDoc(doc(db, "users", credential.user.uid), {
         username: credential.user.displayName,
@@ -90,8 +101,13 @@ const signInWithGoogle = async () => {
         sizeType: null,
         sneakerSize: 0,
       });
+      return (
+        credential.user.metadata.creationTime ===
+        credential.user.metadata.lastSignInTime
+      );
     })
     .catch((e) => alert(e.message));
+  return isNew;
 };
 
 const logOut = async () => {

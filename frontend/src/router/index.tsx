@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "@components/layout/Layout";
 import NotFound from "@pages/NotFound/NotFound";
-import ShoeCloset from "@pages/ShoeCloset/page";
+import ShoeCloset from "@/pages/ShoeCloset/ShoeCloset";
 import Chat from "@pages/Chat/Chat";
-import Review from "@pages/Review/page";
+import ShoeClosetAdd from "@/pages/ShoeCloset/ShoeClosetAdd";
 import MyPage from "@pages/MyPage/MyPage";
 import MyShopping from "@pages/MyShopping/MyShopping";
 import MyFootInfo from "@pages/MyFootInfo/MyFootInfo";
@@ -13,6 +13,11 @@ import { onBoardingLoader } from "@router/loaders/onBoarding";
 import ChatShareView from "@components/Chat/ChatShareView";
 import EditUserInfoPage from "@pages/EditUserInfo/EditUserInfoPage";
 import ChangePasswordPage from "@pages/ChangePassword/ChangePasswordPage";
+import SearchShoeCloset from "@pages/ShoeCloset/SearchShoeCloset";
+import ShoeClosetDetail from "@pages/ShoeCloset/ShoeClosetDetail";
+import ShoeClosetModify from "@pages/ShoeCloset/ShoeClosetModify";
+import ShoeImageSearch from "@pages/ShoeCloset/ShoeImageSearch";
+import ShareShoeCloset from "@pages/Share/ShareShoeCloset";
 
 const router = createBrowserRouter(
   [
@@ -26,12 +31,32 @@ const router = createBrowserRouter(
           loader: onBoardingLoader,
         },
         {
-          path: "/archive",
+          path: "/shoecloset",
           element: <ShoeCloset />,
         },
         {
-          path: "/archive/review",
-          element: <Review />,
+          path: "/shoecloset/:closetId",
+          element: <ShoeClosetDetail />,
+        },
+        {
+          path: "/shoecloset/search",
+          element: <SearchShoeCloset />,
+        },
+        {
+          path: "/shoecloset/search/image",
+          element: <ShoeImageSearch />,
+        },
+        {
+          path: "/shoecloset/add",
+          element: <ShoeClosetAdd />,
+        },
+        {
+          path: "/shoecloset/modify/:closetId",
+          element: <ShoeClosetModify />,
+        },
+        {
+          path: "/share/shoecloset/:id",
+          element: <ShareShoeCloset />,
         },
         {
           path: "/mypage",

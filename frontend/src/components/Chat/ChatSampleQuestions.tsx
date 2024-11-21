@@ -11,7 +11,6 @@ interface Question {
 const ChatSampleQuestions = () => {
   const { data } = useAxios<Question[]>(chatApi.getRecommendedQuestion, []);
 
-  const id = useId();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSampleToggle = () => {
@@ -46,8 +45,8 @@ const ChatSampleQuestions = () => {
 
         <div className="flex flex-col gap-[.875rem]">
           <ul className="flex flex-col gap-1 px-4">
-            {data?.map((q) => (
-              <li key={id} className="list-disc text-body3 text-gray-700">
+            {data?.map((q, index) => (
+              <li key={index} className="list-disc text-body3 text-gray-700">
                 {q.question}
               </li>
             ))}
