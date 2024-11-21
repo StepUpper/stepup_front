@@ -125,7 +125,7 @@ const ShoeClosetModify = () => {
         {/* input form */}
         <ShoeRegisterInputForm
           reviewData={reviewData}
-          setReviewData={setReviewData}
+          setReviewData={() => setReviewData}
         />
         {/* 등록하기 버튼 */}
         <SubmitBottomButton onSubmit={handleSubmit} />

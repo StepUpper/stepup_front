@@ -120,7 +120,7 @@ const ProductItem = forwardRef<HTMLLIElement, ProductItemProps>(
             onClick={handleLikeClick}
           />
           {/* 판매처 이미지 */}
-          <div className="bg-grey-300 absolute -bottom-3 right-1.5 size-6 rounded-full">
+          <div className="absolute -bottom-3 right-1.5 size-6 rounded-full bg-gray-300">
             <Img src={customerImg} alt={brand} errorStyle="w-full opacity-40" />
           </div>
         </div>

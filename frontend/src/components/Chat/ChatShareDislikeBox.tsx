@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { thumbsDownIcon, shareIcon, chatListIcon } from "@assets/assets";
-import { getMessageById, saveMessageToShareMessages } from "@/apis/firebase/chatFirestore";
+import {
+  getMessageById,
+  saveMessageToShareMessages,
+} from "@/apis/firebase/chatFirestore";
 import useChatStore from "@/store/chat.store";
 import userStore from "@/store/auth.store";
 import { TChatResponse } from "@/types/chat";
@@ -46,8 +49,8 @@ const ChatShareDislikeBox = (props: ChatShareDislikeBoxProps) => {
   };
 
   const handleSaveShareMessage = () => {
-    saveMessageToShareMessages(message!)
-  }
+    saveMessageToShareMessages(message!);
+  };
 
   return (
     <>
