@@ -2,7 +2,9 @@ import { addOrRemoveShoeFromLikes } from "@apis/firebase/likeFirestore";
 import userStore from "@store/auth.store";
 import LikeButton from "@common/LikeButton";
 import Img from "@common/html/Img";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import useChatStore from "@/store/chat.store";
+import { useBottomSheet } from "@/store/bottomSheet.store";
 
 interface ProductItemProps {
   brand: string;
@@ -28,6 +30,14 @@ const ChatProductItem = (props: ProductItemProps) => {
   const { messageId } = useParams();
   const isSharePage = Boolean(messageId);
 
+  const { addGuestMessage } = useChatStore();
+  const { open } = useBottomSheet();
+  const navigate = useNavigate();
+  const goToLogin = () => {
+    navigate("#login");
+    open("login");
+  };
+
   const handleLikeClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isLoggedIn) {
@@ -41,8 +51,15 @@ const ChatProductItem = (props: ProductItemProps) => {
       });
       updateUserInfo();
     } else {
-      console.log("로그인이 필요합니다.");
-      // 여기서 로그인하라는 채팅을 띄워주면 좋을 듯 하다. 일단 나중에 ..
+      addGuestMessage({
+        type: "bot",
+        content: {
+          message: "로그인이 필요한 기능입니다.",
+        },
+      });
+      setTimeout(() => {
+        goToLogin();
+      }, 1500);
     }
   };
   return (

@@ -23,7 +23,13 @@ const Login = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const { closeAll } = useBottomSheet();
+  const { closeAll, open } = useBottomSheet();
+
+  const goToSignUp = () => {
+    closeAll();
+    navigate("#signup");
+    open("login");
+  };
 
   // 자동 포커스
   const [emailRef, focusEmail, handleEmailKeyPress] =
@@ -152,6 +158,12 @@ const Login = () => {
               onKeyDown={(e) => handlePasswordPress(e, focusFormButton)}
             />
           </InputField>
+          <span
+            className="ml-3 cursor-pointer text-xs font-bold text-[rgb(0,123,255)] hover:underline"
+            onClick={goToSignUp}
+          >
+            아이디가 없으신가요?
+          </span>
         </div>
         <div className="mt-4 px-5">
           {/*로그인 폼 제출 버튼*/}

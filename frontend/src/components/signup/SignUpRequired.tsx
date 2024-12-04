@@ -8,12 +8,15 @@ import { useInput } from "@hooks/useInput";
 import userStore from "@store/auth.store";
 import { auth } from "@/firebase";
 import useFocus from "@hooks/useFocus";
+import { useBottomSheet } from "@/store/bottomSheet.store";
+import { useNavigate } from "react-router-dom";
 
 const SignUpRequired = () => {
   const user = auth.currentUser;
   const { updateUserInfo } = userStore((store) => ({
     updateUserInfo: store.updateUserInfo,
   }));
+  const { closeAll, open } = useBottomSheet();
   const { value: signUpRequired, setValue: setSignUpRequired } = useInput({
     email: user?.email || "",
     password: user ? "blocked" : "",
@@ -178,6 +181,14 @@ const SignUpRequired = () => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const goToLogin = () => {
+    closeAll();
+    navigate("#login");
+    open("login");
+  };
+
   return (
     <>
       <form className="gap-4" onSubmit={submitHandle} noValidate>
@@ -276,6 +287,12 @@ const SignUpRequired = () => {
               />
             </div>
           </InputField>
+          <span
+            className="ml-3 cursor-pointer text-xs font-bold text-[rgb(0,123,255)] hover:underline"
+            onClick={goToLogin}
+          >
+            이미 아이디가 있으신가요?
+          </span>
         </div>
         <div className="mt-4 px-5">
           {/*회원가입 다음 페이지로 이동 버튼*/}
