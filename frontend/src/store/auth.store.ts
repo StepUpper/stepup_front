@@ -39,7 +39,7 @@ interface UserState {
   likeShoes: likeShoes;
   // 신발장의 신발들 관리하는 상태
   shoeCloset: shoeCloset;
-  updateUserInfo: () => void;
+  updateUserInfo: () => Promise<TUser | undefined>; // async 함수는 암묵적으로 Promise를 반환한다.
   setUserInfo: (key: string, value: string | number) => void;
   setIsLoggedIn: (state: boolean) => void;
 }
@@ -49,8 +49,9 @@ const userStore = create<UserState>((set) => ({
   user: null,
   likeShoes: null,
   shoeCloset: null,
-  updateUserInfo: () => {
-    getUserData().then((data) => {
+  updateUserInfo: async () => {
+    try {
+      const data = await getUserData();
       if (data) {
         const { likeShoes, shoeCloset, ...userData } = data;
         set({
@@ -58,10 +59,13 @@ const userStore = create<UserState>((set) => ({
           likeShoes: likeShoes as likeShoes,
           shoeCloset: shoeCloset as shoeCloset,
         });
+        return userData;
       } else {
         set({ user: null });
       }
-    });
+    } catch (error) {
+      console.error(error);
+    }
   },
   setUserInfo: (key: string, value: string | number) => {
     set((user) => ({ ...user, [key]: value }));

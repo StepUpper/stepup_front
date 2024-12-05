@@ -14,7 +14,7 @@ import useFocus from "@hooks/useFocus";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { updateUserInfo, user, isLoggedIn } = userStore();
+  const { updateUserInfo, isLoggedIn } = userStore();
   const { roomId, addUserMessage } = useChatStore();
   const [loginData, setLoginData] = useState({
     email: "",
@@ -87,24 +87,25 @@ const Login = () => {
 
     //값 확인용
     if (isLoginValid) {
-      await signInWithCredential(loginData).then(() => {
-        updateUserInfo();
-        closeAll();
-        navigate("/");
-      });
-
-      // 여기서 왜 isLoggedIn이 false 일까..
-      // 루트 경로로 보냈으니 Layout 컴포넌트에서 로그인 상태 변경 해줘야 하는거 아닌가??
-      // 일단 급한대로 아래 try문에서 로그인 상태 확인 없이 진행
-      console.log(isLoggedIn);
+      await signInWithCredential(loginData);
+      // zustand로 관리하는 user가 업데이트가 바로 안이루어져서,
+      // 임시 방편으로 updateUserInfo 가 userData를 반환하게끔 하고
+      // 반환값을 사용하도록 하자
+      // 필요한 데이터만 구조분해할당
+      const { uid, username } = (await updateUserInfo()) as {
+        uid: string;
+        username: string;
+      };
+      closeAll();
+      navigate("/");
 
       // 여기서 맞춤상품 api 호출 처리
       try {
-        const loginMent = `반갑습니다 ${user?.username}님! ${user?.username}님을 위한 맞춤 상품을 추천해 드릴께요`;
+        const loginMent = `반갑습니다 ${username!}님! ${username!}님을 위한 맞춤 상품을 추천해 드릴께요`;
         const res = await chatApi.getCustomizedProduct();
 
         if (res.status === 200) {
-          await addMessageToFirestore(user?.uid!, roomId!, "", {
+          await addMessageToFirestore(uid!, roomId!, "", {
             message: loginMent,
             reqProducts: res.data,
           } as TChatResponse);
