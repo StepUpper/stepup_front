@@ -35,7 +35,7 @@ export default tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
-      "react/prop-types": "warn",
+      "react/prop-types": "off",
       "@typescript-eslint/no-unused-vars": "warn",
       "@typescript-eslint/no-non-null-asserted-optional-chain": "warn",
       "prettier/prettier": "error",

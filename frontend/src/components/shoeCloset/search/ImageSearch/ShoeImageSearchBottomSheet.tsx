@@ -10,7 +10,7 @@ const ShoeImageSearchBottomSheet = () => {
   const imageUrl = location.state;
 
   // TODO: 에러처리
-  const { data, isLoading, isError } = useAxios(
+  const { data, isLoading } = useAxios(
     shoeSearchApi.postShoeImageSearch,
     null,
     { imageUrl: imageUrl }

@@ -16,7 +16,7 @@ interface ShareModalProps {
   content: string; // 공유할 내용
   timestamp?: Date; // 시간
   onClose: () => void;
-  onSaveData?: ()=> void;
+  onSaveData?: () => void;
 }
 
 const ShareModal = (props: ShareModalProps) => {
@@ -60,8 +60,8 @@ const ShareModal = (props: ShareModalProps) => {
   // 링크 복사
   const generateShareableLink = async () => {
     setIsCopying(true);
-    if(onSaveData) onSaveData()
-      
+    if (onSaveData) onSaveData();
+
     const baseUrl = `${window.location.origin}/stepup_front`;
     const shareUrl = `${baseUrl}${link}/${id}`;
 
@@ -92,7 +92,7 @@ const ShareModal = (props: ShareModalProps) => {
         <p className="mt-2 text-sm text-gray-600">{desc}</p>
         <div className="mt-4 rounded-lg bg-gray-100 p-4">
           <img src={icon} alt="공유 아이콘" className="w-6" />
-          <div className="text-base mt-2 font-semibold">{content}</div>
+          <div className="mt-2 text-base font-semibold">{content}</div>
           <div className="mt-2 text-xs text-gray-500">{formattedTimestamp}</div>
         </div>
 
