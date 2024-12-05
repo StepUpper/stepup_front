@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import ChatInput from "@components/Chat/ChatInput";
 import ChatMessage from "@components/Chat/ChatMessage";
@@ -17,8 +17,14 @@ import { useBottomSheet } from "@store/bottomSheet.store";
 import ChatSampleQuestions from "@components/Chat/ChatSampleQuestions";
 
 const Chat = () => {
-  const { guestMessages, userMessages, loadGuestMessages, loadUserMessages } =
-    useChatStore();
+  const {
+    guestMessages,
+    userMessages,
+    roomId,
+    loadGuestMessages,
+    loadUserMessages,
+    loadOlderMessages,
+  } = useChatStore();
   const { clickedProducts, clickedBrand, setClickedProducts, setClickedBrand } =
     productAndBrandStore();
 
@@ -75,11 +81,37 @@ const Chat = () => {
   }, [isLoggedIn, userId]);
 
   const mainRef = useRef<HTMLDivElement | null>(null);
+  const [isLoadingOlderMessages, setIsLoadingOlderMessages] = useState(false);
+  const handleScroll = () => {
+    if (mainRef.current) {
+      const { scrollTop } = mainRef.current;
+      if (scrollTop === 0) {
+        setIsLoadingOlderMessages(true);
+        setTimeout(() => {
+          loadOlderMessages(userId!, roomId!).finally(() => {
+            setIsLoadingOlderMessages(false);
+          });
+        }, 1000);
+      }
+    }
+  };
+
+  // roomId가 비동기적으로(?) update 돼서 roomId가 제대로 들어왔을 때만 동작하게끔
+  useEffect(() => {
+    const mainElement = mainRef.current;
+    if (mainElement && roomId) {
+      mainElement.addEventListener("scroll", handleScroll);
+
+      return () => {
+        mainElement.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [roomId]);
 
   // 스크롤을 항상 하단에 위치시키기
   useLayoutEffect(() => {
     // 바텀 오픈 X 일 경우
-    if (!isAllSheetsOpen) {
+    if (!isAllSheetsOpen && !isLoadingOlderMessages) {
       setTimeout(() => {
         mainRef.current?.scrollTo({
           top: mainRef.current.scrollHeight,
@@ -96,6 +128,16 @@ const Chat = () => {
       <main ref={mainRef} className="no-scrollbar flex-1 overflow-y-auto">
         {/* 현재 질문 가능한 목록 */}
         <ChatSampleQuestions />
+
+        {isLoadingOlderMessages && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-15">
+            <div className="flex space-x-6">
+              <div className="h-3 w-3 animate-ping rounded-full bg-gray-400" />
+              <div className="animation-delay-200 h-3 w-3 animate-ping rounded-full bg-gray-500" />
+              <div className="animation-delay-400 h-3 w-3 animate-ping rounded-full bg-gray-600" />
+            </div>
+          </div>
+        )}
 
         <div className="pt-[53px]">
           {!isLoggedIn && <ChatLogin />}
