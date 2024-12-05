@@ -87,10 +87,7 @@ const Chat = () => {
         });
       }, 0);
     }
-  }, [
-    isLoggedIn ? userMessages.length : guestMessages.length,
-    isAllSheetsOpen,
-  ]);
+  }, [isLoggedIn ? userMessages : guestMessages.length, isAllSheetsOpen]);
 
   return (
     <div className="h-real-screen relative flex flex-col overflow-hidden">
