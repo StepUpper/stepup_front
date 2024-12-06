@@ -4,7 +4,7 @@ import ChatInput from "@components/Chat/ChatInput";
 import ChatMessage from "@components/Chat/ChatMessage";
 import ChatUserMessage from "@components/Chat/ChatUserMessage";
 import Header from "@common/Header";
-import { TChatResponse } from "@type/chat";
+import { OutletContextType, TChatResponse } from "@type/chat";
 import ChatLogin from "@components/Chat/ChatLogin";
 import ChatRecommendedQuestion from "@components/Chat/ChatRecommendedQuestion";
 import LoginBottomSheet from "@components/login/LoginBottomSheet";
@@ -15,6 +15,8 @@ import productAndBrandStore from "@store/productAndBrand.store";
 import InterestKeywordsBottomSheet from "@components/Chat/InterestKeywordsBottomSheet";
 import { useBottomSheet } from "@store/bottomSheet.store";
 import ChatSampleQuestions from "@components/Chat/ChatSampleQuestions";
+import { useOutletContext } from "react-router-dom";
+import ChatLoading from "@/components/Chat/ChatLoading";
 
 const Chat = () => {
   const {
@@ -82,6 +84,7 @@ const Chat = () => {
 
   const mainRef = useRef<HTMLDivElement | null>(null);
   const [isLoadingOlderMessages, setIsLoadingOlderMessages] = useState(false);
+
   const handleScroll = () => {
     if (mainRef.current) {
       const { scrollTop } = mainRef.current;
@@ -119,7 +122,11 @@ const Chat = () => {
         });
       }, 0);
     }
-  }, [isLoggedIn ? userMessages : guestMessages.length, isAllSheetsOpen]);
+    // isAllSheetsOpen 를 의존성 배열에 넣으면, 바텀시트 닫을 때 스크롤이 최하단으로 움직여서 일단 뺌
+  }, [userMessages, guestMessages]);
+
+  // 로그인 된 유저가 새로고침할 때 생기는 깜빡임을 제어할 state
+  const { isAuthLoading } = useOutletContext<OutletContextType>();
 
   return (
     <div className="h-real-screen relative flex flex-col overflow-hidden">
@@ -129,32 +136,30 @@ const Chat = () => {
         {/* 현재 질문 가능한 목록 */}
         <ChatSampleQuestions />
 
-        {isLoadingOlderMessages && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-15">
-            <div className="flex space-x-6">
-              <div className="h-3 w-3 animate-ping rounded-full bg-gray-400" />
-              <div className="animation-delay-200 h-3 w-3 animate-ping rounded-full bg-gray-500" />
-              <div className="animation-delay-400 h-3 w-3 animate-ping rounded-full bg-gray-600" />
-            </div>
-          </div>
-        )}
+        {/* 이전 메세지를 보이는 UI */}
+        {isLoadingOlderMessages && <ChatLoading />}
 
         <div className="pt-[53px]">
-          {!isLoggedIn && <ChatLogin />}
+          {isAuthLoading ? (
+            <ChatLoading />
+          ) : (
+            <>
+              {!isLoggedIn && <ChatLogin />}
 
-          {(isLoggedIn ? userMessages : guestMessages).map((msg, index) => (
-            <div key={index}>
-              {msg.type === "user" ? (
-                <ChatUserMessage title={msg.content as string} />
-              ) : (
-                <ChatMessage
-                  title={msg.content as TChatResponse}
-                  docId={msg.id}
-                />
-              )}
-            </div>
-          ))}
-          {/* <div ref={messageEndRef} /> */}
+              {(isLoggedIn ? userMessages : guestMessages).map((msg, index) => (
+                <div key={index}>
+                  {msg.type === "user" ? (
+                    <ChatUserMessage title={msg.content as string} />
+                  ) : (
+                    <ChatMessage
+                      title={msg.content as TChatResponse}
+                      docId={msg.id}
+                    />
+                  )}
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </main>
 
