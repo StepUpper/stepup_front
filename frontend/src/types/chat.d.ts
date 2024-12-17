@@ -28,3 +28,7 @@ export type TChatResponse = {
     productId: string;
   }[];
 };
+
+export type OutletContextType = {
+  isAuthLoading: boolean;
+};

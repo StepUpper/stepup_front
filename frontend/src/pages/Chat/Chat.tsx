@@ -1,10 +1,10 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import ChatInput from "@components/Chat/ChatInput";
 import ChatMessage from "@components/Chat/ChatMessage";
 import ChatUserMessage from "@components/Chat/ChatUserMessage";
 import Header from "@common/Header";
-import { TChatResponse } from "@type/chat";
+import { OutletContextType, TChatResponse } from "@type/chat";
 import ChatLogin from "@components/Chat/ChatLogin";
 import ChatRecommendedQuestion from "@components/Chat/ChatRecommendedQuestion";
 import LoginBottomSheet from "@components/login/LoginBottomSheet";
@@ -15,10 +15,18 @@ import productAndBrandStore from "@store/productAndBrand.store";
 import InterestKeywordsBottomSheet from "@components/Chat/InterestKeywordsBottomSheet";
 import { useBottomSheet } from "@store/bottomSheet.store";
 import ChatSampleQuestions from "@components/Chat/ChatSampleQuestions";
+import { useOutletContext } from "react-router-dom";
+import ChatLoading from "@/components/Chat/ChatLoading";
 
 const Chat = () => {
-  const { guestMessages, userMessages, loadGuestMessages, loadUserMessages } =
-    useChatStore();
+  const {
+    guestMessages,
+    userMessages,
+    roomId,
+    loadGuestMessages,
+    loadUserMessages,
+    loadOlderMessages,
+  } = useChatStore();
   const { clickedProducts, clickedBrand, setClickedProducts, setClickedBrand } =
     productAndBrandStore();
 
@@ -75,11 +83,38 @@ const Chat = () => {
   }, [isLoggedIn, userId]);
 
   const mainRef = useRef<HTMLDivElement | null>(null);
+  const [isLoadingOlderMessages, setIsLoadingOlderMessages] = useState(false);
+
+  const handleScroll = () => {
+    if (mainRef.current) {
+      const { scrollTop } = mainRef.current;
+      if (scrollTop === 0) {
+        setIsLoadingOlderMessages(true);
+        setTimeout(() => {
+          loadOlderMessages(userId!, roomId!).finally(() => {
+            setIsLoadingOlderMessages(false);
+          });
+        }, 1000);
+      }
+    }
+  };
+
+  // roomId가 비동기적으로(?) update 돼서 roomId가 제대로 들어왔을 때만 동작하게끔
+  useEffect(() => {
+    const mainElement = mainRef.current;
+    if (mainElement && roomId) {
+      mainElement.addEventListener("scroll", handleScroll);
+
+      return () => {
+        mainElement.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [roomId]);
 
   // 스크롤을 항상 하단에 위치시키기
   useLayoutEffect(() => {
     // 바텀 오픈 X 일 경우
-    if (!isAllSheetsOpen) {
+    if (!isAllSheetsOpen && !isLoadingOlderMessages) {
       setTimeout(() => {
         mainRef.current?.scrollTo({
           top: mainRef.current.scrollHeight,
@@ -87,7 +122,11 @@ const Chat = () => {
         });
       }, 0);
     }
-  }, [isLoggedIn ? userMessages : guestMessages.length, isAllSheetsOpen]);
+    // isAllSheetsOpen 를 의존성 배열에 넣으면, 바텀시트 닫을 때 스크롤이 최하단으로 움직여서 일단 뺌
+  }, [userMessages, guestMessages]);
+
+  // 로그인 된 유저가 새로고침할 때 생기는 깜빡임을 제어할 state
+  const { isAuthLoading } = useOutletContext<OutletContextType>();
 
   return (
     <div className="h-real-screen relative flex flex-col overflow-hidden">
@@ -97,22 +136,30 @@ const Chat = () => {
         {/* 현재 질문 가능한 목록 */}
         <ChatSampleQuestions />
 
-        <div className="pt-[53px]">
-          {!isLoggedIn && <ChatLogin />}
+        {/* 이전 메세지를 보이는 UI */}
+        {isLoadingOlderMessages && <ChatLoading />}
 
-          {(isLoggedIn ? userMessages : guestMessages).map((msg, index) => (
-            <div key={index}>
-              {msg.type === "user" ? (
-                <ChatUserMessage title={msg.content as string} />
-              ) : (
-                <ChatMessage
-                  title={msg.content as TChatResponse}
-                  docId={msg.id}
-                />
-              )}
-            </div>
-          ))}
-          {/* <div ref={messageEndRef} /> */}
+        <div className="pt-[53px]">
+          {isAuthLoading ? (
+            <ChatLoading />
+          ) : (
+            <>
+              {!isLoggedIn && <ChatLogin />}
+
+              {(isLoggedIn ? userMessages : guestMessages).map((msg, index) => (
+                <div key={index}>
+                  {msg.type === "user" ? (
+                    <ChatUserMessage title={msg.content as string} />
+                  ) : (
+                    <ChatMessage
+                      title={msg.content as TChatResponse}
+                      docId={msg.id}
+                    />
+                  )}
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </main>
 
