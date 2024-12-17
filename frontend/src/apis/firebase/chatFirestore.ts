@@ -14,6 +14,9 @@ import {
   setDoc,
   FieldValue,
   writeBatch,
+  startAfter,
+  QueryDocumentSnapshot,
+  DocumentData,
 } from "firebase/firestore";
 import { TChatResponse } from "@/types/chat";
 
@@ -26,6 +29,7 @@ export const getMessagesFromLatestRoom = async (
     content: string | TChatResponse;
     id?: string;
   }[];
+  lastVisibleDoc: QueryDocumentSnapshot<DocumentData> | null;
 }> => {
   const roomsCollection = collection(db, "chatSessions", userId, "rooms");
   // 이 코드는 userId라는 도큐먼트의 하위 컬렉션 rooms에 접근하여,
@@ -48,7 +52,7 @@ export const getMessagesFromLatestRoom = async (
     });
 
     latestRoomId = newRoomRef.id;
-    return { roomId: latestRoomId, messages: [] };
+    return { roomId: latestRoomId, messages: [], lastVisibleDoc: null };
   } else {
     const latestRoom = roomsSnapshot.docs[0];
     latestRoomId = latestRoom.id;
@@ -62,12 +66,19 @@ export const getMessagesFromLatestRoom = async (
     latestRoomId,
     "messages"
   );
-  const messagesQuery = query(messagesCollection, orderBy("timestamp", "asc"));
+  const messagesQuery = query(
+    messagesCollection,
+    orderBy("timestamp", "desc"),
+    limit(5)
+  );
   const messagesSnapshot = await getDocs(messagesQuery);
 
-  const messages = messagesSnapshot.docs.flatMap((doc) => {
+  const messages = messagesSnapshot.docs.reverse().flatMap((doc) => {
     const data = doc.data();
     const result = [];
+    // 질문과 답변을 한쌍으로 저장했기에, 하나의 doc에 대해서
+    // bot과 user 메세지 객체를 분리하여 저장한다.
+    // 이후에 type이 bot인지 user인지에 따라 화면에 그려지는 위치가 정해진다.
 
     // user 메시지가 빈 문자열이 아닌 경우에만 추가
     if (data.user && data.user.trim() !== "") {
@@ -89,7 +100,10 @@ export const getMessagesFromLatestRoom = async (
     return result;
   });
 
-  return { roomId: latestRoomId, messages };
+  const lastVisibleDoc =
+    messagesSnapshot.docs[messagesSnapshot.docs.length - 1] || null;
+
+  return { roomId: latestRoomId, messages, lastVisibleDoc };
 };
 
 export const addMessageToFirestore = async (
@@ -133,8 +147,7 @@ export const addMessageToFirestore = async (
     // 성공적으로 메시지가 저장되었으므로 doc.id 반환
     return docRef.id;
   } catch (error) {
-    console.error("메시지 추가 중 에러 발생: ", error);
-    return null; // 에러 발생 시 null 반환
+    throw new Error();
   }
 };
 
@@ -257,6 +270,7 @@ export const getMessagesByUserIdAndRoomId = async (
     content: string | TChatResponse;
     id?: string;
   }[];
+  lastVisibleDoc: QueryDocumentSnapshot<DocumentData> | null;
 }> => {
   try {
     const messagesCollection = collection(
@@ -269,11 +283,12 @@ export const getMessagesByUserIdAndRoomId = async (
     );
     const messagesQuery = query(
       messagesCollection,
-      orderBy("timestamp", "asc")
+      orderBy("timestamp", "desc"),
+      limit(5)
     );
     const messagesSnapshot = await getDocs(messagesQuery);
 
-    const messages = messagesSnapshot.docs.flatMap((doc) => {
+    const messages = messagesSnapshot.docs.reverse().flatMap((doc) => {
       const data = doc.data();
       const result = [];
 
@@ -295,10 +310,13 @@ export const getMessagesByUserIdAndRoomId = async (
       return result;
     });
 
-    return { roomId, messages };
+    const lastVisibleDoc =
+      messagesSnapshot.docs[messagesSnapshot.docs.length - 1] || null;
+
+    return { roomId, messages, lastVisibleDoc };
   } catch (error) {
     console.error(error);
-    return { roomId, messages: [] };
+    return { roomId, messages: [], lastVisibleDoc: null };
   }
 };
 
@@ -329,4 +347,56 @@ export const deleteChatRoom = async (userId: string, roomId: string) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+// 스크롤 위로 올렸을 때 호출할 함수
+export const getOlderMessages = async (
+  userId: string,
+  roomId: string,
+  lastVisibleDoc: QueryDocumentSnapshot<DocumentData> | null
+) => {
+  const messagesCollection = collection(
+    db,
+    "chatSessions",
+    userId,
+    "rooms",
+    roomId,
+    "messages"
+  );
+
+  const messagesQuery = query(
+    messagesCollection,
+    orderBy("timestamp", "desc"),
+    startAfter(lastVisibleDoc), // 마지막 스냅샷 이후부터 가져옴
+    limit(5)
+  );
+
+  const messagesSnapshot = await getDocs(messagesQuery);
+
+  const messages = messagesSnapshot.docs.reverse().flatMap((doc) => {
+    const data = doc.data();
+    const result = [];
+
+    if (data.user && data.user.trim() !== "") {
+      result.push({
+        type: "user" as const,
+        content: data.user as string,
+      });
+    }
+
+    if (data.bot) {
+      result.push({
+        type: "bot" as const,
+        content: data.bot as TChatResponse,
+        id: doc.id,
+      });
+    }
+
+    return result;
+  });
+
+  const newLastVisibleDoc =
+    messagesSnapshot.docs[messagesSnapshot.docs.length - 1];
+
+  return { messages, newLastVisibleDoc };
 };
