@@ -88,9 +88,7 @@ const signInWithCredential = async (user: {
   email: string;
   password: string;
 }) => {
-  await signInWithEmailAndPassword(auth, user.email, user.password)
-    .then()
-    .catch((e) => alert(e.message));
+  await signInWithEmailAndPassword(auth, user.email, user.password);
 };
 
 const signInWithGoogle = async () => {

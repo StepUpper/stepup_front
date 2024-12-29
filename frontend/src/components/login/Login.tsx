@@ -45,8 +45,8 @@ const Login = () => {
       [name]: value,
     });
 
-    if (name === "email") setEmailError("");
-    if (name === "password") setPasswordError("");
+    setEmailError("");
+    setPasswordError("");
   };
 
   const submitHandle = async (e: React.FormEvent) => {
@@ -87,7 +87,16 @@ const Login = () => {
 
     //값 확인용
     if (isLoginValid) {
-      await signInWithCredential(loginData);
+      await signInWithCredential(loginData)
+        .then(() => {
+          closeAll();
+          navigate("/");
+        })
+        .catch(() => {
+          setEmailError("이메일을 확인해주세요.");
+          setPasswordError("비밀번호를 확인해주세요.");
+        });
+
       // zustand로 관리하는 user가 업데이트가 바로 안이루어져서,
       // 임시 방편으로 updateUserInfo 가 userData를 반환하게끔 하고
       // 반환값을 사용하도록 하자
@@ -96,8 +105,6 @@ const Login = () => {
         uid: string;
         username: string;
       };
-      closeAll();
-      navigate("/");
 
       // 여기서 맞춤상품 api 호출 처리
       try {
@@ -137,6 +144,7 @@ const Login = () => {
           <InputField title="아이디" error={emailError}>
             <Input
               ref={emailRef}
+              isErrored={emailError}
               type="email"
               name="email"
               placeholder="이메일을 입력해주세요"
@@ -150,6 +158,7 @@ const Login = () => {
           <InputField title="비밀번호" error={passwordError}>
             <Input
               ref={passwordRef}
+              isErrored={passwordError}
               type="password"
               name="password"
               placeholder="비밀번호를 입력해주세요"

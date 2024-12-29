@@ -160,7 +160,6 @@ const SignUpRequired = () => {
       birthDateError.length === 0 &&
       nameError.length === 0
     ) {
-      console.log(676766677666);
       if (user) {
         updateUserData("gender", signUpRequired.gender);
         updateUserData("birthDate", signUpRequired.birthDate);
@@ -205,7 +204,8 @@ const SignUpRequired = () => {
               type="email"
               name="email"
               placeholder={user?.email || "이메일을 입력해주세요"}
-              className={`h-[48px] w-full rounded-[4px] px-4 py-[14px] ${emailError === "이미 사용중인 이메일입니다" && "border-red-300 text-red"}`}
+              className={`py-[14px h-[48px] w-full rounded-[4px] px-4`}
+              isErrored={emailError}
               value={user?.email ? "" : signUpRequired.email}
               onChange={handleInputChange}
               disabled={user?.email ? true : false}
@@ -225,6 +225,7 @@ const SignUpRequired = () => {
               ref={passwordRef}
               type="password"
               name="password"
+              isErrored={passwordError}
               placeholder={
                 user?.email
                   ? "소셜 로그인 회원입니다."
@@ -243,6 +244,7 @@ const SignUpRequired = () => {
               ref={userNameRef}
               type="text"
               name="username"
+              isErrored={nameError}
               placeholder={user?.displayName || "이름을 입력해주세요"}
               className="h-[48px] w-full rounded-[4px] px-4 py-[14px]"
               value={user?.displayName ? "" : signUpRequired.username}
@@ -268,7 +270,7 @@ const SignUpRequired = () => {
                 className="h-[45px] gap-2 rounded-[6px] border-[#E4E4E7] px-[10px] py-[14px]"
                 menuPlacement="top"
                 placeholder="년"
-                options={birthYearOptions}
+                options={birthYearOptions.sort((a, b) => b.value - a.value)}
                 onChange={(value) => {
                   setBirthYear(value);
                   updateBirthDate(value, birthMonth, birthDay);
