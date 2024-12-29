@@ -3,11 +3,7 @@ import Img from "@/components/common/html/Img";
 import { TShoeSearchResponse } from "@/types/product";
 
 const SelectedShoe = (props: TShoeSearchResponse) => {
-  const {
-    image,
-    modelName,
-    brand,
-  } = props;
+  const { image, modelName, brand } = props;
   return (
     <div className="flex items-center p-1.5">
       {/* 상품 이미지 영역 */}

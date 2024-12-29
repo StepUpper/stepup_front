@@ -34,6 +34,8 @@ const getUserData = async () => {
     return null;
   }
 
+  const userData = docSnap.data() as TUser;
+
   const likeShoesRef = collection(db, "users", uid, "likeShoes");
   const likeShoesSnap = await getDocs(likeShoesRef);
   const likeShoes = likeShoesSnap.docs.map((doc) => ({
@@ -50,7 +52,7 @@ const getUserData = async () => {
 
   return {
     uid,
-    ...docSnap.data(),
+    ...userData,
     likeShoes,
     shoeCloset,
   };

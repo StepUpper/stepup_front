@@ -13,10 +13,18 @@ interface HeaderProps {
   optionButton?: boolean;
   // 추가 옵션 버튼 클릭시 실행되는 내용
   onOptionClick?: () => void;
+  // 뒤로가기 버튼 기능 지정할 때
+  onBackClick?: () => void;
 }
 
 const Header = (props: HeaderProps) => {
-  const { type, children, optionButton = false, onOptionClick } = props;
+  const {
+    type,
+    children,
+    optionButton = false,
+    onOptionClick,
+    onBackClick,
+  } = props;
   const navigate = useNavigate();
 
   const [isSideOpen, setIsSideOpen] = useState(false);
@@ -28,13 +36,20 @@ const Header = (props: HeaderProps) => {
     navigate(-1);
   };
 
+  const handleClick = () => {
+    if (type === "menu") {
+      toggleSideMenu();
+    } else if (type === "back" && onBackClick) {
+      onBackClick();
+    } else {
+      handleBack();
+    }
+  };
+
   return (
     <>
       <header className="flex w-full items-center justify-between bg-white p-1.5 text-body1 font-label">
-        <Button
-          className="border-none"
-          onClick={type === "menu" ? toggleSideMenu : handleBack}
-        >
+        <Button className="border-none" onClick={handleClick}>
           {type === "menu" ? (
             <img src={menuIcon} alt="메뉴 버튼" />
           ) : (

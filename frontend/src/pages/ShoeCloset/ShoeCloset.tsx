@@ -93,7 +93,8 @@ const ShoeCloset = () => {
           <ShoeClosetLoading />
         ) : (
           <>
-            <ProfileCard />x{/* shoe list comp */}
+            <ProfileCard />
+            {/* shoe list comp */}
             {shoeList.length ? (
               <ShoeListComponent list={shoeList} />
             ) : (

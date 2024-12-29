@@ -62,7 +62,9 @@ const TextShoeSearch = ({ onSearch, onClearInput }: TextShoeSearchProps) => {
           <img
             src={cameraIcon}
             className="size-5 cursor-pointer"
-            onClick={() => navigate("/shoecloset/search/image")}
+            onClick={() =>
+              navigate("/shoecloset/search/image", { replace: true })
+            }
           />
         </div>
       </div>

@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { thumbsDownIcon, shareIcon, chatListIcon } from "@assets/assets";
-import { getMessageById } from "@/apis/firebase/chatFirestore";
+import {
+  getMessageById,
+  saveMessageToShareMessages,
+} from "@/apis/firebase/chatFirestore";
 import useChatStore from "@/store/chat.store";
 import userStore from "@/store/auth.store";
 import { TChatResponse } from "@/types/chat";
 import { Timestamp } from "firebase/firestore";
 import ShareModal from "@common/ShareModal";
 import useToggle from "@hooks/useToggle";
+import { useNavigate } from "react-router-dom";
+import { useBottomSheet } from "@/store/bottomSheet.store";
 
 interface ChatShareDislikeBoxProps {
   docId?: string | null;
@@ -26,8 +31,17 @@ const ChatShareDislikeBox = (props: ChatShareDislikeBoxProps) => {
     timestamp: Timestamp;
   }>();
   const { user } = userStore();
-  const { roomId } = useChatStore();
+  const { roomId, addGuestMessage } = useChatStore();
   const userId = user?.uid!;
+
+  const { open } = useBottomSheet();
+
+  const navigate = useNavigate();
+
+  const goToLogin = () => {
+    navigate("#login");
+    open("login");
+  };
 
   const handleOpenModal = async () => {
     if (user) {
@@ -41,8 +55,20 @@ const ChatShareDislikeBox = (props: ChatShareDislikeBoxProps) => {
         console.error(error);
       }
     } else {
-      console.log("로그인 해야 모달창이 열린단다");
+      addGuestMessage({
+        type: "bot",
+        content: {
+          message: "로그인이 필요한 기능입니다.",
+        },
+      });
+      setTimeout(() => {
+        goToLogin();
+      }, 1500);
     }
+  };
+
+  const handleSaveShareMessage = () => {
+    saveMessageToShareMessages(message!);
   };
 
   return (
@@ -71,6 +97,7 @@ const ChatShareDislikeBox = (props: ChatShareDislikeBoxProps) => {
               : message.timestamp.toDate()
           }
           onClose={closeModal}
+          onSaveData={handleSaveShareMessage}
         />
       )}
     </>

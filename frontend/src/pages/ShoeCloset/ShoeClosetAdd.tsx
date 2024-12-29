@@ -6,23 +6,28 @@ import SubmitBottomButton from "@/components/shoeCloset/register/SubmitBottomBut
 import SelectedShoe from "@/components/shoeCloset/register/SelectedShoe";
 import { useLocation, useNavigate } from "react-router-dom";
 import { TShoeSearchResponse } from "@/types/product";
-import { useState } from "react";
 import { addOrUpdateShoesToCloset } from "@/apis/firebase/closetFirestore";
 import { auth } from "@/firebase";
+import { useReviewStore } from "@/store/review.store";
+import { useSelectedShoeStore } from "@/store/selectedShoe.store";
+import { useEffect, useState } from "react";
+import ShoeClosetSaveDraftModal from "@/components/shoeCloset/ShoeClosetSaveDraftModal";
 
 const ShoeClosetAdd = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
-  const selectedShoe = location.state as TShoeSearchResponse | undefined; //선택된 신발
-  const [rating, setRating] = useState(0);
-  const [reviewData, setReviewData] = useState({
-    len: "",
-    width: "",
-    height: "",
-    soft: "",
-    weight: "",
-    recommendSize: "2",
-    text: "",
-  });
+
+  const {
+    rating,
+    reviewData,
+    setRating,
+    setReviewData,
+    resetReviewData,
+    hasReviewDraft,
+  } = useReviewStore();
+  const { selectedShoe, setSelectedShoe, resetSelectedShoe, hasShoeDraft } =
+    useSelectedShoeStore();
+
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -46,13 +51,32 @@ const ShoeClosetAdd = () => {
     console.log("userId: ", userId);
     console.log("product: ", product);
     console.log("review: ", review);
-    navigate("/shoecloset");
+
+    resetReviewData();
+    resetSelectedShoe();
+
+    navigate("/shoecloset", { replace: true });
   };
+
+  const handleBackClick = () => {
+    if (hasReviewDraft() || hasShoeDraft()) {
+      setIsModalOpen(true);
+    } else {
+      navigate("/shoecloset", { replace: true });
+    }
+  };
+
+  useEffect(() => {
+    const locationShoe = location.state as TShoeSearchResponse | undefined; //선택된 신발
+    if (locationShoe) setSelectedShoe(locationShoe);
+  }, [location.state, setSelectedShoe]);
 
   return (
     <div className="flex h-full flex-col">
-      <Header type="back">신발 등록</Header>
-      <main className="gap-7 overflow-y-scroll px-2">
+      <Header type="back" onBackClick={handleBackClick}>
+        신발 등록
+      </Header>
+      <main className="gap-7 overflow-y-auto px-2">
         {!selectedShoe ? (
           //상품 찾기 버튼
           <SearchShoeButton />
@@ -76,6 +100,11 @@ const ShoeClosetAdd = () => {
         />
         {/* 등록하기 버튼 */}
         <SubmitBottomButton onSubmit={handleSubmit} />
+
+        {/* 임시저장 모달 */}
+        {isModalOpen && (
+          <ShoeClosetSaveDraftModal onClose={() => setIsModalOpen(false)} />
+        )}
       </main>
     </div>
   );

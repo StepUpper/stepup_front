@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useState } from "react";
 import { chatApi } from "@apis/services/chat";
 import useAxios from "@hooks/useAxios";
 import { dropDownIcon, infoIcon, noticeIcon } from "@assets/assets";

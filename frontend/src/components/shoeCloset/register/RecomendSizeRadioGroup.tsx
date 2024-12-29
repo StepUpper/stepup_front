@@ -17,7 +17,7 @@ const RecomendSizeRadioGroup = ({
           id="horizontal-list-group-item-radio-0"
           type="radio"
           name="horizontal-list-group-item-radio"
-          className="box-content size-2 appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat cursor-pointer"
+          className="box-content size-2 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
           value="많이 작아요"
           onChange={(e) => setReview(e.target.value)}
           checked={size === "많이 작아요"}
@@ -27,7 +27,7 @@ const RecomendSizeRadioGroup = ({
           id="horizontal-list-group-item-radio-1"
           type="radio"
           name="horizontal-list-group-item-radio"
-          className="box-content size-2 appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat cursor-pointer"
+          className="box-content size-2 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
           value="약간 작아요"
           onChange={(e) => setReview(e.target.value)}
           checked={size === "약간 작아요"}
@@ -37,7 +37,7 @@ const RecomendSizeRadioGroup = ({
           id="horizontal-list-group-item-radio-2"
           type="radio"
           name="horizontal-list-group-item-radio"
-          className="box-content size-2 appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat cursor-pointer"
+          className="box-content size-2 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
           value="정사이즈"
           onChange={(e) => setReview(e.target.value)}
           checked={size === "정사이즈"}
@@ -47,7 +47,7 @@ const RecomendSizeRadioGroup = ({
           id="horizontal-list-group-item-radio-3"
           type="radio"
           name="horizontal-list-group-item-radio"
-          className="box-content size-2 appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat cursor-pointer"
+          className="box-content size-2 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
           value="약간 커요"
           onChange={(e) => setReview(e.target.value)}
           checked={size === "약간 커요"}
@@ -57,7 +57,7 @@ const RecomendSizeRadioGroup = ({
           id="horizontal-list-group-item-radio-4"
           type="radio"
           name="horizontal-list-group-item-radio"
-          className="box-content size-2 appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat cursor-pointer"
+          className="box-content size-2 cursor-pointer appearance-none rounded-full border-2 border-zinc-300 bg-white bg-center checked:h-3 checked:w-5 checked:border-zinc-700 checked:bg-black checked:bg-no-repeat"
           value="많이 커요"
           onChange={(e) => setReview(e.target.value)}
           checked={size === "많이 커요"}

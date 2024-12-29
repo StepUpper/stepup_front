@@ -119,7 +119,10 @@ const SideMenu = ({
     await deleteChatRoom(userId, deleteId);
     const updatedChats = await getUserChatRooms(user?.uid!);
     setChats(updatedChats);
-    // 지우려는 방이 현재 속한 방이라면 채팅방의 내용을 가장 최신 채팅으로 업데이트
+
+    // 지우려는 방이 현재 속한 방이라면 채팅방의 내용을
+    // 가장 최신 채팅이 이루어진 채팅방으로 업데이트
+    // (채팅방을 삭제했을 때 채팅창에 메세지가 전부 다 사라지면 사용자 경험 측면에서 안좋으니.)
     if (deleteId === roomId) {
       loadUserMessages(userId);
     }
