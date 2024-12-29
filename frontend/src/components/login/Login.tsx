@@ -125,7 +125,6 @@ const Login = () => {
           });
         }
       } catch (error) {
-        console.log(error);
         const errorMessage =
           "예기치 못한 에러가 발생하였습니다. 다시 시도해주세요.";
         if (isLoggedIn) {
