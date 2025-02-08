@@ -41,6 +41,7 @@ const DropDown = forwardRef<DropDownRef, DropDownProps>((props, ref) => {
     setIsOpen(false);
     if (onChange) {
       onChange(value);
+      console.log(value);
     }
   };
 
