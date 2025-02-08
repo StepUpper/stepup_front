@@ -96,7 +96,7 @@ const Login = () => {
           setEmailError("이메일을 확인해주세요.");
           setPasswordError("비밀번호를 확인해주세요.");
         });
-
+      
       // zustand로 관리하는 user가 업데이트가 바로 안이루어져서,
       // 임시 방편으로 updateUserInfo 가 userData를 반환하게끔 하고
       // 반환값을 사용하도록 하자
