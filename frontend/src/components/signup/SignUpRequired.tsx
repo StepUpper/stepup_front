@@ -56,7 +56,7 @@ const SignUpRequired = () => {
 
   const generateYearOptions = (startYear: number, endYear: number) => {
     const options: { value: string; label: string }[] = [];
-    for (let year = startYear; year <= endYear; year++) {
+    for (let year = endYear; year >= startYear; year--) {
       options.push({ value: year.toString(), label: year.toString() });
     }
     return options;
@@ -163,7 +163,7 @@ const SignUpRequired = () => {
       if (user) {
         updateUserData("gender", signUpRequired.gender);
         updateUserData("birthDate", signUpRequired.birthDate);
-
+        console.log(166);
         updateUserInfo();
       } else
         signUpWithCredential({
@@ -174,7 +174,10 @@ const SignUpRequired = () => {
           username: signUpRequired.username,
           birthDate: signUpRequired.birthDate,
         })
-          .then(updateUserInfo)
+          .then(() => {
+            updateUserInfo();
+            console.log(179);
+          })
           .catch((data) => {
             if (data.code === "auth/email-already-in-use")
               setEmailError("이미 사용중인 이메일입니다");
@@ -204,8 +207,8 @@ const SignUpRequired = () => {
               type="email"
               name="email"
               placeholder={user?.email || "이메일을 입력해주세요"}
-              className={`py-[14px h-[48px] w-full rounded-[4px] px-4`}
-              isErrored={emailError}
+              className={`h-[48px] w-full rounded-[4px] px-4 py-[14px]`}
+              isErrored={!!emailError}
               value={user?.email ? "" : signUpRequired.email}
               onChange={handleInputChange}
               disabled={user?.email ? true : false}
@@ -225,7 +228,7 @@ const SignUpRequired = () => {
               ref={passwordRef}
               type="password"
               name="password"
-              isErrored={passwordError}
+              isErrored={!!passwordError}
               placeholder={
                 user?.email
                   ? "소셜 로그인 회원입니다."
@@ -244,7 +247,7 @@ const SignUpRequired = () => {
               ref={userNameRef}
               type="text"
               name="username"
-              isErrored={nameError}
+              isErrored={!!nameError}
               placeholder={user?.displayName || "이름을 입력해주세요"}
               className="h-[48px] w-full rounded-[4px] px-4 py-[14px]"
               value={user?.displayName ? "" : signUpRequired.username}
@@ -270,7 +273,7 @@ const SignUpRequired = () => {
                 className="h-[45px] gap-2 rounded-[6px] border-[#E4E4E7] px-[10px] py-[14px]"
                 menuPlacement="top"
                 placeholder="년"
-                options={birthYearOptions.sort((a, b) => b.value - a.value)}
+                options={birthYearOptions}
                 onChange={(value) => {
                   setBirthYear(value);
                   updateBirthDate(value, birthMonth, birthDay);
