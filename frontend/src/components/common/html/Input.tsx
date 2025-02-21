@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-type InputProps = ComponentPropsWithoutRef<"input">;
+type InputProps = ComponentPropsWithoutRef<"input"> & { isErrored?: boolean };
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const { className, ...rest } = props;
@@ -15,7 +15,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         )}
         ref={ref}
         {...rest}
-      ></input>
+      />
     </>
   );
 });

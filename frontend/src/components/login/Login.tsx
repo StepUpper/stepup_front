@@ -96,7 +96,6 @@ const Login = () => {
           setEmailError("이메일을 확인해주세요.");
           setPasswordError("비밀번호를 확인해주세요.");
         });
-      
       // zustand로 관리하는 user가 업데이트가 바로 안이루어져서,
       // 임시 방편으로 updateUserInfo 가 userData를 반환하게끔 하고
       // 반환값을 사용하도록 하자
@@ -125,6 +124,7 @@ const Login = () => {
           });
         }
       } catch (error) {
+        console.log(error);
         const errorMessage =
           "예기치 못한 에러가 발생하였습니다. 다시 시도해주세요.";
         if (isLoggedIn) {
@@ -143,7 +143,7 @@ const Login = () => {
           <InputField title="아이디" error={emailError}>
             <Input
               ref={emailRef}
-              isErrored={emailError}
+              isErrored={!!emailError}
               type="email"
               name="email"
               placeholder="이메일을 입력해주세요"
@@ -157,7 +157,7 @@ const Login = () => {
           <InputField title="비밀번호" error={passwordError}>
             <Input
               ref={passwordRef}
-              isErrored={passwordError}
+              isErrored={!!passwordError}
               type="password"
               name="password"
               placeholder="비밀번호를 입력해주세요"
