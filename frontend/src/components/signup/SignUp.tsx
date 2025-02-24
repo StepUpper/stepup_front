@@ -1,5 +1,5 @@
-import SignUpRequired from "@components/signUp/SignUpRequired";
-import SignUpAdditional from "@components/signUp/SignUpAdditional";
+import SignUpRequired from "@components/signup/SignUpRequired";
+import SignUpAdditional from "@components/signup/SignUpAdditional";
 import userStore from "@store/auth.store.ts";
 import { redirect } from "react-router-dom";
 

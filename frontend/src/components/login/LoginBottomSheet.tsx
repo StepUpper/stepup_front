@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import BottomSheet from "@common/BottomSheet";
 import Login from "@components/login/Login";
-import SignUp from "@components/signUp/SignUp";
+import SignUp from "@components/signup/SignUp";
 
 const LoginBottomSheet = () => {
   const location = useLocation();
